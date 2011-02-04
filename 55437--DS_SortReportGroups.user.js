@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name          DS SortReportGroups
-// @version       1.2
+// @version       1.3
 // @author        cuzi (http://example.com)
 // @description   Die Stämme: Sortiert die Berichtegruppen in der Berichteübersicht alphabetisch.
 // @namespace     example.com
 // @homepage      http://example.com
-// @copyright     2009, cuzi (http://example.com)
+// @copyright     2009-2010, cuzi (http://example.com)
 // @license       CC Attribution-Noncommercial-Share Alike 3.0 Germany; http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode
 // @include       http://*.die-staemme.de/game.php*screen=report*
 // ==/UserScript==
@@ -199,7 +199,7 @@ var scriptpage = false;
 
 var table = document.getElementsByClassName('main')[0].getElementsByClassName('vis')[1];
 try {
-  if(table.getElementsByTagName('td')[1].getElementsByTagName('a')[0].firstChild.nodeValue.indexOf('Gruppe erstellen') != -1)
+  if(table.getElementsByTagName('td')[1].getElementsByTagName('a')[0].firstChild.nodeValue.indexOf('Ordner erstellen') != -1 || table.getElementsByTagName('td')[1].getElementsByTagName('a')[0].firstChild.nodeValue.indexOf('Gruppe erstellen') != -1)
     {
     var scriptpage = true;
     }
@@ -220,4 +220,3 @@ else if(document.location.href.indexOf('mode=move') != -1)
   sortChilds(tbody,'td',true,true);
 
   }
-

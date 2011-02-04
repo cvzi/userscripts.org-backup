@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name          DS Notes Manager
 // @description   Notizen können in Teil-Notizblöcke aufgeteilt werden
-// @version       1.1
+// @version       1.2
 // @author        cuzi (http://example.com)
 // @namespace     example.com
 // @homepage      http://example.com
-// @copyright     2009, cuzi (http://example.com)
+// @copyright     2009-2010, cuzi (http://example.com)
 // @license       No distribution!
 // @include       http://*.die-staemme.de/game.php?*screen=memo*
 // @exclude       http://forum.die-staemme.de/*
@@ -250,17 +250,19 @@ function secedeReadElement(notes_td)
         {
         if(edit_mode)
           {
-
           for(var i = 0, elist = document.getElementsByClassName('notes_section'), len = elist.length; i < len; i++)
             elist[i].style.display = 'none';
           for(var i = 0, elist = document.getElementsByClassName('secededWriteTextArea'), len = elist.length; i < len; i++)
             elist[i].style.display = 'none';
           for(var i = 0, elist = document.getElementsByClassName('sectionLink'), len = elist.length; i < len; i++)
             elist[i].parentNode.style.backgroundColor = '#F7EED3';
+          for(var i = 0, elist = document.getElementsByClassName('secededBBCodesBar'), len = elist.length; i < len; i++)
+            elist[i].style.display = 'none';
 
           this.parentNode.style.backgroundColor = 'rgb(230,255,200)';
 
           dom.id('secededWriteTextArea_'+this.title).style.display = 'block';
+          dom.id('secededBBCodesBar_'+this.title).style.display = 'block';
 
           // Insert Heading, if it was defined by regular expression
           var text = dom.id('secededWriteTextArea_'+this.title).innerHTML;
@@ -335,6 +337,20 @@ function secedeWriteElement(notes_td)
 
     var text = result;
     var positions = getCodesPositions(text);
+
+
+    // BBCodes:
+
+    var div = dom.n('div');
+    div.setAttribute('class','secededBBCodesBar');
+    div.setAttribute('id','secededBBCodesBar_'+primaryKey_sections);
+    div.setAttribute('style','display:none;');
+
+    var code = dom.id('bbcodes').cloneNode(true).innerHTML;
+    while(code.indexOf('message') != -1)
+    code = code.replace('message','secededWriteTextArea_'+primaryKey_sections);
+    div.innerHTML = code;
+    dom.id('bbcodes').parentNode.insertBefore(div,dom.id('bbcodes'));
 
     }
 

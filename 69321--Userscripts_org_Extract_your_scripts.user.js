@@ -147,3 +147,34 @@ function ExtractScripts()
 
   return objs;
   }
+
+/*
+
+import json
+import urllib.request
+import re
+
+def downloadScript(ID,name):
+    url = 'http://userscripts.org/scripts/source/'+ID+'.user.js'
+    urlFile = urllib.request.urlopen(url)
+    alphanum_name = re.sub('\W', '_', name).replace('__','_').replace('__','_')
+    filename = ID + '--' + alphanum_name +'.user.js'
+    localFile = open(directory+filename, 'wb')
+    localFile.write(urlFile.read())
+    urlFile.close()
+    localFile.close()
+    print('\nDONE!\t\t'+name+'.user.js\n')
+
+filename = 'scripts.json'
+directory = 'scripts/'
+with open(filename) as fs:
+    jsonstring = fs.read();
+
+scripts = json.loads(jsonstring)
+
+for script in scripts:
+    downloadScript(script['id'],script['name'])
+
+input("Finished Downloading!")
+
+*/

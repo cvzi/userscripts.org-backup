@@ -1,11 +1,11 @@
-﻿// ==UserScript==
-// @name          DS Mapia Weltkartenlink(Stamm)
-// @version       1.1
+// ==UserScript==
+// @name          DS Real Weltkartenlink(Stamm)
+// @version       1.2
 // @author        cuzi (http://example.com)
-// @description   Fügt auf den Profilen von Stämmen einen Link zur Weltkarte von DS Mapia hinzu. Der Stamm, eigene Dörfer und der eigene Stamm werden direkt in die Karte eingetragen.
+// @description   Fügt auf den Profilen von Stämmen einen Link zur Weltkarte von DS Real hinzu. Der Stamm, eigene Dörfer und der eigene Stamm werden direkt in die Karte eingetragen.
 // @namespace     example.com
 // @homepage      http://example.com
-// @copyright     2009, cuzi (http://example.com)
+// @copyright     2009-2011, cuzi (http://example.com)
 // @license       CC Attribution-Noncommercial-Share Alike 3.0 Germany; http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode
 // @include       http://*.die-staemme.de/game.php?*screen=info_ally*id=*
 // @exclude       http://forum.die-staemme.de/*
@@ -116,6 +116,7 @@ td.setAttribute('style','text-align:center; ');
 
 var a = document.createElement('a');
 a.setAttribute('href','#');
+a.setAttribute('id','DSMapiaWeltkarte_link');
 a.addEventListener('click',go,false);
 a.appendChild(document.createTextNode('DS Mapia Weltkarte'));
 
@@ -133,9 +134,11 @@ table.appendChild(tr);
 
 function go() {
 
+document.getElementById('DSMapiaWeltkarte_link').innerHTML = 'Daten werden gesammelt . . .';
+
 GM_xmlhttpRequest({
   method:"GET",
-  url:'http://map.dsreal.de/index.php?screen=map&world='+world,
+  url:'http://www.dsreal.de/index.php?screen=map&world='+world,
   headers:{
     "User-Agent":"Mozilla/5.0",
     "Accept":"text/xml"
@@ -216,14 +219,18 @@ p1color.setAttribute('name','playerC[]');
 p1color.setAttribute('value','241,255,036');
 
 var ds_map = document.createElement('input');
-ds_map.setAttribute('type','hidden');
+ds_map.setAttribute('type','submit');
 ds_map.setAttribute('name','map[submit]');
 ds_map.setAttribute('value','Anzeigen');
+ds_map.setAttribute('id','sendForm');
 
 appendChilds(form,ds_zoom,dsmapia_x,dsmapia_y,dsmapia_verlassen,dsmapia_continent_lines,dsmapia_showOnly,dsmapia_stammestags,a1text,a1color,a2text,a2color,p1text,p1color,ds_map);
 
-document.getElementById('ds_body').appendChild(form);
-document.getElementById('dsmapia').submit();
+document.getElementById('DSMapiaWeltkarte_link').parentNode.appendChild(form);
+
+document.getElementById('DSMapiaWeltkarte_link').innerHTML = 'Karte erstellt:';
+
+document.getElementById('sendForm').click();
 
   }
 });
@@ -415,4 +422,3 @@ function save_settings()
 
   document.location.reload();
   }
-

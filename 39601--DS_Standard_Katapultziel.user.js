@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name          DS Standard Katapultziel
-// @version       1.2
+// @version       1.3
 // @author        cuzi (http://example.com)
 // @namespace     example.com
-// @copyright     2008-2009, cuzi (http://example.com)
+// @homepage      http://example.com
+// @copyright     2008 - 2010, cuzi (http://example.com)
+// @license       No Distribution!
 // @description   Automatisches Ziel bei der Angriffsbestätigung für den Katapult. Das Standardziel kann in der Angriffsbestätigung über die Einstellungen-Leiste unter dem Formular eingestellt werden.
-// @include       http://de*.die-staemme.de/game.php?*screen=place*try=confirm*
+// @include       http://de*.die-staemme.de/game.php*
 // ==/UserScript==
 
 /*
@@ -41,6 +43,9 @@ Das Standardziel kann in der Angriffsbestätigung über die Einstellungen-Leiste
 History:
 --------
 
+Version 1.3:
+ - DS Version 6.0
+
 Version 1.2:
  - Bearbeiten Icon nach dem Auswahlfeld
 
@@ -49,6 +54,13 @@ Version 1.1:
  - Exception entfernt, wenn kein Katapult im Angriff
 
 */
+
+var url = document.location.href;
+
+if(url.indexOf('try=confirm') != -1 && url.indexOf('village=') != -1 && url.indexOf('screen=place') != -1 )
+
+{
+
 
 var buildings = {
    ' ':'none',
@@ -84,19 +96,29 @@ a2.appendChild(document.createTextNode('About Me'));
 bar(a1, a2);
 
 if(document.getElementsByName('building')[0]) {
-   if(GM_getValue(world + 'cat_aim') == undefined) var aim = buildings[' '];
-   else {
-      var aim = GM_getValue(world + 'cat_aim');
-      if(aim != 'none') {
-         document.getElementsByName('building')[0].value = aim;
-         }
-      var img = new Image();
-      img.src = 'http://www.example.com/smile/dsforum/edit.gif';
-      img.alt = img.title = 'Standard bearbeiten';
-      img.addEventListener('click', settings, false);
-      document.getElementsByName('building')[0].parentNode.insertBefore(img, document.getElementsByName('building')[0].nextSibling);
-      }
+   if(GM_getValue(world + 'cat_aim') == undefined)
+     {
+     var aim = buildings[' '];
+     }
+   else
+     {
+     var aim = GM_getValue(world + 'cat_aim');
+     if(aim != 'none')
+       {
+       document.getElementsByName('building')[0].value = aim;
+       }
+     }
+   var img = new Image();
+   img.src = 'http://www.example.com/smile/dsforum/edit.gif';
+   img.alt = img.title = 'Standard bearbeiten';
+   img.addEventListener('click', settings, false);
+   document.getElementsByName('building')[0].parentNode.insertBefore(img, document.getElementsByName('building')[0].nextSibling);
    }
+
+
+
+}
+
 
 function settings() {
    if(document.getElementById('dialog_settings')) {

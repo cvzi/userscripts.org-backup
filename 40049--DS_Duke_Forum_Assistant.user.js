@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name          DS Duke & Forum Assistant
-// @version       2.8.1
+// @version       3.0.4
 // @author        cuzi (http://example.com)
 // @description   Erweiterung und Unterstützung für Stammesführer und normale Member in der Mitgliederliste und im Forum von Die Stämme
 // @namespace     example.com
 // @homepage      http://example.com
-// @copyright     2008-2010, cuzi (http://example.com)
-// @license       CC Attribution-Noncommercial-Share Alike 3.0 Germany; http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode
+// @copyright     2008-2011, cuzi (http://example.com)
+// @license       GNU General Public License (GPL)
 // @include       http://*.die-staemme.de/forum.php*
 // @include       http://www.die-staemme.de/redir.php*
 // @include       http://*.die-staemme.de/game.php*
@@ -16,7 +16,7 @@
 
 
 /*
-Version 2.8.1
+Version 3.0.4
 
 DS Duke & Forum Assistant
 
@@ -24,9 +24,11 @@ DS Duke & Forum Assistant
 
 ############## Distribution Information ##############
 
-All content by example.com
-Do not distribute this script without this logo.
-2008-2009
+All content by cuzi example.com
+Please do not distribute this script without this logo.
+2008-2011
+
+See license information below
 
 ######################## Logo ########################
    ____ _   _ ________ 
@@ -50,25 +52,18 @@ I will do my best to respond.
 
          http://example.com
 
-
 ####################### License ######################
 
-Shared under the 'CC Attribution-Noncommercial-Share Alike 3.0 Germany' License:
-http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode
-
-English Summary of that license:
-http://creativecommons.org/licenses/by-nc-sa/3.0/de/deed.en
-
+Shared under the GNU General Public License Version 3 (GPL):
+http://www.gnu.org/licenses/gpl-3.0.html
 
 ######################################################
-
 
 Uploaded @ http://userscripts.org/scripts/show/40049
 DS Forum Thread @ http://forum.die-staemme.de/showthread.php?t=95452
-
+Google Code @ http://code.google.com/p/ds-duke-and-forum-assistant/
 
 ######################################################
-
 
 Ab Version 2.6 funktioniert dieses Script in Verbindung mit DS - Mitglieder sortieren von  Roman S. (Zombie74)
 Thread: http://forum.die-staemme.de/showthread.php?t=101782
@@ -84,6 +79,16 @@ Vorraussetzungen:
 
 Farben in der Mitgliederliste aktualisieren, da sie beim Mouseover von DS - Mitglieder sortieren gelöscht werden.
 (2 empfohlen)
+
+######################################################
+
+Ab Version 3.0 funktioniert dieses Script in Verbindung mit einem Server
+
+Dadurch lassen sich die Daten mit anderen Stammesführern teilen.
+
+Weitere Infos im Forum:
+http://forum.die-staemme.de/showthread.php?t=95452
+
 */
 const updateAllyMemberPageColours_interval = 2; // Sekunden
 
@@ -94,7 +99,6 @@ const updateAllyMemberPageColours_interval = 2; // Sekunden
 // ########################################## Language Strings: ################
 // Remove Language Objects that you don't need to save memory!
 
-
 const text = {
   'de' : {
     '_name' : 'DS Duke & Forum Assistant',
@@ -102,7 +106,7 @@ const text = {
     '_contact' : 'mail:cuzi@openmail.cc',
     '_support' : 'http://forum.die-staemme.de/showthread.php?t=95452',
     '_self' : 'http://userscripts.org/scripts/show/40049' ,
-    'alert_programmInited' : 'DS Duke & Forum Assistant ist jetzt initialisiert',
+	'alert_programmInited' : 'DS Duke & Forum Assistant ist jetzt initialisiert',
     'label_name' : 'Name',
     'label_colour' : 'Farbe',
     'label_warnings' : 'Verwarnungen',
@@ -136,6 +140,9 @@ const text = {
     'alert_shouldHeBeReprimanded' : 'Gib einen Grund für die Verwarnung von %player% an:',
     'label_chooseTheWarningToRemove' : 'Wähle die zu löschende Verwarnung aus',
     'alert_reallyDeleteTheWarning' : 'Soll die Verwarnung wirklich enfernt werden?',
+	'label_forceSync' : 'Jetzt Synchronisieren...',
+	'label_setupSync' : 'Synchronisierung einrichten',	
+	'label_backups' : 'Backups',		
     'label_settings' : 'Einstellungen',
     'label_colourThreads' : 'Threads kolorieren',
     'label_off' : 'Aus',
@@ -149,6 +156,8 @@ const text = {
     'label_inBrackets_onlyInDomain' : '(innerhalb von *.die-staemme.de)',
     'label_dukeAssistantActivated' : 'Stammesführer aktiviert',
     'label_inBrackets_memberlist' : '(Memberliste)',
+	'label_synchronizingWithRemoteServer' : 'Synchronisierung mit Server',
+	'label_currentSyncServerURL' : 'Aktuelle URL:',
     'label_generalSettings' : 'Allgemeine Einstellungen',
     'label_jsonDownload' : 'JSON Download',
     'label_exportData' : 'Daten exportieren',
@@ -160,11 +169,16 @@ const text = {
     'label_aboutX' : 'ca.',
     'label_wrongInputCode' : 'Der eingegebene Code ist weder korrekter XML noch JSON Code.',
     'label_import_export' : 'Export/Import',
+    'label_syncData' : 'Manuelle Synchronisierung',	
+    'label_sendData' : 'Senden',
+	'label_syncLog' : 'Synchronisierungsereignisse:',
+	'label_syncProgress' : 'Automatische Synchronisierung',
+	'label_syncInProgressDoNotQuit' : 'Daten werden synchronisiert! Bitte die Seite nicht verlassen.',
     'label_factory_settings' : 'Werkseinstellungen',
     'alert_resetToFactorySettings' : 'Soll das Script wirklich auf Standardeinstellungen zurückgesetzt werden?',
     'alert_reallyReset' : 'Letzte Möglichkeit das Zurücksetzen zu stoppen.\n\nZurücksetzen?',
     'label_aboutMe' : 'Über DS Duke & Forum Assistant',
-    'alert_aboutMeString' : 'DS Duke & Forum Assistant\n(Version 2)\n\n(c) by cuzi 2008-2009\n\n\tcuzi@openmail.cc\n\thttp://example.com\n\nDo not republish, use in other scripts, change or reproduce this code\nor a part/parts of this code without permission from cuzi\n\nThis script may be forbidden in TribalWars or DieStämme.\nPlease look in the respective forum for further information!',
+    'alert_aboutMeString' : 'DS Duke & Forum Assistant\n(Version 3)\n\n(c) by cuzi 2008-2011\n\n\tcuzi@openmail.cc\n\thttp://example.com\n\nDo not republish, use in other scripts, change or reproduce this code\nor a part/parts of this code without permission from cuzi\n\nThis script may be forbidden in TribalWars or DieStämme.\nPlease look in the respective forum for further information!',
     'label_scaledFontSizeDownFromTo' : 'Schriftgröße von %from% auf %to% reduziert',
     'ingameString_authorWrote_aboveAquote' : ' hat folgendes geschrieben:',
     'label_open' : 'Öffnen',
@@ -184,12 +198,31 @@ const text = {
     'label_TWPlus' : 'TWPlus',
     'label_DSReal' : 'DS Real',
     'label_myWebtool' : 'My-WebTool',
-    'label_pushThread' : 'Thread pushen'
+	'label_staemmeStatistik' : 'Staemme-Statistik',
+    'label_pushThread' : 'Thread pushen',
+	'label_syncSettings' : 'Einstellungen für die Synchronisierung der Daten mit einem Server um die Daten mit anderen Stammesmitgliedern zu teilen.',
+	'label_yourCode' : 'Dein Synchronisierungscode:',	
+	'label_yourCodeIllustration' : 'Mit dem Synchronisierungscode wird sichergestellt, dass keine Unbefugten auf die Daten zugreifen. Du erhälst ihn vom Stammesführer oder der Person, die für den Server verantwortlich ist.', 
+    'alert_outdatedSyncCode' : 'Dein Synchronisierungscode oder dein Passwort funktionieren nicht mehr!\n\nDas automatische Synchronisieren wurde ausgeschaltet.\n\nSchaue auf der Homepage deinen Synchronisierungscode nach, oder frage deinen Stammesführer nach einem neuen Aktivierungslink.\n\nIm folgenden Fenster erscheinen Informationen zum Fehler.\nDu kannst diese an den Entwickler weiterleiten, wenn du weißt, dass der Synchronisierungscode oder dein Passwort nicht geändert wurden.',
+	'alert_errorsInNextWindow' : 'Im folgenden Fenster erscheinen Informationen zum Fehler.\nDu kannst diese an den Entwickler weiterleiten.',
+	'alert_successfullySavedSync' : 'Die Seite wird jetzt neu geladen. Danach wird versucht eine Verbindung zum Server herzustellen und die neusten Daten einzufügen!',
+	'label_errorOccuredYouMayClose' : 'Es traten Fehler auf. Du kannst das Fenster jetzt schließen.',	
+	'label_backupList' : 'Backups',
+	'label_hereYouFindAllBackups' : 'Hier sind alle Backups aufgelistet',
+	'label_chooseBackupFromList' : 'Wähle ein Backup aus',
+	'label_show' : 'Anzeigen',
+	'label_createBackup' : 'Neues Backup erstellen',
+    'alert_backupCreated' : 'Backup wurde erstellt!', 	
+	'label_backupDate' : 'Backup vom',
+	'label_backup' : 'Backup',	
+	'alert_reallyImport' : 'Wirklich importieren? Das überschreibt die aktuellen Daten und deaktiviert die Synchronisierung!',
+	'alert_HowToGetSync' : 'Falls du eine Synchronisierung eingerichtet hattest:\n\nUm die Synchronisierung wieder zu aktivieren und zu den neusten Daten zurückzukehren, kannst du die Synchronisierung über den Menüpunkt "Einstellungen" wieder aktivieren.\n\nDann kannst du über den Menüpunkt "Jetzt Synchronisieren..." die neusten Daten vom Server einspielen.',
+	'alert_backupLoaded' : 'Das Backup wurde eingespielt! Die automatische Synchronisierung mit dem Server ist jetzt deaktiviert.'	
     }
   };
 
 // ########################################## Beware of changing something after this line ################
-const version = '2.8.1';
+const version = '3.0.4';
 
 
 const ds_mitlieder_sortieren = test(function(){ document.getElementById('dsmitgliedersortierenaktiv').tagName; },false) !== false;
@@ -223,9 +256,13 @@ if(getValue('search_active') == undefined || getValue('reset') === true)
 
   setValue('synchronizingEnabled',false);
   setValue('synchronizingLastRequest',0);
-  setValue('synchronizingCurrentHash','');
+  setValue('synchronizingCurrentVersion',0);
+  setValue('synchronizingUserId',0);
   setValue('synchronizingGroupId',0);
-  setValue('synchronizingGroupKey','');
+  setValue('synchronizingKey','');
+  setValue('synchronizingPassword','');  
+  setValue('synchronizingURL','');
+  setValue('backupRegister','');
 
   alert(say.alert_programmInited);
   document.location.reload();
@@ -239,11 +276,16 @@ var maxImgSize = getValue('maxImgSize')?getValue('maxImgSize').split('x'):false;
 var autoRedirect = getValue('autoRedirect')?true:false;
 var memberlistSF = getValue('memberlistSF')?true:false;
 
-// Synchronizing Vars    (Future Versions)
-var synchronizingEnabled = getValue('synchronizingEnabled',true)?true:false;
-var synchronizingLastRequest = parseInt(getValue('synchronizingLastRequest',0));
-var synchronizingCurrentVersion = getValue('synchronizingCurrentVersion',0);
-var synchronizingThreadId = getValue('synchronizingCurrentVersion',0);
+// Synchronizing Vars 
+var synchronizingEnabled = getValue('synchronizingEnabled',false)?true:false; 
+var synchronizingLastRequest = parseInt(getValue('synchronizingLastRequest',0)); // Timestamp (seconds)
+var synchronizingCurrentVersion = getValue('synchronizingCurrentVersion',0); // Number
+var synchronizingUserId = getValue('synchronizingUserId',0); // User id
+var synchronizingGroupId = getValue('synchronizingGroupId',0); // Group id
+var synchronizingKey = getValue('synchronizingKey',''); // Some kind of secret id, probably a hash
+var synchronizingPassword = getValue('synchronizingPassword',''); // User password, probably a hash
+var synchronizingURL = getValue('synchronizingURL',''); // URL to the server: http://192.168.178.42/DSDuke/sync.php
+var backupRegister = getValue('backupRegister',''); // Comma-seperated list of timestamps. Backups are saved in following pattern: backup_{timestamp}
 
 
 var srcs = {
@@ -252,9 +294,12 @@ var srcs = {
   "warning":"http://www.example.com/smile/dsforum/warning.png",
   "close":"http://www.example.com/close.png",
   "dialog_titlebar_bg":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAUCAMAAAB70KeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAPFBMVEXKto/JtY3Is4rGsYfEr4TDrYHCq3/Cq33AqnzCq37DrIDFr4PHsYfHsojHs4rItIzGs4zGsozGtI7KuJO4buSOAAAAJUlEQVR4XgXAhQ2AMAAAsM4V//9XgiBKsqJqumFatsPpcnu8vh8JzgC/JMysQAAAAABJRU5ErkJggg==",
-  "dialog_main_bg":"graphic/background/main.jpg",
+  //"dialog_main_bg":"graphic/background/main.jpg",
+  "dialog_main_bg":"graphic/background/bg-tile.jpg", 
   "chequer_plate":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAPCAYAAAAh6nXEAAAABGdBTUEAALGPC/xhBQAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAM5JREFUCB0BwwA8/wEAAABM////AAAAAAAC////AAAAAAAAAAAAAgEBAQAAAAAAAAAAAAL///8AAAAAAAAAAAACAAAAAAEBAQAAAAAAAgAAAAD///8AAAAAAAIAAAAAAQEBAAAAAAACAAAAAP///wAAAAAAAgAAAAABAQEAAAAAAAIAAAAA////AAAAAAACAAAAAAEBAQAAAAAAAgAAAAD///8AAAAAAAIAAAAAAAAAAAEBAQACAAAAAAAAAAD///8AAgAAAAAAAAAAAQEBAI8aGGfA8Mz7AAAAAElFTkSuQmCC",
-  "push_thread":"http://www.example.com/smile/dsforum/push_thread.png"
+  "push_thread":"http://www.example.com/smile/dsforum/push_thread.png",
+  "loader":"http://www.example.com/smile/dsforum/ajaxloader.gif",
+  "background_footer":"http://www.example.com/smile/dsforum/background_footer.png"
   };
 
 var colours = new Array(
@@ -352,8 +397,9 @@ function load()
     {
     adjustMessagePopup();
     }
-  else if(url.substr(-10) == 'forum.php?') // If we are on the start page (of the forum)
+  else if(url.substr(-10) == 'forum.php?' || url.substr(-10) == 'forum.php#' || url.substr(-9) == 'forum.php') // If we are on the start page (of the forum)
     {
+	addAnswerEvents();
     addPlayerLinksEvents();
     bar();
     }
@@ -390,7 +436,7 @@ function load()
 
 
   // Synchronize with Server  (Future Versions)
-  //synchronize();
+  synchronize();
 
 
   // Adware
@@ -416,72 +462,508 @@ function load()
 
   }
 
-function synchronize() // (Future Versions)
-  {
-  return;
+  
 
+function synchronize(force)
+  {
   // Check whether synchronizing is enabled
   if(!synchronizingEnabled)
     return;
+	
+  if(!force) {	
+    var now = parseInt(new Date().getTime()/1000);
+    // Check for last request
+    if(synchronizingLastRequest+(60*60*3) > now) {   // Every 3 hour
+      return false;
+	  }
+   }
 
-  var now = parseInt(new Date().getTime()/1000);
-
-  // Check for last request
-  if(synchronizingLastRequest+60*60 > now)   // Every hour
-    return false;
-
-  // Perform Request
-  onerror_fct = function(e) { alert('Error while GM_xmlhttpRequest');alert(e); }
-
-  onload_fct = function(obj) {
-
-    var text = obj.responseText;
-
-    text = text.split('<div class="text">').pop();
-    text = text.split('</div>').shift();
-
-
-    alert(text);
-
+  var ar = colourThreadsNames.split(',');
+  var names = new Array();
+  for(var i = 0; i < ar.length; i++)
+    {
+    var sub = ar[i].split('=');   //      colour,warnings,       notes,                     reasons
+    if(sub[0] && sub[1])          //      0      1               2                          3
+      names[unescape(sub[0])] = new Array(sub[1],sub[2]?sub[2]:0,sub[3]?unescape(sub[3]):'',sub[4]?sub[4]:'');
     }
+	
+  var es = new Array();
+  for(var p in names)
+    {
+    var str = '"'+p+'" : [\n';
+    str += '  "'+names[p][0]+'" , \n';
+    str += '  '+names[p][1]+' , \n';
+    str += '  "'+names[p][2]+'" , \n';
+    str += '  "'+names[p][3]+'"  \n';
+    str += ' ]'
+    es.push(str);
+    }
+  var str = '{\n';
+  str += es.join(',\n');
+  str += '\n}';	
+	
+  var output_el = dialog_syncProgress();
+  do_sync(str,output_el,'dialog_syncProgress');
+  }
+  
+  
+  
+  
+function do_sync(json_data,output_el,frameid) {
+  // Check whether synchronizing is enabled
+  if(!synchronizingEnabled) {
+    alert('Synchronizing not available');
+    return;
+	}
+	
+  output_el.innerHTML = '';	
+
+  var close = function() {
+    if(frameid) {
+	  dom.id('dialog_syncProgress').parentNode.removeChild(dom.id('dialog_syncProgress'));
+	}
+  };
+  
+  var closeOnError = function() {
+    dom.id('dialog_syncProgress_instructions').innerHTML = say.label_errorOccuredYouMayClose;
+    dom.id('loader_sync_log').parentNode.removeChild(dom.id('loader_sync_log')); 
+    dom.id('textarea_sync_log').setAttribute('rows','25');
+  };
+  
+  
+  var log = function(str) {
+      output_el.innerHTML += str + '\n'; 
+	  output_el.scrollTop = output_el.scrollHeight; 	  
+  };
+  
+  log('Synchronizing is started.');
+
+  var states = [
+    'UNINITIALIZED: open() has not been called yet.',
+    'LOADING: send() has not been called yet.',
+    'LOADED: send() has been called, and headers and status are available.',
+    'INTERACTIVE: Downloading; responseText holds partial data.',
+    'COMPLETED: The operation is complete.'];
+
+  // Synchronizing Vars 
+  synchronizingCurrentVersion = getValue('synchronizingCurrentVersion',0); // Number
+  synchronizingUserId = getValue('synchronizingUserId',0); // User id
+  synchronizingGroupId = getValue('synchronizingGroupId',0); // Group id
+  synchronizingKey = getValue('synchronizingKey',''); // Some kind of secret id, probably a hash
+  synchronizingPassword = getValue('synchronizingPassword','');
+  synchronizingURL = getValue('synchronizingURL',''); // URL to the server: http://192.168.178.42/DSDuke/sync.php	
+
+  log('Found URL: '+synchronizingURL);  
+	
+  var data = 'groupid='+synchronizingGroupId+'&userid='+synchronizingUserId+'&key='+escape(synchronizingKey)+'&password='+escape(synchronizingPassword)+'&dataversion='+synchronizingCurrentVersion+'&datajson='+escape(json_data);	
+	
+  setValue('synchronizingLastRequest',parseInt(new Date().getTime()/1000))
+	
+  log('xmlhttpRequest . . . . ');  	 
+  GM_xmlhttpRequest({
+    method: 'POST',
+    data: data,
+    url: synchronizingURL,
+    headers : {
+      'Content-type': 'application/x-www-form-urlencoded',
+      'Content-length': data.length
+    },
+  
+    onreadystatechange: function(response) {
+	  log('HTTP:'+response.status+' - '+response.statusText+' while '+states[response.readyState]+'('+response.readyState+')');
+    },
+  
+    onload: function(response) {
+	  log('responseText:\n'+response.responseText);
+	  
+	  try {
+	    var str = dom.trim(response.responseText);
+	    var result = JSON.parse(str);
+		
+		log('\nSyncstatus='+result.syncstatus);
+		switch(result.syncstatus) {
+		  case 'DataUpdated':
+		  
+		     createBackup();
+			 log('Backup stored.');	
+		  
+		     setValue('synchronizingCurrentVersion',parseInt(result.newversion));
+
+			 var saveThing = new Array();
+			 var names = result.data;
+			 for(p in names) {
+			   saveThing.push(escape(p) + '=' + names[p].join('='));
+			 }
+	         setValue('colourThreadsNames',saveThing.join(','));
+			 
+			 // @todo changes speicher, auf mitgliederliste markieren und alte daten anzeigen?!
+			 
+			 log('New Data stored.')
+			 log('Finished.')	
+             log('');			 
+             log(say.alert_successfullySaved);			 
+			 document.location.reload();
+		     break;
+		
+		  case 'ServerUpdated':
+		     setValue('synchronizingCurrentVersion',parseInt(result.newversion));
+             log('Set synchronizingCurrentVersion='+parseInt(result.newversion))			 
+             log('Finished.');
+			 close();
+		     break;	
+			 
+		  case 'NothingToDo':
+		     setValue('synchronizingCurrentVersion',parseInt(result.newversion));
+             log('Set synchronizingCurrentVersion='+parseInt(result.newversion))			 
+             log('Finished.');
+             close();			 
+		     break;				 
+			 
+		  case 'ServerError':
+		     alert(say.alert_errorsInNextWindow);
+		     alert(dom.dumpObj(result.errors,false));
+		     closeOnError();			 
+		     break;		
+
+		  case 'Unauthorized':
+		     setValue('synchronizingEnabled',false)
+		     alert(say.alert_outdatedSyncCode);
+             alert(dom.dumpObj(result.errors,false));
+		     closeOnError();			 
+		     break;				 
+		}
+		
+	  }
+	  catch(error) {
+	    var text = dom.dumpObj(error,false);
+		alert(say.alert_errorsInNextWindow);
+	    text = say.label_wrongInputCode + '\n\n\nError description: \n\n' + text;
+	    alert(text);
+		closeOnError();
+	  }	  
+	  
+    }
+  });
+
+}    
+  
+  
+function createBackup() {
+  var timestamp = new Date().getTime();
+
+  var data = getValue('colourThreadsNames');
+
+  setValue('backupRegister',getValue('backupRegister','')+','+timestamp);	  
+  setValue('backup_'+timestamp,data);			 
+}  
+
+function getBackupList() {
+
+  var backupRegister = getValue('backupRegister','');
+  if(backupRegister.indexOf(',') == -1) {
+    backupRegister = [];
+  }
+  else {
+    backupRegister = backupRegister.split(','); 
+  }
+  
+  var backups = [];
+  for(var i = 0,len = backupRegister.length; i < len; i++) {
+    if(backupRegister[i] && parseInt(backupRegister[i])) {	
+	  backups.push( parseInt(backupRegister[i]) ); 	
+	}
+  }	
+  return backups;   
+}  
+
+  
+function dialog_backups() {
+  var backups = getBackupList();
+  backups.reverse();
+
+  var select = dom.n('select');
+  select.setAttribute('id','backups_select');
+  for(var i = 0,len = backups.length; i < len; i++) {
+    var option = dom.n('option');
+	option.setAttribute('value',backups[i]);
+	var date = new Date();
+	date.setTime(backups[i]);
+	
+	var str = ''+date.getDate() +'.'+(date.getMonth()+1)+'.'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
+	option.innerHTML = str;
+    select.appendChild(option);  	
+	}
+  
+  var input0 = dom.n('input');
+  input0.setAttribute('type','button');
+  input0.setAttribute('value',say.label_show);    
+  input0.addEventListener('click',function() {
+    dialog_show_backup(parseInt(dom.id('backups_select').options[dom.id('backups_select').selectedIndex].value));
+  },false);     
+  
+  var input1 = dom.n('input');
+  input1.setAttribute('type','button');
+  input1.setAttribute('id','show_backup_button_create');  
+  input1.setAttribute('value',say.label_createBackup );    
+  input1.addEventListener('click',function() {
+    createBackup();
+    alert(say.alert_backupCreated);	
+	document.location.reload();   
+  },false);   
+  
+  var frame = new chuanghu('dialog_backups');
+  frame.setTitle( say.label_backupList );
+  frame.setButton('close',say.label_close);
+  
+  frame.addContent('table',
+    {
+	0:[
+	    [
+        input1,
+		'colspan=3'
+	    ]
+      ],	
+	1:[
+		[
+        dom.text(say.label_hereYouFindAllBackups),
+		'colspan=3'
+	    ]  
+	],
+	
+    2:[
+      dom.text(say.label_chooseBackupFromList),
+	  select,
+	  input0
+      ]  
+ 
+    },'border=0,');
 
 
-  var headers =
-      {
-      'User-Agent' : navigator.userAgent?navigator.userAgent:'Mozilla/5.0'
-      };
+  frame.setPosition(150,60);
+  frame.render(document.getElementsByTagName('body')[0]);
+} 
+  
+ function dialog_show_backup(timestamp) {
+  var backup = getValue('backup_'+timestamp,'No data?!');
+  
+  var date = new Date();
+  date.setTime(timestamp);  
+  var str = ''+date.getDate() +'.'+(date.getMonth()+1)+'.'+date.getFullYear()+' - '+date.getHours()+':'+date.getMinutes();
 
-  var args =
-      {
-      'method' : 'POST',
-      'url' : 'http://de6.die-staemme.de/forum.php?screen=view_thread&thread_id&thread_id=849095',
-      'headers' : headers ,
-      'onload' : onload_fct ,
-      'onerror' : onerror_fct
-      };
+  // Show a specific backup
+  var textarea = dom.n('textarea');
+  textarea.setAttribute('style','float:left; white-space:pre-wrap; font-size:xx-small; -moz-border-radius:5px; ');
+  textarea.setAttribute('cols','70');
+  textarea.setAttribute('rows','15');
+  textarea.setAttribute('id','show_backup_json_'+timestamp);
+  textarea.innerHTML = backup;
+  
+  var input0 = dom.n('input');
+  input0.setAttribute('type','button');
+  input0.setAttribute('id','show_backup_button_'+timestamp);  
+  input0.setAttribute('value',say.label_doImport);    
+  input0.addEventListener('click',function() {
+    var timestamp = this.id.match(/(\d+)/)[1];
 
-  GM_xmlhttpRequest(args);
+	var data = dom.id('show_backup_json_'+timestamp).value;
+	var really = confirm(say.alert_reallyImport);
+	if(really) {
+	    setValue('synchronizingEnabled',false);	
+		setValue('colourThreadsNames',data);
+		alert(say.alert_backupLoaded);		
+		alert(say.alert_HowToGetSync);
+		document.location.reload();
+	}
+    
+  },false);  
 
 
 
+ 
+  
+  var frame = new chuanghu('dialog_show_backup_'+timestamp);
+  frame.setTitle( say.label_backup );
+  frame.setButton('close',say.label_close);
+  
+  frame.addContent('table',
+    {
+    0:[
+      dom.text(say.label_backupDate+' '+str),
+      ],
+    1:[
+	  textarea
+      ],	  
+    2:[
+      input0
+      ]
+    },'border=0,');
 
+
+  frame.setPosition(150,60);
+  frame.render(document.getElementsByTagName('body')[0]);
+} 
+  
+  
+function dialog_syncProgress()
+  {
+  // Log Textarea
+  var textarea_sync_log = dom.n('textarea');
+  textarea_sync_log.setAttribute('style','float:left; white-space:pre-wrap; font-size:xx-small; -moz-border-radius:5px; ');
+  textarea_sync_log.setAttribute('cols','70');
+  textarea_sync_log.setAttribute('rows','3');
+  textarea_sync_log.setAttribute('id','textarea_sync_log');
+
+  var loader = new Image();
+  loader.id = 'loader_sync_log';
+  loader.src = srcs.loader;
+  
+  var frame = new chuanghu('dialog_syncProgress');
+  frame.setTitle( say.label_syncProgress );
+  frame.setInstructions( say.label_syncInProgressDoNotQuit );
+  frame.setButton('close',say.label_close);
+  
+  frame.addContent('table',
+    {
+	0: [
+	  loader
+	  ],
+    1:[
+      dom.text(say.label_syncLog)
+      ],
+    2:[
+      textarea_sync_log
+      ]
+    },'border=0,');
+
+
+  frame.setPosition(150,60);
+  frame.render(document.getElementsByTagName('body')[0]);
+  return textarea_sync_log;
+  }  
+
+
+function dialog_setupSync()
+  {
+    
+  // <-SyncString
+  var input1 = dom.n('textarea');
+  input1.setAttribute('name','i_SyncString');
+  input1.setAttribute('cols',40);
+  input1.setAttribute('rows',3);  
+  // SyncString->
+  
+  var illustration = dom.n('p');
+  illustration.setAttribute('style','max-width:400px; font-style:italic; ');
+  illustration.appendChild(dom.text(say.label_yourCodeIllustration));
+  
+  var frame = new chuanghu('dialog_syncSettings');
+  frame.setTitle(say.label_setupSync);
+  frame.setInstructions(say.label_syncSettings);
+  frame.setButton('cancel',say.label_cancel);
+  frame.setButton('button',say.label_save,save_dialog_syncSettings);
+  frame.addContent('table',
+    {
+    0:[
+	    [
+        dom.text(say.label_currentSyncServerURL+' "'+synchronizingURL+'"'),
+        'colspan=3'
+        ]
+      ],	  
+	1:[
+      dom.text(say.label_yourCode),
+      input1
+      ],
+	2:[  
+	  	[
+        illustration,
+        'colspan=3'
+        ]
+	]
+	  
+    },'border=0,');
+  frame.render(document.getElementsByTagName('body')[0]);
+  frame.setPosition(10,60);
   }
 
+
+function save_dialog_syncSettings()
+  {
+   // <-SyncString
+  var SyncString = dom.name('i_SyncString')[0].value;
+  // SyncString->
+  
+  var parts = SyncString.split(';');
+  
+  //   synchronizingKey;synchronizingURL;synchronizingUserId;synchronizingGroupId;synchronizingPassword
+  
+  
+  setValue('synchronizingKey',parts[0]); 
+  setValue('synchronizingURL',parts[1]);
+  
+
+  setValue('synchronizingUserId',parseInt(parts[2])); 
+  setValue('synchronizingGroupId',parseInt(parts[3]));
+  
+  setValue('synchronizingPassword',parts[4]);   
+  
+  setValue('synchronizingEnabled',true);
+  setValue('synchronizingLastRequest',0);
+  setValue('synchronizingCurrentVersion',0);  
+  
+  
+  
+  alert(say.alert_successfullySavedSync);
+  dom.id('dialog_syncSettings').parentNode.removeChild(dom.id('dialog_syncSettings'));
+  document.location.reload();
+  }
+  
+  
+  
+  
+function importJSONData(str)
+  {
+  try
+    {
+    var str = dom.trim(str);
+	var names = JSON.parse(str);
+    alert(dom.dumpObj(names,false));
+
+    var saveThing = new Array();
+    for(p in names)
+      {
+      void saveThing.push(escape(p) + '=' + names[p].join('='));
+      }
+    setValue('colourThreadsNames',saveThing.join(','));
+
+    alert(say.alert_successfullySaved);
+
+    document.location.reload();
+    }
+  catch(error)
+    {
+    var text = dom.dumpObj(error,false);
+    text = say.label_wrongInputCode + '\n\n\nError description: \n\n' + text;
+    alert(text);
+    }
+  }
+  
+  
 function addPushButton()
   {
-
   // if Antworten vorhanden
-  var main = document.getElementsByClassName('main')[0];
-  var posts = main.getElementsByClassName('post');
-  var tables = posts[0].parentNode.getElementsByTagName('table');
-  var table = tables[tables.length-1];
-  var a = table.getElementsByTagName('a')[0].cloneNode(true);
-  var img = a.getElementsByTagName('img')[0];
-  img.setAttribute('src',srcs.push_thread);
-  img.setAttribute('alt',say.label_pushThread);
-  img.setAttribute('title',say.label_pushThread);
+  if(!dom.class('thread_answer_open')[0])
+    return;
+  
+  var original = dom.class('thread_answer_open')[0];
+  
+  var a = original.parentNode.cloneNode(true);
   a.setAttribute('href',a.href+'&duke=push');
-  table.getElementsByTagName('a')[0].parentNode.appendChild(a);
+  
+  var thread_answer = a.getElementsByClassName('thread_answer')[0];
+  thread_answer.innerHTML = say.label_pushThread;
+  thread_answer.title = say.label_pushThread;
+  
+  original.parentNode.parentNode.appendChild(a);
   }
 
 function pushThread()
@@ -492,22 +974,12 @@ function pushThread()
     textarea.value = 'Push';
     var form = textarea.parentNode.parentNode.parentNode.parentNode.parentNode;
     form.setAttribute('action',form.action+'&duke=push');
-    form.submit();
-    alert(form.action);
+	document.getElementsByName('send')[0].click();
     }
   }
 
 function rememberPushedPost()
   {
-  alert('???');
-  /*
-  http://de6.die-staemme.de/forum.php?screen=view_thread&action=new_post&thread_id=846581&duke=push
-
-         ||||||||||||||||||||||
-
-  http://de6.die-staemme.de/forum.php?screen=view_thread&thread_id=846581&page=last
-  */
-
   document.location.href = document.location.href.replace('action=new_post&','')+'&page=last ';
   }
 
@@ -518,7 +990,15 @@ function removePushPost()
   var main = document.getElementsByClassName('main')[0];
   var posts = main.getElementsByClassName('post');
   var last = posts[posts.length-1];
-  alert(last.innerHTML);
+ 
+  var elist = last.getElementsByTagName('a');
+  Array.prototype.slice.call( elist ).map( function( a ) {
+    if(a.innerHTML.indexOf('Löschen') != -1) {
+      document.location.href = a.href;
+	  }
+    });
+  
+  
   }
 
 
@@ -1849,16 +2329,38 @@ function dialog_settings()
   tr.appendChild(td);
   content.appendChild(tr);
   // memberlistSF->
+  
+  
+   // <-synchronizingEnabled
+  var tr = dom.n('tr');
+
+  var td = dom.n('td');
+  td.appendChild(dom.text( say.label_synchronizingWithRemoteServer ));
+  tr.appendChild(td);
+
+  var input = dom.n('input');
+  input.setAttribute('value','true');
+  input.setAttribute('type','checkbox');
+  input.setAttribute('name','i_synchronizingEnabled');
+  if(synchronizingEnabled)
+    input.setAttribute('checked','checked');
+
+  var td = dom.n('td');
+  td.appendChild(input);
+  td.appendChild(dom.text( ' '+say.label_currentSyncServerURL+' "'+synchronizingURL+'"' ))
+  tr.appendChild(td);
+  content.appendChild(tr);
+  // synchronizingEnabled-> 
+  
 
 
   var frame = new chuanghu('dialog_settings');
-  frame.setTitle('Einstellungen');
+  frame.setTitle(say.label_settings);
   frame.setInstructions(say.label_generalSettings);
   frame.setButton('cancel',say.label_cancel);
   frame.setButton('button',say.label_save,save_dialog_settings);
   frame.addContent('node',content);
   frame.render(document.getElementsByTagName('body')[0]);
-
   }
 
 
@@ -1898,12 +2400,107 @@ function save_dialog_settings()
   memberlistSF = dom.name('i_memberlistSF')[0].checked?true:false;
   setValue('memberlistSF',memberlistSF);
   // memberlistSF->
+  
+  // <-synchronizingEnabled
+  synchronizingEnabled = dom.name('i_synchronizingEnabled')[0].checked?true:false;
+  setValue('synchronizingEnabled',synchronizingEnabled);
+  setValue('synchronizingCurrentVersion',0); 
+  // synchronizingEnabled->  
 
   alert(say.alert_successfullySaved);
   dom.id('dialog_settings').parentNode.removeChild(dom.id('dialog_settings'));
   document.location.reload();
   }
 
+function dialog_sync()
+  {
+  var ar = colourThreadsNames.split(',');
+  var names = new Array();
+  for(var i = 0; i < ar.length; i++)
+    {
+    var sub = ar[i].split('=');   //      colour,warnings,       notes,                     reasons
+    if(sub[0] && sub[1])          //      0      1               2                          3
+      names[unescape(sub[0])] = new Array(sub[1],sub[2]?sub[2]:0,sub[3]?unescape(sub[3]):'',sub[4]?sub[4]:'');
+    }
+
+
+  // Create JSON
+  var es = new Array();
+  for(var p in names)
+    {
+    var str = '"'+p+'" : [\n';
+    str += '  "'+names[p][0]+'" , \n';
+    str += '  '+names[p][1]+' , \n';
+    str += '  "'+names[p][2]+'" , \n';
+    str += '  "'+names[p][3]+'"  \n';
+    str += ' ]'
+    es.push(str);
+    }
+  var str = '{\n';
+  str += es.join(',\n');
+  str += '\n}';
+
+  // Base64 Encode JSON
+  var base64 = base64_encode(str);
+
+  // JSON Export Textarea
+  var textarea_json_export = dom.n('textarea');
+  textarea_json_export.setAttribute('style','float:left; white-space:pre-wrap; font-size:xx-small; ');
+  textarea_json_export.setAttribute('cols','70');
+  textarea_json_export.setAttribute('rows','20');
+  textarea_json_export.setAttribute('id','textarea_json_export'); 
+  textarea_json_export.appendChild(dom.text(str));
+
+  // Log Textarea
+  var textarea_sync_log = dom.n('textarea');
+  textarea_sync_log.setAttribute('style','float:left; white-space:pre-wrap; font-size:xx-small; ');
+  textarea_sync_log.setAttribute('cols','70');
+  textarea_sync_log.setAttribute('rows','20');
+  textarea_sync_log.setAttribute('id','textarea_sync_log');
+  //textarea_sync_log.addEventListener('keyup',function(event){ if(event.keyCode == 13) importJSONData(this.value); },false);
+
+  // Send Button
+  var input_send_button = dom.n('input');
+  input_send_button.setAttribute('type','button');
+  input_send_button.setAttribute('value',say.label_sendData);
+  input_send_button.addEventListener('click',function(){ do_sync(dom.id('textarea_json_export').value,dom.id('textarea_sync_log')); },false);
+
+
+  var frame = new chuanghu('dialog_export');
+  frame.setTitle( say.label_syncData );
+  frame.setInstructions( say.label_functionOnlyForDeveloper );
+  frame.setButton('close',say.label_close);
+
+  frame.addContent('table',
+    {
+    0:[
+      dom.text(say.label_export),
+      dom.text(say.label_syncLog),
+      ],
+    1:[
+      textarea_json_export,
+      textarea_sync_log
+      ],
+    2:[
+        [
+        dom.text(ar.length+' '+say.label_NumberOfRecords),
+        'colspan=2'
+        ]
+      ],
+    3:[
+      input_send_button
+      ]
+
+    },'border=0,');
+
+
+  frame.setPosition(150,60);
+  frame.render(document.getElementsByTagName('body')[0]);
+
+  } 
+  
+  
+  
 function dialog_export()
   {
   var ar = colourThreadsNames.split(',');
@@ -2000,54 +2597,52 @@ function dialog_export()
 
   }
 
-function importJSONData(str)
-  {
-  try
-    {
-    var str = dom.trim(str);
-    eval('var names = '+str+';')
-    names = eval(names);
-    alert(dom.dumpObj(names,false));
 
-    var saveThing = new Array();
-    for(p in names)
-      {
-      void saveThing.push(escape(p) + '=' + names[p].join('='));
-      }
-    setValue('colourThreadsNames',saveThing.join(','));
-
-    alert(say.alert_successfullySaved);
-
-    document.location.reload();
-    }
-  catch(error)
-    {
-    var text = dom.dumpObj(error,false);
-    text = say.label_wrongInputCode + '\n\n\nError description: \n\n' + text;
-    alert(text);
-    }
-  }
 
 
 function menu_extras()
   {
   if(dom.id('menu_extras'))
     {
-    table = dom.id('menu_extras');
-    table.style.display = 'block';
+	if(dom.id('menu_extras').style.display == 'none')
+  	  {
+      table = dom.id('menu_extras');
+      table.style.display = 'block';
+	  }
+	else
+  	  {
+      dom.id('menu_extras').style.display = 'none';
+	  return;
+	  }	  
     }
   else
     {
+	GM_addStyle('#menu_extras td { -moz-border-radius:5px; background:#C1A264 url("/graphic/screen/tableheader_bg3.png") repeat-x; }');
+	
     var table = dom.n('table');
     table.setAttribute('id','menu_extras');
-    table.style.top = dom.id('link_menu_extras').offsetTop + 'px';
-    table.style.left = dom.id('link_menu_extras').offsetLeft + 'px';
-    table.style.backgroundColor = '#DED3B9';
-    table.style.border = '#DED3B9 outset 3px';
-    table.style.borderTop = '0px';
-    table.style.borderLeft = '0px';
-    table.style.position = 'absolute';
+	
+    table.style.left = rel_left(dom.id('link_menu_extras')) + 'px';			
+    
+	if(dom.id('footer_left')) { 
+      table.style.bottom = '25px';
+	}
+	else {
+      table.style.top = dom.id('link_menu_extras').offsetTop + 'px';	
+	}	
 
+    //table.style.backgroundColor = '#DED3B9';
+    table.style.background = '#f6ecd1 url("'+srcs.background_footer+'")';	
+	
+    //table.style.border = '#DED3B9 outset 3px';
+	table.style.border = '#95865f dotted 1px';
+	table.style.outline = '#95865f dotted 1px';	
+    table.style.borderBottom = '0px';
+    table.style.position = 'fixed';
+
+	// url("/graphic/screen/tableheader_bg3.png") #C1A264 repeat-x
+	
+	
     var tr = dom.n('tr');
     var td = dom.n('td');
     var a = dom.n('a');
@@ -2062,6 +2657,38 @@ function menu_extras()
     tr.appendChild(td);
     table.appendChild(tr);
 
+	if(synchronizingEnabled) {
+	
+      var tr = dom.n('tr');
+      var td = dom.n('td');
+      var a = dom.n('a');
+      a.href = '#';
+      a.appendChild(dom.text( say.label_forceSync ));
+      dom.addEvent(a,'click',function()
+        {
+        dom.id('menu_extras').style.display = 'none';
+        synchronize(true);
+        return false; });
+      td.appendChild(a);
+      tr.appendChild(td);
+      table.appendChild(tr);	
+	}
+	
+    var tr = dom.n('tr');
+    var td = dom.n('td');
+    var a = dom.n('a');
+    a.href = '#';
+    a.appendChild(dom.text( say.label_setupSync ));
+    dom.addEvent(a,'click',function()
+      {
+      dom.id('menu_extras').style.display = 'none';
+      dialog_setupSync(true);
+      return false; });
+    td.appendChild(a);6
+    tr.appendChild(td);
+    table.appendChild(tr);	
+	
+	
     var tr = dom.n('tr');
     var td = dom.n('td');
     var a = dom.n('a');
@@ -2076,7 +2703,35 @@ function menu_extras()
     tr.appendChild(td);
     table.appendChild(tr);
 
-
+	var tr = dom.n('tr');
+    var td = dom.n('td');
+    var a = dom.n('a');
+    a.href = '#';
+    a.appendChild(dom.text( say.label_syncData ));
+    dom.addEvent(a,'click',function()
+      {
+      dom.id('menu_extras').style.display = 'none';
+      dialog_sync();
+      return false; });
+    td.appendChild(a);
+    tr.appendChild(td);
+    table.appendChild(tr);	
+	
+	var tr = dom.n('tr');
+    var td = dom.n('td');
+    var a = dom.n('a');
+    a.href = '#';
+    a.appendChild(dom.text( say.label_backups ));
+    dom.addEvent(a,'click',function()
+      {
+      dom.id('menu_extras').style.display = 'none';
+      dialog_backups();
+      return false; });
+    td.appendChild(a);
+    tr.appendChild(td);
+    table.appendChild(tr);		
+	
+	
     var tr = dom.n('tr');
     var td = dom.n('td');
     var a = dom.n('a');
@@ -2207,9 +2862,18 @@ function colourThreads()
     }
 
   var elist = dom.class('text');
-  for(var i = n = 0; i < elist.length; i++)
+  for(var n = 0,i=0; i < elist.length; i++)
     {
+	
+	// Jump the empty anchor link, except for last post
     var a = elist[i].parentNode.getElementsByTagName('a')[0];
+	if(!a.firstChild) 
+	  a = elist[i].parentNode.getElementsByTagName('a')[1];
+	if(!a.firstChild) 
+	  a = elist[i].parentNode.getElementsByTagName('a')[2];	  
+	
+	
+	
     var name = a.firstChild.data;
     name = dom.trim(name);
 
@@ -2467,7 +3131,7 @@ function clickedPlayerMenu(e,span)
 
   var a = dom.n('a');
   a.setAttribute('style','display:block; border-bottom:1px solid rgb(234,225,204); ');
-  a.href = 'http://www.dsreal.de/index.php?tool=akte&mode=player&world='+lang+world+'&id='+id;
+  a.href = 'http://www.dsreal.de/index.php?screen=file&id='+id+'&mode=player&world='+lang+world;
   a.target = '_blank';
   a.appendChild(dom.text( say.label_DSReal ));
   div.appendChild(a);
@@ -2478,7 +3142,13 @@ function clickedPlayerMenu(e,span)
   a.target = '_blank';
   a.appendChild(dom.text( say.label_myWebtool ));
   div.appendChild(a);
-
+  
+  var a = dom.n('a');
+  a.setAttribute('style','display:block; border-bottom:1px solid rgb(234,225,204); ');
+  a.href = 'http://www.staemme-statistik.de/'+world+'/'+id+'.html';
+  a.target = '_blank';
+  a.appendChild(dom.text( say.label_staemmeStatistik ));
+  div.appendChild(a); 
 
 
   var img = new Image();
@@ -2842,6 +3512,8 @@ function chuanghu(id)
     div.style.minWidth = '150px';
     div.style.background = 'url('+srcs['dialog_main_bg']+') #F1EBDD';
     div.style.border = '3px solid #c1aa7b';
+	
+	div.style.MozBorderRadius = '5px';
 
     if(this.position)
       {
@@ -3170,7 +3842,41 @@ function bar()
     {
     if(dom.id('dukeassistantBar'))
       return false;
+	  
+	if(dom.id('footer_left')) { 
+	  
+	var footer = dom.id('footer');  
+	var footer_left = dom.id('footer_left');  
+	  
+    var a = dom.n('a');
+    a.setAttribute('id','dukeassistantBar_anchor');
+    a.setAttribute('name','dukeassistantBar_anchor');
+    footer_left.appendChild(a);	  
 
+    var a = dom.n('a');
+    a.setAttribute('href','#dukeassistantBar_anchor');
+    dom.addEvent(a,'click',function()
+      {
+      menu_extras();
+      return false; });
+    a.setAttribute('id','link_menu_extras');
+    a.appendChild(dom.text(say.label_extras));
+	footer_left.insertBefore(dom.text(String.fromCharCode(160)+'-'+String.fromCharCode(160)),footer_left.firstChild);
+    footer_left.insertBefore(a,footer_left.firstChild);
+		
+    var rightfont = dom.n('span');
+	rightfont.setAttribute('id','dukeassistantBar');	
+    rightfont.setAttribute('style','float:left; margin-top:10px; font-size:smaller; opacity:0.7; ');
+    rightfont.appendChild(dom.text( say._name + ' (' + version + ')'));
+    footer.insertBefore(rightfont,footer.firstChild);
+	
+	}
+	
+	else 
+	
+	{
+
+	  
     var div = dom.n('div');
     div.setAttribute('id','adIntBar');
     div.style.backgroundColor = 'rgb(243,237,223)';
@@ -3208,6 +3914,7 @@ function bar()
     div.appendChild(clearfont);
 
     return dom.id('ds_body').appendChild(div);
+	}
     }
 
 function rand(max)
@@ -3251,7 +3958,7 @@ function html()
     return document.createTextNode(c);
     }
 
-  this.img = function(c) // Returns a new textnode with the content [c]
+  this.img = function(c) // Returns a new image 
     {
     if(c)
       {

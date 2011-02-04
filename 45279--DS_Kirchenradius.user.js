@@ -1,8 +1,8 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name          DS Kirchenradius
-// @version       0.9.3
+// @version       1.0
 // @author        cuzi (http://example.com)
-// @description   Fügt die Möglichkeit hinzu fü nicht-Kirchen-Dörfer den Glaubensradius zu simulieren.
+// @description   Fügt die Möglichkeit hinzu fü nicht-Kirchen-Dörfer den Glaubensradius zu simulieren. Works on Война племён. 
 // @namespace     example.com
 // @homepage      http://example.com
 // @copyright     2009, cuzi (http://example.com)
@@ -10,6 +10,9 @@
 // @include       http://*.die-staemme.de/game.php*screen=map*
 // @include       http://*.die-staemme.de/game.php*screen=info_village*
 // @exclude       http://forum.die-staemme.de/*
+// @include       http://*.voyna-plemyon.ru/game.php*screen=map*
+// @include       http://*.voyna-plemyon.ru/game.php*screen=info_village*
+// @exclude       http://forum.voyna-plemyon.ru/*
 // ==/UserScript==
 
 /*
@@ -48,11 +51,97 @@ http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode
 English Summary of that license:
 http://creativecommons.org/licenses/by-nc-sa/3.0/de/deed.en
 
+
+Program works with Opera (only 10.5 or later)
+
+
 */
 
+const version = '1.0';
 
-const version = '0.9.3';
+const text = {
+  'de' : {
+    '_name' : 'DS Kirchenradius',
+    '_author' : 'cuzi',
+    '_contact' : 'mail:cuzi@openmail.cc',
 
+    'label_showScript' : 'Script anzeigen',
+    'label_save' : 'Speichern',
+    'label_cancel' : 'Abbrechen',
+    'label_delete' : 'Löschen',
+    'label_level' : 'Kirchenstufe:',
+    'label_mainButton' : String.fromCharCode( '0187' )+' Glaubensradius '+String.fromCharCode( '0171' ),
+    'label_coords' : 'Koordinaten:',
+    'label_firstCurchInfo' : 'Erste Kirche = Stufe 2'
+    },
+  'ru' : {
+    '_name' : 'DS Kirchenradius',
+    '_author' : 'cuzi',
+    '_contact' : 'mail:cuzi@openmail.cc',
+	
+    'label_showScript' : 'Показать script',
+    'label_save' : 'сохранить',
+    'label_cancel' : 'отменить',
+    'label_delete' : 'удалить',
+    'label_level' : 'уровня:',
+    'label_mainButton' : String.fromCharCode( '0187' )+' Настройки '+String.fromCharCode( '0171' ),
+    'label_coords' : 'Координаты:',
+    'label_firstCurchInfo' : 'Первая церковь = уровня 2'
+    }
+
+
+  };
+
+
+//############### Opera Workaround ##################
+  
+if(window.opera) {
+// http://www.json.org/json2.js
+if(!this._JSON){_JSON={};}(function(){function f(n){return n<10?'0'+n:n;}if(typeof Date.prototype.to_JSON!=='function'){Date.prototype.to_JSON=function(key){return this.getUTCFullYear()+'-'+f(this.getUTCMonth()+1)+'-'+f(this.getUTCDate())+'T'+f(this.getUTCHours())+':'+f(this.getUTCMinutes())+':'+f(this.getUTCSeconds())+'Z';};String.prototype.to_JSON=Number.prototype.to_JSON=Boolean.prototype.to_JSON=function(key){return this.valueOf();};}var cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapeable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={'\b':'\\b','\t':'\\t','\n':'\\n','\f':'\\f','\r':'\\r','"':'\\"','\\':'\\\\'},rep;function quote(string){escapeable.lastIndex=0;return escapeable.test(string)?'"'+string.replace(escapeable,function(a){var c=meta[a];if(typeof c==='string'){return c;}return'\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);})+'"':'"'+string+'"';}function str(key,holder){var i,k,v,length,mind=gap,partial,value=holder[key];if(value&&typeof value==='object'&&typeof value.to_JSON==='function'){value=value.to_JSON(key);}if(typeof rep==='function'){value=rep.call(holder,key,value);}switch(typeof value){case'string':return quote(value);case'number':return isFinite(value)?String(value):'null';case'boolean':case'null':return String(value);case'object':if(!value){return'null';}gap+=indent;partial=[];if(typeof value.length==='number'&&!value.propertyIsEnumerable('length')){length=value.length;for(i=0;i<length;i+=1){partial[i]=str(i,value)||'null';}v=partial.length===0?'[]':gap?'[\n'+gap+partial.join(',\n'+gap)+'\n'+mind+']':'['+partial.join(',')+']';gap=mind;return v;}if(rep&&typeof rep==='object'){length=rep.length;for(i=0;i<length;i+=1){k=rep[i];if(typeof k==='string'){v=str(k,value);if(v){partial.push(quote(k)+(gap?': ':':')+v);}}}}else{for(k in value){if(Object.hasOwnProperty.call(value,k)){v=str(k,value);if(v){partial.push(quote(k)+(gap?': ':':')+v);}}}}v=partial.length===0?'{}':gap?'{\n'+gap+partial.join(',\n'+gap)+'\n'+mind+'}':'{'+partial.join(',')+'}';gap=mind;return v;}}if(typeof _JSON.stringify!=='function'){_JSON.stringify=function(value,replacer,space){var i;gap='';indent='';if(typeof space==='number'){for(i=0;i<space;i+=1){indent+=' ';}}else if(typeof space==='string'){indent=space;}rep=replacer;if(replacer&&typeof replacer!=='function'&&(typeof replacer!=='object'||typeof replacer.length!=='number')){throw new Error('_JSON.stringify');}return str('',{'':value});};}if(typeof _JSON.parse!=='function'){_JSON.parse=function(text,reviver){var j;function walk(holder,key){var k,v,value=holder[key];if(value&&typeof value==='object'){for(k in value){if(Object.hasOwnProperty.call(value,k)){v=walk(value,k);if(v!==undefined){value[k]=v;}else{delete value[k];}}}}return reviver.call(holder,key,value);}cx.lastIndex=0;if(cx.test(text)){text=text.replace(cx,function(a){return'\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);});}if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,'@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').replace(/(?:^|:|,)(?:\s*\[)+/g,''))){j=eval('('+text+')');return typeof reviver==='function'?walk({'':j},''):j;}throw new SyntaxError('_JSON.parse');};}})();
+
+function GM_setValue( name, value) {
+       if(!window.localStorage.userscripts)
+         window.localStorage.userscripts = _JSON.stringify({});
+
+       try {
+         var obj = _JSON.parse(window.localStorage.userscripts);
+         } catch(e) {
+         var obj = {};
+         }
+
+       obj[name] = value;
+
+       window.localStorage.userscripts = _JSON.stringify(obj);
+}
+
+
+function GM_getValue( name, defaultvalue ) {
+  try {
+    var obj = _JSON.parse(window.localStorage.userscripts);
+
+
+    if(undefined !== obj[name])
+      return obj[name];
+  } catch(e) {}
+
+  return defaultvalue;
+}
+
+
+function GM_deleteValue( name ) {
+  try {
+    delete(window.localStorage.userscripts[name]);
+    }
+  catch(e) {};
+}  
+
+GM_xmlhttpRequest = XMLHttpRequest;
+
+GM_log = opera.postError;
+
+window._content = window;
+unsafeWindow = window;
+}
 
 //################ Common Functions ##################
 
@@ -381,7 +470,7 @@ function newRadius()
 
   var td0 = document.createElement('td');
   td0.setAttribute('style','background:#DFCCA6; font-weight:bolder; ');
-  td0.appendChild(document.createTextNode('Koordinaten:'));
+  td0.appendChild(document.createTextNode(say.label_coords));
 
   var td1 = document.createElement('td');
   td1.appendChild(document.createTextNode('x: '));
@@ -415,7 +504,7 @@ function newRadius()
 
   var td0 = document.createElement('td');
   td0.setAttribute('style','background:#DFCCA6; font-weight:bolder; ');
-  td0.appendChild(document.createTextNode('Kirchenstufe:'));
+  td0.appendChild(document.createTextNode(say.label_level));
 
   var td1 = document.createElement('td');
   td1.setAttribute('colspan',2);
@@ -436,7 +525,7 @@ function newRadius()
   td1.appendChild(select_level);
 
   var hint = document.createElement('span');
-  hint.appendChild(document.createTextNode(' Erste Kirche = Stufe 2'));
+  hint.appendChild(document.createTextNode(say.label_firstCurchInfo));
   hint.setAttribute('style','font-size:smaller; font-style:italic; font-family:Arial,sans-serif');
   td1.appendChild(hint);
 
@@ -532,19 +621,19 @@ function newRadius()
 
   var input_save = document.createElement('input');
   input_save.setAttribute('type','button');
-  input_save.setAttribute('value','Speichern');
+  input_save.setAttribute('value',say.label_save);
   input_save.addEventListener('click',registerRadius,false);
   div.appendChild(input_save);
 
   var input_cancel = document.createElement('input');
   input_cancel.setAttribute('type','button');
-  input_cancel.setAttribute('value','Abbrechen');
+  input_cancel.setAttribute('value',say.label_cancel);
   input_cancel.addEventListener('click',function() { div.parentNode.removeChild(div); },false);
   div.appendChild(input_cancel);
 
   var input_delete = document.createElement('input');
   input_delete.setAttribute('type','button');
-  input_delete.setAttribute('value','L'+String.fromCharCode('0246')+'schen');
+  input_delete.setAttribute('value',say.label_delete);
   input_delete.addEventListener('click',unregisterRadius,false);
   div.appendChild(input_delete);
 
@@ -623,6 +712,10 @@ function unregisterRadius()
 
 var url = document.location.href;
 var world = url.split('.').shift().split('de').pop();
+var lang = url.split('.')[0].split(/\/\/(\D+)\d+/)[1];
+var say = text[lang]?text[lang]:{};
+delete(text);
+
 
 var radius_active = getValue('active')==undefined?true:(getValue('active')?true:false);
 
@@ -658,7 +751,7 @@ if(url.indexOf('screen=map') != -1)     // Map
 
   var label = document.createElement('label');
   label.setAttribute('for','script_radius_active');
-  label.appendChild(document.createTextNode('Script anzeigen'));
+  label.appendChild(document.createTextNode(say.label_showScript));
 
   var belief_radius = document.getElementById('belief_radius');
   belief_radius.parentNode.insertBefore(checkbox,belief_radius);
@@ -691,7 +784,7 @@ if(url.indexOf('screen=map') != -1)     // Map
 
   var input = document.createElement('input');
   input.setAttribute('type','button');
-  input.setAttribute('value',String.fromCharCode( '0187' )+' Glaubensradius '+String.fromCharCode( '0171' ));
+  input.setAttribute('value',say.label_mainButton);
   input.setAttribute('style','font-size: 10pt;');
   input.addEventListener('click',newRadius,false);
   td.appendChild(input);

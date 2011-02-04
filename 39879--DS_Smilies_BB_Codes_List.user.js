@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name          DS Smilies-BB-Codes-List
-// @version       2.3
+// @version       2.4
 // @author        cuzi (http://example.com)
 // @description   Fügt ein Auswahlfeld im Internen Forum hinzu, damit man Smilies und Icons auswählen kann, außerdem die BB-Codes für Berichte und Code. Seit Version 2 können Texte gespeicherter werden.
 // @namespace     example.com
@@ -22,23 +22,31 @@
 // @include       http://*.die-staemme.de/*screen=ally*mode=properties*
 
 
+// @include       http://*.beta.tribalwars.net/*forum.php*answer=true*
+// @include       http://*.beta.tribalwars.net/*forum.php*edit_post_id*
+// @include       http://*.beta.tribalwars.net/*forum.php*mode=new_thread*
+// @include       http://*.beta.tribalwars.net/*forum.php*mode=new_poll*
 
+// @include       http://*.beta.tribalwars.net/*screen=memo*
 
-// @include       http://*.tribalwars.net/*forum.php*answer=true*
-// @include       http://*.tribalwars.net/*forum.php*edit_post_id*
-// @include       http://*.tribalwars.net/*forum.php*mode=new_thread*
-// @include       http://*.tribalwars.net/*forum.php*mode=new_poll*
+// @include       http://*.beta.tribalwars.net/*screen=mail*mode=new*
+// @include       http://*.beta.tribalwars.net/*screen=mail*mode=view*
 
-// @include       http://*.tribalwars.net/*screen=memo*
+// @include       http://*.beta.tribalwars.net/*screen=ally*mode=overview*
+// @include       http://*.beta.tribalwars.net/*screen=ally*mode=properties*
 
-// @include       http://*.tribalwars.net/*screen=mail*mode=new*
-// @include       http://*.tribalwars.net/*screen=mail*mode=view*
+// @include       http://*.beta.tribalwars.net/*forum.php*answer=true*
+// @include       http://*.beta.tribalwars.net/*forum.php*edit_post_id*
+// @include       http://*.beta.tribalwars.net/*forum.php*mode=new_thread*
+// @include       http://*.beta.tribalwars.net/*forum.php*mode=new_poll*
 
-// @include       http://*.tribalwars.net/*screen=ally*mode=overview*
-// @include       http://*.tribalwars.net/*screen=ally*mode=properties*
+// @include       http://*.beta.tribalwars.net/*screen=memo*
 
+// @include       http://*.beta.tribalwars.net/*screen=mail*mode=new*
+// @include       http://*.beta.tribalwars.net/*screen=mail*mode=view*
 
-
+// @include       http://*.beta.tribalwars.net/*screen=ally*mode=overview*
+// @include       http://*.beta.tribalwars.net/*screen=ally*mode=properties*
 
 
 // @include       http://*.tribalwars.nl/*forum.php*answer=true*
@@ -55,10 +63,11 @@
 // @include       http://*.tribalwars.nl/*screen=ally*mode=properties*
 
 
-
-
-
 // @exclude       http://forum.die-staemme.de/*
+// @exclude       http://forum.tribalwars.net/*
+// @exclude       http://forum.beta.tribalwars.net/*
+// @exclude       http://forum.tribalwars.nl/*
+
 // ==/UserScript==
 
 /*
@@ -122,7 +131,7 @@ http://s3.amazonaws.com/uso_ss/3652/large.jpeg ( Version 2.0 )
 */
 const ver = '2.3';
 
-const lang = {
+var lang = {
 
 
   'de' : {
@@ -236,7 +245,7 @@ const lang = {
   },
 
 };
-
+lang['zz'] = lang['en'];
 
 const url = document.location.href;
 
@@ -813,12 +822,12 @@ if(document.getElementById('message') || document.getElementById('intern') || do
     }
 
 
-  // Convert Coords to BB-Codes
+  // Convert Coords to BB-Codes -- Thanks to MST1
   if(forum || memo || mail || ally)
     {
     mainDiv.addButton(say.convertcoords,icon_convertCoords,function() {
-      document.getElementById('message').value = document.getElementById('message').value.replace(/(\(\d{1,3}\|\d{1,3}\))(?!\[\/village\])/g,'[village]$1[/village]');
-      document.getElementById('message').value = document.getElementById('message').value.replace(/(\d{1,3}\|\d{1,3})(?!.*\[\/village\])/g,'[village]($1)[/village]');
+      document.getElementById('message').value = document.getElementById('message').value.replace(/(\(\d{1,3}\|\d{1,3}\))(?!\[\/coord\])/g,'[coord]$1[/coord]');
+      document.getElementById('message').value = document.getElementById('message').value.replace(/(\d{1,3}\|\d{1,3})(?!.*\[\/coord\])/g,'[coord]($1)[/coord]');
       return false;
       });
     }

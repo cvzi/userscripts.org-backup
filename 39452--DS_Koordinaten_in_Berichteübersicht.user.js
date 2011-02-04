@@ -1,12 +1,12 @@
 var metadata = <><![CDATA[
 // ==UserScript==
 // @name          DS Koordinaten in Berichteübersicht
-// @version       0.5.4
+// @version       0.6
 // @author        cuzi (http://example.com)
 // @description   Veränderung der Berichtetitel nach eigenem Muster
 // @namespace     example.com
 // @homepage      http://example.com
-// @copyright     (c) 2009, cuzi (http://example.com)
+// @copyright     (c) 2009-2011, cuzi (http://example.com)
 // @license       CC Attribution-Noncommercial-Share Alike 3.0 Germany; http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode
 // @include       http://de*.die-staemme.de/game.php?*screen=report*view=*
 // @include       http://de*.die-staemme.de/game.php?*screen=report*
@@ -64,6 +64,10 @@ var pattern = '(%x2%|%y2%) %kont2% %defender% von (%x1%|%y1%) %attacker% - Beute
 var menu_pattern1 = '%date%';                                                       // Datum
 var menu_pattern2 = '%x1%|%y1% von %attacker% nach %x2%|%y2% von %defender%';       // Titel
 
+
+Herkunft:
+
+
 /*
   Erklärung
   - %id%                   ID des Berichts
@@ -94,7 +98,31 @@ var menu_pattern2 = '%x1%|%y1% von %attacker% nach %x2%|%y2% von %defender%';   
 */
 
 
-var world = document.location.href.split('.').shift().split('de').pop()+'_';
+const text = {
+  'de' : {
+    ingameString_authorWrote_aboveAquote : ' hat folgendes geschrieben:',
+    ingameString_attacker : 'Angreifer:',	
+    ingameString_defender : 'Verteidiger:',		
+    ingameString_attacker_village : 'Herkunft:',	
+    ingameString_defender_village : 'Ziel:',	
+    ingameString_subject : 'Betreff',
+	ingameString_sentDate : 'Gesendet',
+	ingameString_haul : 'Beute:',
+	ingameString_spying : 'Spionage',
+	ingameString_spying_resources : 'Erspähte Rohstoffe:'
+	
+    }
+  };
+
+const url = document.location.href;
+const world = url.split('.').shift().split('de').pop();
+const lang = url.split('.')[0].split(/\/\/(\D+)\d+/)[1];
+const say = text[lang]?text[lang]:{};
+delete(text);
+
+pattern = GM_getValue(world+'pattern',pattern);
+menu_pattern1 = GM_getValue(world+'menu_pattern1',menu_pattern1);
+menu_pattern2 = GM_getValue(world+'menu_pattern2',menu_pattern2);
 
 var now = new Date();
 var timestamp = Math.round(now.getTime() / 1000);
@@ -120,9 +148,9 @@ if(document.location.href.indexOf('screen=report') != -1 && document.location.hr
 
   if(index == -1)
     {
-    var table = findByInner(document,'Betreff')[0].parentNode.parentNode;
+    var table = findByInner(document,say.ingameString_subject)[0].parentNode.parentNode;
 
-    var att_village_element = findByInner(table.parentNode,'Dorf:')[0].nextSibling.firstChild;
+    var att_village_element = findByInner(table.parentNode,say.ingameString_attacker_village)[0].nextSibling.firstChild;
     var att_village = att_village_element.innerHTML.match(/(\(\d{1,3}\|\d{1,3}\))/g)[0].split('|');
 
     att_village[0] = att_village[0].substr(1);                                       // x
@@ -138,13 +166,12 @@ if(document.location.href.indexOf('screen=report') != -1 && document.location.hr
     att_village[3] = att_village_element.innerHTML.split(')').pop();                 // kontinent
     att_village[3] = trim(att_village[3]);
 
-    var attacker_element = findByInner(table.parentNode,'Angreifer:')[0].nextSibling.firstChild;
+    var attacker_element = findByInner(table.parentNode,say.ingameString_attacker)[0].nextSibling.firstChild;
     att_village[4] = escape(attacker_element.firstChild.data);                       // attacker  name
 
     att_village[5] = attacker_element.href.split('=').pop();                         // attacker id
 
-
-    var def_village_element = findByInner(table.parentNode,'Dorf:')[1].nextSibling.firstChild;
+    var def_village_element = findByInner(table.parentNode,say.ingameString_defender_village)[0].nextSibling.firstChild;
     var def_village = def_village_element.innerHTML.match(/(\(\d{1,3}\|\d{1,3}\))/g)[0].split('|');
 
     def_village[0] = def_village[0].substr(1);
@@ -159,7 +186,7 @@ if(document.location.href.indexOf('screen=report') != -1 && document.location.hr
     def_village[3] = def_village_element.innerHTML.split(')').pop();
     def_village[3] = trim(def_village[3]);
 
-    var defender_element = findByInner(table.parentNode,'Verteidiger:')[0].nextSibling.firstChild;
+    var defender_element = findByInner(table.parentNode,say.ingameString_defender)[0].nextSibling.firstChild;
     if(defender_element.nodeType == 3)  // if player is unknown
       {
       def_village[4] = escape(defender_element.data);
@@ -172,7 +199,7 @@ if(document.location.href.indexOf('screen=report') != -1 && document.location.hr
       }
 
     // Get sent time
-    var time = findByInner(table.parentNode,'Gesendet')[0].nextSibling.firstChild.data.split(' ');
+    var time = findByInner(table.parentNode,say.ingameString_sentDate)[0].nextSibling.firstChild.data.split(' ');
     var date = time[0].split('.');
     var time = time[1].split(':');
 
@@ -195,7 +222,7 @@ if(document.location.href.indexOf('screen=report') != -1 && document.location.hr
     report_sent = Math.round(sent.getTime() / 1000);
 
     // Get haul
-    var haul_node = findByInner(table.parentNode,'Beute:')[0];
+    var haul_node = findByInner(table.parentNode,say.ingameString_haul)[0];
     if(haul_node)
       {
       var haul_text = grabText(haul_node.nextSibling.nextSibling,1);
@@ -209,12 +236,12 @@ if(document.location.href.indexOf('screen=report') != -1 && document.location.hr
       }
 
     // Check for scout report
-    if(findByInner(table.parentNode,'Spionage')[0])
+    if(findByInner(table.parentNode,say.ingameString_spying)[0])
       {
       var scout = 1;
 
       // Get resources
-      var scouted_resources_node = findByInner(table.parentNode,'Erspähte Rohstoffe:')[0];
+      var scouted_resources_node = findByInner(table.parentNode,say.ingameString_spying_resources)[0];
       var scouted_resources_text = grabText(scouted_resources_node.nextSibling,1);
       var scouted_resources = scouted_resources_text.split(' ');
       scouted_resources.pop();
@@ -247,7 +274,7 @@ else
   var reports = unpack(GM_getValue(world+'reports'));
 
 
-  var table = findByInner(document,'Betreff')[0].parentNode.parentNode;
+  var table = findByInner(document,say.ingameString_subject)[0].parentNode.parentNode;
   //alert(table.innerHTML);
   var elist = table.getElementsByTagName('tr');
   for(var i = 1, len = elist.length; len > i; i++)
@@ -257,7 +284,7 @@ else
     if(index != -1)
       {
       var title = parsePattern(pattern,reports[index]);
-      document.getElementById('labelText['+id+']').innerHTML = title;
+      document.getElementById('labelText_'+id).innerHTML = title;
       }
     }
 
@@ -454,8 +481,86 @@ function createNewContent(form)
 
     acs(table,tr,td);
 
-  form.appendChild(table);
+    form.appendChild(table);
+  
+    // Pattern Settings
+    
+    var tr = n('tr');
+    var th = n('th');
+    th.setAttribute('colspan','3'); 
+    th.appendChild(t('Anzeigemuster:'));	
+    acs(table,tr,th);  
+	
+    var tr = n('tr');
+    var td = n('td');
+    td.setAttribute('colspan','2'); 
+    td.appendChild(t('Anzeige in der Berichteübersicht'));	
+    acs(table,tr,td);  	
+    var td = n('td');
+    td.setAttribute('colspan','2'); 
+	var input = n('input');
+	input.setAttribute('id','input_pattern');
+	input.setAttribute('type','text');		
+	input.setAttribute('value',pattern);
+	input.setAttribute('style','width:98%');		
+    td.appendChild(input);	
+    tr.appendChild(td);	
+	
+    var tr = n('tr');
+    var td = n('td');
+    td.setAttribute('colspan','2'); 
+    td.appendChild(t('Datumanzeige hier im Menü'));	
+    acs(table,tr,td);  	
+    var td = n('td');
+    td.setAttribute('colspan','2'); 
+	var input = n('input');
+	input.setAttribute('id','input_menu_pattern1');
+	input.setAttribute('type','text');		
+	input.setAttribute('value',menu_pattern1);
+	input.setAttribute('style','width:98%');		
+    td.appendChild(input);	
+    tr.appendChild(td);		
 
+    var tr = n('tr');
+    var td = n('td');
+    td.setAttribute('colspan','2'); 
+    td.appendChild(t('Titelanzeige hier im Menü'));	
+    acs(table,tr,td);  	
+    var td = n('td');
+    td.setAttribute('colspan','2'); 
+	var input = n('input');
+	input.setAttribute('id','input_menu_pattern2');
+	input.setAttribute('type','text');		
+	input.setAttribute('value',menu_pattern2);
+	input.setAttribute('style','width:98%');		
+    td.appendChild(input);	
+    tr.appendChild(td);	
+
+    var tr = n('tr');
+    var td = n('td');
+    td.setAttribute('colspan','3'); 
+ 	var input = n('input');
+	input.setAttribute('id','input_menu_pattern2');
+	input.setAttribute('type','button');	
+	input.setAttribute('value','Speichern');
+    input.addEventListener('click',function() {
+	  if('' != document.getElementById('input_pattern').value)
+	    pattern = document.getElementById('input_pattern').value;
+		
+	  if('' != document.getElementById('input_menu_pattern1').value)
+	    menu_pattern1 = document.getElementById('input_menu_pattern1').value;		
+	
+	  if('' != document.getElementById('input_menu_pattern2').value)
+	    menu_pattern2 = document.getElementById('input_menu_pattern2').value;		
+	
+	  GM_setValue(world+'pattern',pattern);	  
+	  GM_setValue(world+'menu_pattern1',menu_pattern1);	  
+      GM_setValue(world+'menu_pattern2',menu_pattern2);
+
+      alert('Gespeichert!');	  
+
+   },false);	
+    acs(table,tr,td,input); 
   }
 
 
@@ -576,6 +681,7 @@ function n(name) {
 function t(text) {
   return document.createTextNode(text); }
 
+  // Append childs
 function acs() {
   for(var len = arguments.length-1; len > 0; len--)
     {

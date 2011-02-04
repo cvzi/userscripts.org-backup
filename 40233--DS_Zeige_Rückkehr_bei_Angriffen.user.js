@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name          DS Zeige Rückkehr bei Angriffen
-// @version       1.8
+// @version       1.9
 // @author        cuzi (http://example.com)
 // @namespace     example.com
 // @homepage      http://example.com
-// @copyright     2008 - 2009, cuzi (http://example.com)
+// @copyright     2008 - 2011, cuzi (http://example.com)
 // @license       No Distribution!
 // @description   Zeigt im Versammlungsplatz und bei Befehlen die Rückkehrzeit an. Für die Anzeige im Versammlungsplatz muss der Befehl vorher besucht werden, damit die Daten eingelesen werden können.
 // @include       http://*.die-staemme.de/*screen=info_command*
@@ -15,11 +15,11 @@
 // ds.showReturnTimeOnCommands.user.js
 
 /*
-Version 1.8
+Version 1.9
 
 DS Zeige Rückkehr bei Angriffen
 
-(c) 2008 - 2009 by  cuzi
+(c) 2008 - 2011 by  cuzi
          cuzi@openmail.cc
          http://example.com
 
@@ -52,6 +52,14 @@ screenshot[1]: http://s3.amazonaws.com/uso_ss/346/large.png?1244376597
 
 History:
 --------
+
+Version 1.9:
+ - Update für DS Version 7.0
+
+ 
+Version 1.8.1:
+ - Update für DS Version 6.0
+
 
 Version 1.8:
  - Rückkehrzeit wird nur noch bei Angriffen angezeigt (die noch nicht zurücklaufen)
@@ -95,7 +103,7 @@ Version 1.1:
 
 */
 
-const version = '1.8';
+const version = '1.8.1';
 
 
 const world = document.location.href.split('.')[0].split(/\/\/(\D+)\d+/)[1] + document.location.href.split('.').shift().split('de').pop();
@@ -268,7 +276,7 @@ if(document.location.href.indexOf('screen=info_command') != -1)
   if(d.tag('h2')[0].firstChild.data.indexOf('ckkehr von ') == -1)
     {
     // Get Arrival
-    table_body = d.id('edit').parentNode.parentNode.parentNode;
+    table_body = d.id('content_value').getElementsByTagName('table')[0];
 
     var arrival_node = d.findByInner(table_body,'Ankunft:')[0];
     arrival = arrival_node.parentNode.getElementsByTagName('td')[1].firstChild.data
@@ -458,10 +466,16 @@ else if(document.location.href.indexOf('screen=place') != -1)
 
   createMenuEntry(a1);
 
-  if(d.findByInner(d.tag('body')[0],'Deine Truppen')[0])
+  var pa = d.findByInner(d.tag('body')[0],'Ausgehende Truppen')[0];
+  var nonpa = d.findByInner(d.tag('body')[0],'Eigene Befehle')[0];
+  
+  if(pa || nonpa)
     {
+    if(pa)
+      var table = pa.parentNode.parentNode;
+    else
+      var table = nonpa.parentNode.parentNode;
 
-    var table = d.findByInner(d.tag('body')[0],'Deine Truppen')[0].parentNode.parentNode;
     var elist = table.getElementsByTagName('tr');
 
     var th = d.n('th');
@@ -470,12 +484,17 @@ else if(document.location.href.indexOf('screen=place') != -1)
 
     elist[0].insertBefore(th,elist[0].getElementsByTagName('th')[2]);
 
-
+	var ths = elist[0].getElementsByTagName('th');
+	ths[0].width = '50%';
+	ths[1].width = '20%';	
+	ths[2].width = '15%';
+	ths[3].width = '15%';
+	
     for(var i = 1; i < elist.length; i++)
       {
       var a = elist[i].getElementsByTagName('a')[0];
       var tmp_url = a.href;
-      var img = a.getElementsByTagName('img')[0];
+      var img = a.parentNode.parentNode.getElementsByTagName('img')[0];
       if(img && (img.src.indexOf('attack.png') != -1 || img.src.indexOf('support.png') != -1))
         {
         if(coloring_active)
@@ -486,6 +505,7 @@ else if(document.location.href.indexOf('screen=place') != -1)
             }
           else if(img.src.indexOf('support.png') != -1)
             {
+
             a.parentNode.parentNode.parentNode.setAttribute('class','support_green_tr');
             }
           }
@@ -770,7 +790,7 @@ function settings()
 
   var div =  d.n('div');
   div.setAttribute('id','showReturnTimeOnCommands_clear_date_click');
-  div.setAttribute('style','position:absolute; top:20px; left:30px;background-color:#F7EED3; color:#804000; border:1px solid #804000; padding:15px; ');
+  div.setAttribute('style','position:absolute; top:100px; left:30px;background-color:#F7EED3; color:#804000; border:1px solid #804000; padding:15px; ');
 
 
   div.appendChild(text);
