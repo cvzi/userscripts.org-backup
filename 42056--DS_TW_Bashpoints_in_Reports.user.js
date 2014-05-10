@@ -1,31 +1,22 @@
 // ==UserScript==
 // @name                 DS/TW Bashpoints in Reports
-// @version              1.5
+// @version              1.8
 // @author               cuzi (http://example.com)
 // @namespace            example.com
 // @homepage             http://example.com
-// @copyright            2008 - 2011, cuzi (http://example.com)
+// @copyright            2008 - 2013, cuzi (http://example.com)
 // @license              No Distribution!
 // @description          Adds a line with bashpoints to reports; Fügt eine Zeile mit Bashpunkten in Berichten hinzu
 // @include              http://de*.die-staemme.de/game.php*screen=report*mode=all*view=*
+// @include              http://de*.die-staemme.de/game.php*mode=all*view=*screen=report*
 // @include              http://ch*.die-staemme.ch/game.php*screen=report*mode=all*view=*
-// @include              http://en*.tribalwars.net/game.php*screen=report*mode=all*view=*
-// @include              http://zz*.tribalwars.net/game.php*screen=report*mode=all*view=*
-// @include              http://nl*.tribalwars.nl/game.php*screen=report*mode=all*view=*
-// @include              http://pl*.plemiona.pl/game.php*screen=report*mode=all*view=*
-// @include              http://ba*.plemena.net/game.php*screen=report*mode=all*view=*
-// @include              http://sv*.tribalwars.se/game.php*screen=report*mode=all*view=*
-// @include              http://br*.tribalwars.com.br/game.php*screen=report*mode=all*view=*
-// @include              http://ru*.voyna-plemyon.ru/game.php*screen=report*mode=all*view=*
-// @include              http://tr*.klanlar.org/game.php*screen=report*mode=all*view=*
-// @include              http://dk*.tribalwars.dk/game.php*screen=report*mode=all*view=*
-// @include              http://it*.tribals.it/game.php*screen=report*mode=all*view=*
+// @include              http://ch*.die-staemme.ch/game.php*mode=all*view=*screen=report*
 // ==/UserScript==
 
 /*
 DS/TW Bashpoints in Berichten
 
-(c) 2008 - 2011 by cuzi
+(c) 2008 - 2013 by cuzi
          cuzi@openmail.cc
          skype:cuzi_se
          http://example.com
@@ -40,9 +31,16 @@ I won't take responsibility.
 
 Screenshot: http://img231.imageshack.us/my.php?image=unbenanntpn3.png
 
-Diskussionsthread: http://forum.die-staemme.de/showthread.php?t=98464
+Diskussionsthread: http://forum.die-staemme.de/showthread.php?160271-DS-TW-Bashpoints-in-Reports
 
 */
+
+function DS_TW_Bashpoints_in_Reports() {
+
+var api = typeof unsafeWindow != 'undefined' ? unsafeWindow.ScriptAPI : window.ScriptAPI;
+api.register('DS/TW Bashpoints in Reports', [8.16, 8.17], 'cuzi', 'scripts@online.de');
+
+
 
 
 const url = document.location.href;
@@ -75,7 +73,7 @@ const unit_points =
   'knight'    :  [  40,   20,   10],
   'priest'    :  [   0,    0,  100],
   'snob'      :  [ 200,  200,  100],
-  'militia'   :  [   4,    0,    0],  
+  'militia'   :  [   4,    0,    0],
   };
 
 var attacker_table = $('#attack_info_att_units');
@@ -83,15 +81,15 @@ var defender_table = $('#attack_info_def_units');
 
 // Get Units
 var units = new Array('empty');
-var elist = defender_table.getElementsByTagName('tr')[0].getElementsByTagName('td');
+var elist = (defender_table?defender_table:attacker_table).getElementsByTagName('tr')[0].getElementsByTagName('td');
 for(var i = 1; i < elist.length; i++)
   {
   // graphic/unit/unit_spear.png?1
   var unit = elist[i].getElementsByTagName('img')[0].getAttribute('src').match(/_(.+).png/)[1];
   units.push(unit);
   };
-  
- 
+
+
 // Get Attacker's Lost Units
 var index = GTFW('att');
 var attackers_points = 0;
@@ -132,54 +130,54 @@ if($('#attack_info_def').$('th')[1].firstChild.nodeValue != '---') // If village
   tr1.appendChild(td1);
   attacker_table.$('tbody')[0].appendChild(tr1);
   }
-  
+
 var div0,div1;
 var id = window.setInterval(fixPosition,500);
-  
-function fixPosition() {  
- 
+
+function fixPosition() {
+
 if(tr0) {
   defender_table.$('tbody')[0].appendChild(tr0);
 
-  var tr0_pos = [rel_left(tr0),rel_top(tr0)];  
-  
+  var tr0_pos = [rel_left(tr0),rel_top(tr0)];
+
   $('#attack_info_def_units').style.marginBottom = '18px';
-  
+
   if(!div0)
   div0 = $('$div',{
     styles:{
       position : 'absolute',
-	  left : tr0_pos[0]+'px',
-	  top : tr0_pos[1]+'px'
-	  },
+      left : tr0_pos[0]+'px',
+      top : tr0_pos[1]+'px'
+      },
     html : td0.innerHTML,
-	append : document.body
-	});
-	
+    append : document.body
+    });
+
   $('$d:',tr0);
   }
 if(tr1) {
   attacker_table.$('tbody')[0].appendChild(tr1);
 
-  var tr1_pos = [rel_left(tr1),rel_top(tr1)]; 
-  
-  $('#attack_info_att_units').style.marginBottom = '18px'; 
-  
-  if(!div1)	
+  var tr1_pos = [rel_left(tr1),rel_top(tr1)];
+
+  $('#attack_info_att_units').style.marginBottom = '18px';
+
+  if(!div1)
   div1 = $('$n:div',{
     styles:{
       position : 'absolute',
-	  left : tr1_pos[0]+'px',
-	  top : tr1_pos[1]+'px'
-	  },
+      left : tr1_pos[0]+'px',
+      top : tr1_pos[1]+'px'
+      },
     html : td1.innerHTML,
-	append : document.body
-	}); 
-		
+    append : document.body
+    });
+
   $('$d:',tr1);
-  }  
-}  
-  
+  }
+}
+
 function rel_top(e)
   {
   var y = 0;
@@ -193,7 +191,7 @@ function rel_left(e)
   while(e)
     x += e.offsetLeft + e.clientLeft,e = e.offsetParent;
   return x;
-  }  
+  }
 function findByInner(obj,value) {
     var len = obj.getElementsByTagName('*').length;
     var list = new Object();
@@ -225,38 +223,38 @@ function $(x,data) {
     }
   else if(x == '$d:') {
     var r = data;
-	r.parentNode.removeChild(r);
-	r.$ = $;
-    return r;
-    }	
-  else if(x[0] == '$' || x.substring(0,3) == '$n:') {
-    if(x.substring(0,3) == '$n:')
-	  x = x.substring(2);
-
-    var r = document.createElement(x.substring(1));
-	if(data && typeof(data) == 'object') {
-	  for (var attr in data) {
-	    if(attr == 'styles') {
-		  if(!r.style)
-		    r.setAttribute('style','');
-		  for (var key in data[attr]) {
-		    r.style[key] = data[attr][key];		    		  
-		    }	      
-		  }	
-	    else if(attr == 'html') {
-		  r.innerHTML = data[attr];	      
-		  }	
-	    else if(attr == 'append') {
-		  data[attr].appendChild(r);	      
-		  }			  
-		else {
-		  r.setAttribute(attr,data[attr]) 
-          }			 
-        }
-	  }
+    r.parentNode.removeChild(r);
     r.$ = $;
     return r;
-    }	
+    }
+  else if(x[0] == '$' || x.substring(0,3) == '$n:') {
+    if(x.substring(0,3) == '$n:')
+      x = x.substring(2);
+
+    var r = document.createElement(x.substring(1));
+    if(data && typeof(data) == 'object') {
+      for (var attr in data) {
+        if(attr == 'styles') {
+          if(!r.style)
+            r.setAttribute('style','');
+          for (var key in data[attr]) {
+            r.style[key] = data[attr][key];
+            }
+          }
+        else if(attr == 'html') {
+          r.innerHTML = data[attr];
+          }
+        else if(attr == 'append') {
+          data[attr].appendChild(r);
+          }
+        else {
+          r.setAttribute(attr,data[attr])
+          }
+        }
+      }
+    r.$ = $;
+    return r;
+    }
   else {
     var r = y.getElementsByTagName(x)
     return add(r);
@@ -269,3 +267,8 @@ function stringInt(int) {
     string = string.replace(reo,'$1.$2');
   return string;
   }
+
+}
+
+
+ DS_TW_Bashpoints_in_Reports();

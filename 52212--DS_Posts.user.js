@@ -1,17 +1,19 @@
 // ==UserScript==
 // @name          DS #Posts
-// @version       1.4
+// @version       1.8
 // @author        cuzi (http://example.com)
 // @description   Zählt die Posts eines Members im Internen Forum
 // @namespace     example.com
 // @homepage      http://example.com
-// @copyright     2009-2011, cuzi (http://example.com)
+// @copyright     2009-2013, cuzi (http://example.com)
 // @license       CC Attribution-Noncommercial-Share Alike 3.0 Germany; http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode
 // @include       http://*.die-staemme.de/*
 // @exclude       http://forum.die-staemme.de/*
+// @icon          http://www.die-staemme.de/favicon.ico
+// @uso:script    52212
 // ==/UserScript==
 
-const version = '1.4';
+const version = '1.8';
 
 /*
 ds.countPosts.user.js
@@ -19,7 +21,7 @@ ds.countPosts.user.js
 
 DS #Posts
 
-(c) 2009-2011 by cuzi
+(c) 2009-2013 by cuzi
          cuzi@openmail.cc
          http://example.com
 
@@ -69,6 +71,74 @@ Jeder Post wird mit md5 gehasht und in den Firefox Einstellungen abgelegt.
 
 
 */
+
+function DS_Posts() {
+
+var api = typeof unsafeWindow != 'undefined' ? unsafeWindow.ScriptAPI : window.ScriptAPI;
+api?api.register('DS #Posts', [8.16, 8.17], 'cuzi', 'scripts@online.de'):0;
+
+
+if ((typeof GM_getValue == 'undefined') || (GM_getValue('a', 'b') == undefined)) {
+var gm_value_prefix = 'ds_posts';
+
+  GM_addStyle = function(css) {
+    var style = document.createElement('style');
+    style.textContent = css;
+    document.getElementsByTagName('head')[0].appendChild(style);
+  }
+
+  GM_deleteValue = function(name) {
+    localStorage.removeItem(gm_value_prefix+name);
+  }
+
+  GM_getValue = function(name, defaultValue) {
+    var value = localStorage.getItem(gm_value_prefix+name);
+    if (!value)
+      return defaultValue;
+    var type = value[0];
+    value = value.substring(1);
+    switch (type) {
+      case 'b':
+        return value == 'true';
+      case 'n':
+        return Number(value);
+      default:
+        return value;
+    }
+  }
+  
+    GM_listValues = function()
+    {
+    var keys = [];
+    for(var key in localStorage) {
+      if(key.substring(0,gm_value_prefix.length) == gm_value_prefix) {
+        keys.push(key.substring(gm_value_prefix.length));
+      }
+    }
+        return keys;
+    }
+
+  GM_log = function(message) {
+    console.log(message);
+  }
+
+   GM_registerMenuCommand = function(name, funk) {
+  //todo
+  }
+
+  GM_setValue = function(name, value) {
+    value = (typeof value)[0] + value;
+    localStorage.setItem(gm_value_prefix+name, value);
+  }
+  
+  if(typeof(unsafeWindow)=='undefined') { unsafeWindow=window; }
+
+}
+
+
+
+
+
 const debug = false;
 
 const text = {
@@ -76,7 +146,7 @@ const text = {
     '_name' : 'DS #Posts ',
     '_author' : 'cuzi',
     '_contact' : 'mail:cuzi@openmail.cc',
-    '_support' : 'http://forum.die-staemme.de/showthread.php?t=2432548',
+    '_support' : 'http://forum.die-staemme.de/showthread.php?135175',
     'showData_button' : 'Daten anzeigen',
     'clearData_button' : 'Daten löschen',
     'compressData_button': 'Daten komprimieren',
@@ -104,11 +174,12 @@ Array.prototype.indexOf = function(el)
 
 
 // Duke assistant?
-var duke = $('#dukeassistantBar_anchor')?true:false;
-    
-  
-if(GM_url('http://*.die-staemme.de/*forum.php*screen=view_thread*'))   // Post
+var duke = $('#dukeassistantBar_anchor')||$('#dukeassistantBar')?true:false;
+if(  GM_url('http://*.die-staemme.de/game.php(screen=forum&screenmode=view_thread)')
+  || GM_url('http://*.die-staemme.de/forum.php*screen=view_thread*')
+)
   {
+
   // Bar
   var a1 = n('a',{'href':'#'},['click',showData,false],false,text[lang].showData_button);
   var a2 = n('a',{'href':'#'},['click',clearData,false],false,text[lang].clearData_button);
@@ -120,23 +191,31 @@ if(GM_url('http://*.die-staemme.de/*forum.php*screen=view_thread*'))   // Post
   var oldData = gm?JSON.parse(gm):{ids:[],players:{},from:-1,to:-1};
   var to = oldData.to;
 
-  
+
   // Walk through posts
   var posts = $('.post');
   for(var i = 1; i < posts.length; i++)
     {
-	var player_name = $('.postheader_left',posts[i])[0];
-	if(duke) {
-	  player_name = trim($('.normal_link',player_name)[0].firstChild.data);
-	  }
-	else {
-	  player_name = trim($('a',player_name)[0].firstChild.data);	
-	  }
-    var post_id = $('.postheader_right',posts[i])[0].innerHTML.match(/quote_id=(\d+)&/)[1];  // this is unique
+  var player_name = $('.postheader_left',posts[i])[0];
+  if(player_name.innerHTML.indexOf('(gelöscht)') != -1) // Jump deleted player
+    continue;
+  if(duke) {
+    player_name = trim($('.normal_link',player_name)[0].firstChild.data);
+    }
+  else {
+    player_name = trim($('a',player_name)[0].firstChild.data);  
+    }
+    var post_id = posts[i].innerHTML.match(/quote_id=(\d+)&/); // this is a unique post id
+  if(!post_id) {
+    var post_id = posts[i].innerHTML.match(/<a name="(\d+)"><\/a>/);
+  } else {
+    post_id = post_id[1];
+  }
+  
     var time_string = grabText($('.postheader_left',posts[i])[0],1);
 
     var post_time = parseFromDSTime(time_string).getTime();
-	
+  
     if(oldData.ids.indexOf(post_id) != -1)
       {
       GM_log(post_id+' in archive');
@@ -157,6 +236,7 @@ if(GM_url('http://*.die-staemme.de/*forum.php*screen=view_thread*'))   // Post
       }
     }
   }
+  
 else if(GM_url('http://*.die-staemme.de/game.php(mode=members&screen=ally)'))   // Memberlist
   {
   complementMemberlist();
@@ -175,16 +255,17 @@ function complementMemberlist()
 
   var table = $('#ally_content').$('table')[0];
   var members = $('tr',table);
+
   for(var i = 1; i < members.length; i++)
     {
     if(!$('a',members[i]))
       continue;
-	if(duke) { 
+  if(duke) {
       var name = trim($('.normal_link',members[i])[0].firstChild.nodeValue);
-	}
-	else {
-      var name = trim($('a',members[i])[0].firstChild.nodeValue);	
-	}
+  }
+  else {
+      var name = trim($('a',members[i])[0].firstChild.nodeValue);  
+  }
 
     var td = n('td',{'style':{textAlign:'right'}},false,data.players[name]?data.players[name]:'0');
     members[i].appendChild(td);
@@ -206,15 +287,17 @@ function showData()
   oldestPost.setTime(oldData.from);
 
   // Write
-  $('.main')[0].innerHTML = '';
+  var main = $('.main',$('#forum_box')?$('#forum_box'):document)[0];
+
+  main.innerHTML = '';
   var h2 = n('h2',{'id':'h2_counted_posts'},false,false,text[lang].countedPosts_heading+' ('+text[lang].since+' '+parseToDSTime(oldestPost)+')');
   var tr = n('tr',false,false,false,n('th',{'class':'string','style':'cursor:pointer; ','title':'Sortieren nach Name'},['click',startSorting,false],false,text[lang].playername),n('th',{'class':'int','style':'cursor:pointer; ','title':'Sortieren nach Posts'},['click',startSorting,false],false,text[lang].playerposts));
   var table = n('table',{'border':'0','class':'vis','style':{'border':'#804000 2px solid'}},false,false,tr);
 
   for (p in oldData.players)
     table.appendChild( n('tr',false,false,false,n('td',false,false,false,p),n('td',false,false,false,oldData.players[p])) );
-  $('.main')[0].appendChild(h2);
-  $('.main')[0].appendChild(table);
+  main.appendChild(h2);
+  main.appendChild(table);
   if($('.forum selected')[0])
     $('.forum selected')[0].setAttribute('class','forum');
   else if($('.shared_forum shared_selected')[0])
@@ -266,6 +349,8 @@ function sortTable(ev)
   var index = 0;
   var e = this.previousSibling;
   while(e) { index++; e = e.previousElementSibling; }
+  if(document.location.href.indexOf('mode=members') != -1)
+    index--;
   var table = this.parentNode.parentNode.parentNode;
   var elist = $('tr',table);
   var last = tmp = 0;
@@ -322,12 +407,14 @@ function clearData()
     }
 
   alert(text[lang].finished_alert);
+  window.location.reload();
   }
 
 function compressData_fct(ev)
   {
   compressData();
   alert(text[lang].finished_alert);
+  window.location.reload();
   }
 
 function compressData()
@@ -337,6 +424,7 @@ function compressData()
   var oldData = gm?JSON.parse(gm):{ids:[],players:{},from:-1,to:-1};
 
   var arr = GM_listValues();
+
   var w_len = (lang+world).length;
   var oldest = -1;
   var recent = -1;
@@ -534,13 +622,15 @@ function bar()
 
     var div = n('div');
     div.setAttribute('id','dscountposts_bar');
-    div.style.backgroundColor = 'rgb(243,237,223)';
-    div.style.border = 'rgb(128,64,0) 2px solid';
+    div.style.background = 'url("http://cdn2.tribalwars.net/graphic/index/main_bg.jpg?1b7f4") repeat scroll left top transparent';
+    div.style.border = '1px solid #8C5F0D';
+    div.style.margin = 'auto';
     div.style.marginTop = '15px';
-    div.style.padding = '5px';
+    div.style.padding = '0px';
+    div.style.width = '98%';
 
     var leftfont = n('span');
-    leftfont.setAttribute('style','float:left; ');
+    leftfont.setAttribute('style','float:left; margin-left:10px; ');
 
     for(var i = 0, len = arguments.length; len > i; i++)
       {
@@ -556,13 +646,17 @@ function bar()
     div.appendChild(leftfont);
 
     var rightfont = n('span');
-    rightfont.setAttribute('style','float:right; font-size:smaller; opacity:0.7; ');
+    rightfont.setAttribute('style','float:right; font-size:smaller; opacity:0.7; margin-right:15px; ');
     rightfont.appendChild(t( text[lang]._name +  '(' + version+')'));
     div.appendChild(rightfont);
 
     var clearfont = n('div');
     clearfont.setAttribute('style','clear:both; ');
     div.appendChild(clearfont);
+
+    if($('#ally_content')) {
+      return $('#ally_content').appendChild(div);
+    }
 
     return $('#ds_body').appendChild(div);
     }
@@ -652,3 +746,9 @@ function $(x,parent) {
     return add(r);
     }
   }
+
+
+
+}
+
+DS_Posts();

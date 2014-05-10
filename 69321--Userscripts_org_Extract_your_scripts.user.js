@@ -1,41 +1,17 @@
 // ==UserScript==
-// @name           Userscripts.org - Extract your scripts
+// @name           Userscripts.org - Extract/Export your scripts
 // @namespace      example.com
-// @description    Adds a link to the pagination, which creates a JSON object of your scripts from the data of the following page: http://userscripts.org/home/scripts
-// @version        1.1
+// @description    Adds a link to the menu, which creates a JSON array of your scripts from the data of the following page(s): http://userscripts.org/home/scripts
+// @version        1.2
 // @homepage       http://example.com
-// @copyright      2009-2010, cuzi (http://example.com)
+// @copyright      2009-2014, cuzi (http://example.com)
 // @license        CC Attribution-Noncommercial-Share Alike 3.0 Germany; http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode
-// @include        http://userscripts.org/home/scripts*
+// @include        http://userscripts.org*/home/scripts*
+// @grant          GM_getValue
+// @grant          GM_setValue
 // ==/UserScript==
 
 /*
-
-############## Distribution Information ##############
-
-All content by example.com
-Do not distribute this script without this logo.
-
-######################## Logo ########################
-   ____ _   _ ________ 
-  / ___| | | |__  /_ _|
- | |   | | | | / / | | 
- | |___| |_| |/ /_ | | 
-  \____|\___//____|___|
-
-######################################################
-
-If you have any questions, comments,
-ideas, etc, feel free to contact me
-and I will do my best to respond.
-
-         mail:cuzi@openmail.cc
-
-         skype:cuzi_se
-
-         http://example.com
-
-         twitter: http://twitter.com/cuzi
 
 ####################### License ######################
 
@@ -47,13 +23,12 @@ http://creativecommons.org/licenses/by-nc-sa/3.0/de/deed.en
 
 */
 
+var basepath = document.location.protocol+'//'+document.location.host; // usually: 'http://www.userscripts.org'
 
 var GMVAR_extracting = GM_getValue('extracting',false);
 var GMVAR_result = GM_getValue('result','[]');
 
-
 var pagination = document.getElementsByClassName('pagination')[0];
-
 
 var a = document.createElement('a');
 a.setAttribute('href','#');
@@ -64,40 +39,34 @@ pagination.appendChild(document.createTextNode(' '));
 pagination.appendChild(a);
 
 
-if(GMVAR_extracting)
-  {
+if(GMVAR_extracting) {
   var table = document.getElementsByClassName('wide forums')[0];
-  if(!table)
-    {
+  if(!table) {
     GM_setValue('extracting',false);
     showResult();
     }
-  else
-    {
+  else {
     var new_result = ExtractScripts();
 
     var result = JSON.parse(GMVAR_result);
 
-    for(var i = 0, len = new_result.length; i < len; i++)
-      {
+    for(var i = 0, len = new_result.length; i < len; i++) {
       result.push(new_result[i]);
       }
 
     GM_setValue('result',JSON.stringify(result));
 
-    document.location.href = 'http://userscripts.org/home/scripts?page=' + (parseInt(document.location.href.split('=')[1])+1);
+    document.location.href = basepath + '/home/scripts?page=' + (parseInt(document.location.href.split('=')[1])+1);
     }
   }
 
 
-function showResult()
-  {
+function showResult() {
   var result = JSON.parse(GMVAR_result);
 
   var objs = [];
 
-  for(var i = 0, len = result.length; i < len; i++)
-    {
+  for(var i = 0, len = result.length; i < len; i++) {
     objs.push(JSON.stringify(result[i]));
     }
 
@@ -117,23 +86,20 @@ function showResult()
   }
 
 
-function startExtraction(e)
-  {
+function startExtraction(e) {
   GM_setValue('extracting',true);
   GM_setValue('result','[]');
-  document.location.href = 'http://userscripts.org/home/scripts?page=1';
+  document.location.href = basepath +'/home/scripts?page=1';
   }
 
 
-function ExtractScripts()
-  {
+function ExtractScripts() {
   var table = document.getElementsByClassName('wide forums')[0];
   var tr = table.getElementsByTagName('tr');
 
   var objs = new Array();
 
-  for(var i = 1, len = tr.length; i < len; i++)
-    {
+  for(var i = 1, len = tr.length; i < len; i++) {
     var td = tr[i].getElementsByTagName('td');
 
     var id = tr[i].getAttribute('id').split('-').pop();
@@ -150,31 +116,40 @@ function ExtractScripts()
 
 /*
 
+# Needs a directory "scripts" and a JSON file "scripts.json" 
+# The scripts.json that contains the data provided by the userscript
+# Both scripts.json and the python file should be UTF-8.
+
 import json
-import urllib.request
+import urllib2
 import re
 
+#base = 'http://userscripts.org'
+base = 'http://userscripts.org:8080'
+
+
 def downloadScript(ID,name):
-    url = 'http://userscripts.org/scripts/source/'+ID+'.user.js'
-    urlFile = urllib.request.urlopen(url)
-    alphanum_name = re.sub('\W', '_', name).replace('__','_').replace('__','_')
-    filename = ID + '--' + alphanum_name +'.user.js'
-    localFile = open(directory+filename, 'wb')
-    localFile.write(urlFile.read())
-    urlFile.close()
-    localFile.close()
-    print('\nDONE!\t\t'+name+'.user.js\n')
+  print(name+'\t\t\tDownloading...');
+  url = base+'/scripts/source/'+ID+'.user.js'
+  urlFile = urllib2.urlopen(url)
+  alphanum_name = re.sub('\W', '_', name).replace('__','_').replace('__','_')
+  filename = ID + '--' + alphanum_name +'.user.js'
+  localFile = open(directory+filename, 'wb')
+  localFile.write(urlFile.read())
+  urlFile.close()
+  localFile.close()
+  print(alphanum_name+'.user.js\t\tDONE!\n')
 
 filename = 'scripts.json'
 directory = 'scripts/'
 with open(filename) as fs:
-    jsonstring = fs.read();
+  jsonstring = fs.read();
 
 scripts = json.loads(jsonstring)
 
 for script in scripts:
-    downloadScript(script['id'],script['name'])
+  downloadScript(script['id'],script['name'])
 
-input("Finished Downloading!")
+raw_input("Finished Downloading - Press Enter to exit")
 
 */

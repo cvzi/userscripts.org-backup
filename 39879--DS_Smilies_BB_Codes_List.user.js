@@ -1,66 +1,137 @@
 // ==UserScript==
 // @name          DS Smilies-BB-Codes-List
-// @version       2.4
+// @version       2.15
 // @author        cuzi (http://example.com)
 // @description   Fügt ein Auswahlfeld im Internen Forum hinzu, damit man Smilies und Icons auswählen kann, außerdem die BB-Codes für Berichte und Code. Seit Version 2 können Texte gespeicherter werden.
 // @namespace     example.com
-// @homepage      http://example.com
-// @copyright     2009, cuzi (http://example.com)
+// @homepage      http://userscripts.org/scripts/show/39879
+// @copyright     2009-2013, cuzi (http://example.com)
 // @license       CC Attribution-Noncommercial-Share Alike 3.0 Germany; http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode
+// @icon          http://www.die-staemme.de/favicon.ico
 
-// @include       http://*.die-staemme.de/*forum.php*answer=true*
-// @include       http://*.die-staemme.de/*forum.php*edit_post_id*
-// @include       http://*.die-staemme.de/*forum.php*mode=new_thread*
-// @include       http://*.die-staemme.de/*forum.php*mode=new_poll*
+// @include       http://*.die-staemme.de/forum.php*answer=true*
+// @include       http://*.die-staemme.de/forum.php*edit_post_id*
+// @include       http://*.die-staemme.de/forum.php*mode=new_thread*
+// @include       http://*.die-staemme.de/forum.php*mode=new_poll*
+
+// @include       http://*.die-staemme.de/*screen=forum*answer=true*
+// @include       http://*.die-staemme.de/*screen=forum*edit_post_id*
+// @include       http://*.die-staemme.de/*screen=forum*mode=new_thread*
+// @include       http://*.die-staemme.de/*screen=forum*mode=new_poll*
+
+// @include       http://*.die-staemme.de/*answer=true*screen=forum*
+// @include       http://*.die-staemme.de/*edit_post_id*screen=forum*
+// @include       http://*.die-staemme.de/*mode=new_thread*screen=forum*
+// @include       http://*.die-staemme.de/*mode=new_poll*screen=forum*
 
 // @include       http://*.die-staemme.de/*screen=memo*
+// @include       http://*.die-staemme.de/*edit=1*screen=info_player*
+// @include       http://*.die-staemme.de/*screen=info_player*edit=1*
 
 // @include       http://*.die-staemme.de/*screen=mail*mode=new*
 // @include       http://*.die-staemme.de/*screen=mail*mode=view*
+// @include       http://*.die-staemme.de/*mode=new*screen=mail*
+// @include       http://*.die-staemme.de/*mode=view*screen=mail*
 
 // @include       http://*.die-staemme.de/*screen=ally*mode=overview*
 // @include       http://*.die-staemme.de/*screen=ally*mode=properties*
 
-
-// @include       http://*.beta.tribalwars.net/*forum.php*answer=true*
-// @include       http://*.beta.tribalwars.net/*forum.php*edit_post_id*
-// @include       http://*.beta.tribalwars.net/*forum.php*mode=new_thread*
-// @include       http://*.beta.tribalwars.net/*forum.php*mode=new_poll*
-
-// @include       http://*.beta.tribalwars.net/*screen=memo*
-
-// @include       http://*.beta.tribalwars.net/*screen=mail*mode=new*
-// @include       http://*.beta.tribalwars.net/*screen=mail*mode=view*
-
-// @include       http://*.beta.tribalwars.net/*screen=ally*mode=overview*
-// @include       http://*.beta.tribalwars.net/*screen=ally*mode=properties*
-
-// @include       http://*.beta.tribalwars.net/*forum.php*answer=true*
-// @include       http://*.beta.tribalwars.net/*forum.php*edit_post_id*
-// @include       http://*.beta.tribalwars.net/*forum.php*mode=new_thread*
-// @include       http://*.beta.tribalwars.net/*forum.php*mode=new_poll*
-
-// @include       http://*.beta.tribalwars.net/*screen=memo*
-
-// @include       http://*.beta.tribalwars.net/*screen=mail*mode=new*
-// @include       http://*.beta.tribalwars.net/*screen=mail*mode=view*
-
-// @include       http://*.beta.tribalwars.net/*screen=ally*mode=overview*
-// @include       http://*.beta.tribalwars.net/*screen=ally*mode=properties*
+// @include       http://*.die-staemme.de/*mode=overview*screen=ally*
+// @include       http://*.die-staemme.de/*mode=properties*screen=ally*
 
 
-// @include       http://*.tribalwars.nl/*forum.php*answer=true*
-// @include       http://*.tribalwars.nl/*forum.php*edit_post_id*
-// @include       http://*.tribalwars.nl/*forum.php*mode=new_thread*
-// @include       http://*.tribalwars.nl/*forum.php*mode=new_poll*
+
+// @include       http://*.staemme.ch/forum.php*answer=true*
+// @include       http://*.staemme.ch/forum.php*edit_post_id*
+// @include       http://*.staemme.ch/forum.php*mode=new_thread*
+// @include       http://*.staemme.ch/forum.php*mode=new_poll*
+
+// @include       http://*.staemme.ch/*screen=forum*answer=true*
+// @include       http://*.staemme.ch/*screen=forum*edit_post_id*
+// @include       http://*.staemme.ch/*screen=forum*mode=new_thread*
+// @include       http://*.staemme.ch/*screen=forum*mode=new_poll*
+
+// @include       http://*.staemme.ch/*answer=true*screen=forum*
+// @include       http://*.staemme.ch/*edit_post_id*screen=forum*
+// @include       http://*.staemme.ch/*mode=new_thread*screen=forum*
+// @include       http://*.staemme.ch/*mode=new_poll*screen=forum*
+
+// @include       http://*.staemme.ch/*screen=memo*
+// @include       http://*.staemme.ch/*edit=1*screen=info_player*
+// @include       http://*.staemme.ch/*screen=info_player*edit=1*
+
+// @include       http://*.staemme.ch/*screen=mail*mode=new*
+// @include       http://*.staemme.ch/*screen=mail*mode=view*
+// @include       http://*.staemme.ch/*mode=new*screen=mail*
+// @include       http://*.staemme.ch/*mode=view*screen=mail*
+
+// @include       http://*.staemme.ch/*screen=ally*mode=overview*
+// @include       http://*.staemme.ch/*screen=ally*mode=properties*
+
+// @include       http://*.staemme.ch/*mode=overview*screen=ally*
+// @include       http://*.staemme.ch/*mode=properties*screen=ally*
+
+
+// @include       http://*.tribalwars.net/forum.php*answer=true*
+// @include       http://*.tribalwars.net/forum.php*edit_post_id*
+// @include       http://*.tribalwars.net/forum.php*mode=new_thread*
+// @include       http://*.tribalwars.net/forum.php*mode=new_poll*
+
+// @include       http://*.tribalwars.net/*screen=forum*answer=true*
+// @include       http://*.tribalwars.net/*screen=forum*edit_post_id*
+// @include       http://*.tribalwars.net/*screen=forum*mode=new_thread*
+// @include       http://*.tribalwars.net/*screen=forum*mode=new_poll*
+
+// @include       http://*.tribalwars.net/*answer=true*screen=forum*
+// @include       http://*.tribalwars.net/*edit_post_id*screen=forum*
+// @include       http://*.tribalwars.net/*mode=new_thread*screen=forum*
+// @include       http://*.tribalwars.net/*mode=new_poll*screen=forum*
+
+// @include       http://*.tribalwars.net/*screen=memo*
+// @include       http://*.tribalwars.net/*edit=1*screen=info_player*
+// @include       http://*.tribalwars.net/*screen=info_player*edit=1*
+
+// @include       http://*.tribalwars.net/*screen=mail*mode=new*
+// @include       http://*.tribalwars.net/*screen=mail*mode=view*
+// @include       http://*.tribalwars.net/*mode=new*screen=mail*
+// @include       http://*.tribalwars.net/*mode=view*screen=mail*
+
+// @include       http://*.tribalwars.net/*screen=ally*mode=overview*
+// @include       http://*.tribalwars.net/*screen=ally*mode=properties*
+
+// @include       http://*.tribalwars.net/*mode=overview*screen=ally*
+// @include       http://*.tribalwars.net/*mode=properties*screen=ally*
+
+
+// @include       http://*.tribalwars.nl/forum.php*answer=true*
+// @include       http://*.tribalwars.nl/forum.php*edit_post_id*
+// @include       http://*.tribalwars.nl/forum.php*mode=new_thread*
+// @include       http://*.tribalwars.nl/forum.php*mode=new_poll*
+
+// @include       http://*.tribalwars.nl/*screen=forum*answer=true*
+// @include       http://*.tribalwars.nl/*screen=forum*edit_post_id*
+// @include       http://*.tribalwars.nl/*screen=forum*mode=new_thread*
+// @include       http://*.tribalwars.nl/*screen=forum*mode=new_poll*
+
+// @include       http://*.tribalwars.nl/*answer=true*screen=forum*
+// @include       http://*.tribalwars.nl/*edit_post_id*screen=forum*
+// @include       http://*.tribalwars.nl/*mode=new_thread*screen=forum*
+// @include       http://*.tribalwars.nl/*mode=new_poll*screen=forum*
 
 // @include       http://*.tribalwars.nl/*screen=memo*
+// @include       http://*.tribalwars.nl/*edit=1*screen=info_player*
+// @include       http://*.tribalwars.nl/*screen=info_player*edit=1*
 
 // @include       http://*.tribalwars.nl/*screen=mail*mode=new*
 // @include       http://*.tribalwars.nl/*screen=mail*mode=view*
+// @include       http://*.tribalwars.nl/*mode=new*screen=mail*
+// @include       http://*.tribalwars.nl/*mode=view*screen=mail*
 
 // @include       http://*.tribalwars.nl/*screen=ally*mode=overview*
 // @include       http://*.tribalwars.nl/*screen=ally*mode=properties*
+
+// @include       http://*.tribalwars.nl/*mode=overview*screen=ally*
+// @include       http://*.tribalwars.nl/*mode=properties*screen=ally*
 
 
 // @exclude       http://forum.die-staemme.de/*
@@ -71,6 +142,8 @@
 // ==/UserScript==
 
 /*
+
+http://userscripts.org/scripts/show/39879
 
 ############## Distribution Information ##############
 
@@ -108,9 +181,9 @@ http://creativecommons.org/licenses/by-nc-sa/3.0/de/deed.en
 ##################### Description ####################
 
 
-Funktioniert mit Firefox 3.5+ (GM 0.8+) und Opera 10+
+Funktioniert mit Firefox 4.0+ (GM 0.9.2+) und Opera 11+
 
-Für Opera wird folgende Scriptversion empfohlen:
+Für Opera 9 und 10 wird folgende Scriptversion empfohlen:
 http://userscripts.org/scripts/version/39879/112353.user.js
 
 Fügt ein Auswahlfeld im Internen Forum hinzu, damit man Smilies und Icons auswählen kann, außerdem die BB-Codes für Berichte und Code.
@@ -129,7 +202,64 @@ http://s3.amazonaws.com/uso_ss/3652/large.jpeg ( Version 2.0 )
 
 
 */
-const ver = '2.3';
+
+function dsSmiliesBBCodesList() {
+
+
+const ver = '2.15';
+
+
+var api = typeof unsafeWindow != 'undefined' ? unsafeWindow.ScriptAPI : window.ScriptAPI;
+api?api.register('DS Smilies-BB-Codes-List', [8.16, 8.17], 'cuzi', 'scripts@online.de'):0;
+
+
+// ############################################################## GM Functions
+
+
+var GM_prefix = 'dsSmiliesBBCodesList639562_';
+
+var unsafeWindow = window;
+
+var GM_addStyle = function(css) {
+	var style = document.createElement('style');
+	style.textContent = css;
+	document.getElementsByTagName('head')[0].appendChild(style);
+}
+
+var GM_deleteValue = function(name) {
+	localStorage.removeItem(GM_prefix+name);
+}
+
+var GM_getValue = function(name, defaultValue) {
+	var value = localStorage.getItem(GM_prefix+name);
+	if (!value)
+	return defaultValue;
+	var type = value[0];
+	value = value.substring(1);
+	switch (type) {
+	case 'b':
+		return value == 'true';
+	case 'n':
+		return Number(value);
+	default:
+		return value;
+	}
+}
+
+var GM_log = function(message) {
+	console.log(message);
+}
+
+var GM_registerMenuCommand = function(name, funk) {
+	//todo
+}
+
+var GM_setValue = function(name, value) {
+	value = (typeof value)[0] + value;
+	localStorage.setItem(GM_prefix+name, value);
+}
+
+// ############################################################## Languages
 
 var lang = {
 
@@ -152,6 +282,7 @@ var lang = {
 'convertcoords' : 'Koordinaten in BB-Codes umwandeln',
 'search' : 'Suchen . . . ',
 'searchterm' : 'Suchbegriff',
+'line' : 'Zeile',
 'noresults' : 'Kein Treffer :(',
 'personaltexts' : 'Persönliche Texte',
 'noentries' : 'Bisher keine Einträge',
@@ -166,9 +297,117 @@ var lang = {
 'title' : 'Titel:',
 'text' : 'Text:',
 'ok' : 'OK',
-'cancel' : 'Abbrechen'
+'cancel' : 'Abbrechen',
+
+'scriptname' : 'DS Smilies-BB-Codes-List',
+'shortVersion' : 'ver',
+'smiliesEditor' : 'Smilies Editor',
+'close' : 'Schließen',
+'plus' : 'Plus',
+'addSmiley' : 'Neuen Smiley hinzufügen',
+'addLineBreak' : 'Neuen Zeilenumbruch hinzufügen',
+'action' : 'Aktion',
+'uri' : 'URI',
+'result': 'Ergebnis',
+'resetSmilies' : 'Smilies auf Standardsmilies zurücksetzen',
+'confirmResetSmilies' : 'Wirklich auf Standardsmilies zurücksetzen',
+'doneResetSmilies' : 'Reset durchgeführt!',
+'moveUp' : 'Nach oben',
+'moveToTop' : 'An den Anfang verschieben',
+'moveUpOneLine' : 'Um eine Zeile nach oben verschieben',
+'moveDown' : 'Nach unten',
+'moveDownOneLine' : 'Um eine Zeile nach unten verschieben',
+'moveToBottom' : 'An das Ende verschieben',
+'enterImageURL' : 'Gib die URL der Grafik ein:',
+'mainMenu' : 'Hauptmenü',
+'homepage' : 'Homepage:',
+'scriptURL' : 'http://userscripts.org/scripts/show/39879',
+'homepageInfos' : 'Script Homepage: Updates, News, ... ',
+'setting_on' : 'Ja',
+'setting_off' : 'Nein',
+'setting_closeAfterAddImage' : 'Nach Smiley/Bild Popup auto. schließen',
+'setting_quickPreview' : 'Quick Preview (Alpha Version):',
+'setting_showAllImagesImmediately' : 'Alle Icons sofort anzeigen:',
+'setting_openSmiliesEditor' : 'Smilies Editor öffnen',
+'setting_smilies' : 'Smilies:',
+'shortLicenseText' : 'Licensed under the CC Attribution-Noncommercial-Share Alike 3.0 license ',
+'licenseURL' : 'http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode',
+'licenseName' : 'CC Attribution-Noncommercial-Share Alike 3.0',
+'authorHint' : 'Erstellt von cuzi'
 
     },
+	
+  'ch' : {
+
+'buildings' : 'Gebäude',
+'units' : 'Einheiten',
+'bigunits' : 'Einheiten (groß)',
+'villages' : 'Dörfer',
+'ressources' : 'Ressourcen',
+'points' : 'Punkte',
+'arrows' : 'Pfeile',
+'messages' : 'Nachrichten',
+'leaders' : 'Führung',
+'others' : 'Andere',
+'report_url' : 'Gib die URL zum Bericht an:',
+'linkreport' : 'Bericht verlinken',
+'directreport' : 'Bericht direkt anzeigen',
+'convertcoords' : 'Koordinaten in BB-Codes umwandeln',
+'search' : 'Suchen . . . ',
+'searchterm' : 'Suchbegriff',
+'line' : 'Zeile',
+'noresults' : 'Kein Treffer :(',
+'personaltexts' : 'Persönliche Texte',
+'noentries' : 'Bisher keine Einträge',
+'editentry' : 'Bearbeiten',
+'editpersonalentries' : 'Persönliche Texte bearbeiten',
+'del' : 'Löschen',
+'confirm_delete' : 'Soll dieser Eintrag wirklich gelöscht werden?',
+'newentry' : 'Neu',
+'close' : 'Schließen',
+'editpersonaltext' : 'Persönlichen Text bearbeiten',
+'newpersonaltext' : 'Neuer persönlicher Text',
+'title' : 'Titel:',
+'text' : 'Text:',
+'ok' : 'OK',
+'cancel' : 'Abbrechen',
+
+'scriptname' : 'DS Smilies-BB-Codes-List',
+'shortVersion' : 'ver',
+'smiliesEditor' : 'Smilies Editor',
+'close' : 'Schließen',
+'plus' : 'Plus',
+'addSmiley' : 'Neuen Smiley hinzufügen',
+'addLineBreak' : 'Neuen Zeilenumbruch hinzufügen',
+'action' : 'Aktion',
+'uri' : 'URI',
+'result': 'Ergebnis',
+'resetSmilies' : 'Smilies auf Standardsmilies zurücksetzen',
+'confirmResetSmilies' : 'Wirklich auf Standardsmilies zurücksetzen',
+'doneResetSmilies' : 'Reset durchgeführt!',
+'moveUp' : 'Nach oben',
+'moveToTop' : 'An den Anfang verschieben',
+'moveUpOneLine' : 'Um eine Zeile nach oben verschieben',
+'moveDown' : 'Nach unten',
+'moveDownOneLine' : 'Um eine Zeile nach unten verschieben',
+'moveToBottom' : 'An das Ende verschieben',
+'enterImageURL' : 'Gib die URL der Grafik ein:',
+'mainMenu' : 'Hauptmenü',
+'homepage' : 'Homepage:',
+'scriptURL' : 'http://userscripts.org/scripts/show/39879',
+'homepageInfos' : 'Script Homepage: Updates, News, ... ',
+'setting_on' : 'Ja',
+'setting_off' : 'Nein',
+'setting_closeAfterAddImage' : 'Nach Smiley/Bild Popup auto. schließen',
+'setting_quickPreview' : 'Quick Preview (Alpha Version):',
+'setting_showAllImagesImmediately' : 'Alle Icons sofort anzeigen:',
+'setting_openSmiliesEditor' : 'Smilies Editor öffnen',
+'setting_smilies' : 'Smilies:',
+'shortLicenseText' : 'Licensed under the CC Attribution-Noncommercial-Share Alike 3.0 license ',
+'licenseURL' : 'http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode',
+'licenseName' : 'CC Attribution-Noncommercial-Share Alike 3.0',
+'authorHint' : 'Erstellt von cuzi'
+    },	
 
 
   'nl' : {
@@ -189,6 +428,7 @@ var lang = {
 'convertcoords' : 'Convert co-ordinates to BB-Codes',
 'search' : 'Search . . . ',
 'searchterm' : 'Search for: ',
+'line' : 'Line',
 'noresults' : 'No results :(',
 'personaltexts' : 'Personal texts',
 'noentries' : 'Currently no entries',
@@ -203,8 +443,43 @@ var lang = {
 'title' : 'Title:',
 'text' : 'Text:',
 'ok' : 'OK',
-'cancel' : 'Cancel'
+'cancel' : 'Cancel',
 
+'scriptname' : 'DS Smilies-BB-Codes-List',
+'shortVersion' : 'ver',
+'smiliesEditor' : 'Smilies Editor',
+'close' : 'Close',
+'plus' : 'Add',
+'addSmiley' : 'Add a new smiley',
+'addLineBreak' : 'Add a new linebreak',
+'action' : 'Action',
+'uri' : 'URL',
+'result': 'Result',
+'resetSmilies' : 'Reset smilies to standard smilies',
+'confirmResetSmilies' : 'Really reset all smilies to standard?',
+'doneResetSmilies' : 'Smilies reseted!',
+'moveUp' : 'Move up',
+'moveToTop' : 'Move to top',
+'moveUpOneLine' : 'Move one line up',
+'moveDown' : 'Move down',
+'moveDownOneLine' : 'Move one line down',
+'moveToBottom' : 'Move to bottom',
+'enterImageURL' : 'Enter the URL of the image',
+'mainMenu' : 'Main menu',
+'homepage' : 'Homepage:',
+'scriptURL' : 'http://userscripts.org/scripts/show/39879',
+'homepageInfos' : 'Script Homepage: Updates, News, ... ',
+'setting_on' : 'On',
+'setting_off' : 'Off',
+'setting_closeAfterAddImage' : 'Auto. close box after adding smilie/image',
+'setting_quickPreview' : 'Quick Preview (Alpha Version):',
+'setting_showAllImagesImmediately' : 'Show all icons/images immediately:',
+'setting_openSmiliesEditor' : 'Open Smilies Editor',
+'setting_smilies' : 'Smilies:',
+'shortLicenseText' : 'Licensed under the CC Attribution-Noncommercial-Share Alike 3.0 license ',
+'licenseURL' : 'http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode',
+'licenseName' : 'CC Attribution-Noncommercial-Share Alike 3.0',
+'authorHint' : 'Created by cuzi'
   },
 
 
@@ -226,6 +501,7 @@ var lang = {
 'convertcoords' : 'Convert co-ordinates to BB-Codes',
 'search' : 'Search . . . ',
 'searchterm' : 'Search for: ',
+'line' : 'Line',
 'noresults' : 'No results :(',
 'personaltexts' : 'Personal texts',
 'noentries' : 'Currently no entries',
@@ -240,20 +516,59 @@ var lang = {
 'title' : 'Title:',
 'text' : 'Text:',
 'ok' : 'OK',
-'cancel' : 'Cancel'
+'cancel' : 'Cancel',
 
+'scriptname' : 'DS Smilies-BB-Codes-List',
+'shortVersion' : 'ver',
+'smiliesEditor' : 'Smilies Editor',
+'close' : 'Close',
+'plus' : 'Add',
+'addSmiley' : 'Add a new smiley',
+'addLineBreak' : 'Add a new linebreak',
+'action' : 'Action',
+'uri' : 'URL',
+'result': 'Result',
+'resetSmilies' : 'Reset smilies to standard smilies',
+'confirmResetSmilies' : 'Really reset all smilies to standard?',
+'doneResetSmilies' : 'Smilies reseted!',
+'moveUp' : 'Move up',
+'moveToTop' : 'Move to top',
+'moveUpOneLine' : 'Move one line up',
+'moveDown' : 'Move down',
+'moveDownOneLine' : 'Move one line down',
+'moveToBottom' : 'Move to bottom',
+'enterImageURL' : 'Enter the URL of the image',
+'mainMenu' : 'Main menu',
+'homepage' : 'Homepage:',
+'scriptURL' : 'http://userscripts.org/scripts/show/39879',
+'homepageInfos' : 'Script Homepage: Updates, News, ... ',
+'setting_on' : 'On',
+'setting_off' : 'Off',
+'setting_closeAfterAddImage' : 'Auto. close box after adding smilie/image',
+'setting_quickPreview' : 'Quick Preview (Alpha Version):',
+'setting_showAllImagesImmediately' : 'Show all icons/images immediately:',
+'setting_openSmiliesEditor' : 'Open Smilies Editor',
+'setting_smilies' : 'Smilies:',
+'shortLicenseText' : 'Licensed under the CC Attribution-Noncommercial-Share Alike 3.0 license ',
+'licenseURL' : 'http://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode',
+'licenseName' : 'CC Attribution-Noncommercial-Share Alike 3.0',
+'authorHint' : 'Created by cuzi'
   },
 
 };
-lang['zz'] = lang['en'];
 
+// ############################################################## Init correct languages
 const url = document.location.href;
+var l_matched = url.match(/\/\/(\D{2})\d+\./);
+l_matched = l_matched?l_matched[1]:false;
+var std_lang = 'en';
+const languagecode = l_matched?l_matched:std_lang;
+const say = lang[languagecode]?lang[languagecode]:lang[std_lang];
 
-var l_matched = url.match(/\/\/(\D{2})\d+\./)[1];
-const languagecode = l_matched?l_matched:'en';
 
 
-const say = lang[languagecode];
+
+// ############################################################## Default Smilies and Images
 
 
 var smilies = new Array(
@@ -272,21 +587,21 @@ var smilies = new Array(
 'http://forum.die-staemme.de/images/phpbb_smilies/icon_cry.gif',
 'http://forum.die-staemme.de/images/phpbb_smilies/icon_mrgreen.gif',
 '\n',
-'http://twbbcodes.pytalhost.com/images/smileys/em16.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em17.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em18.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em19.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em1500.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em2100.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em2200.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em2300.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em2400.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em2700.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em2700.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em2900.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em3000.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em3300.gif',
-'http://twbbcodes.pytalhost.com/images/smileys/em3400.gif');
+'http://example.com/smile/smileys/em16.gif',
+'http://example.com/smile/smileys/em17.gif',
+'http://example.com/smile/smileys/em18.gif',
+'http://example.com/smile/smileys/em19.gif',
+'http://example.com/smile/smileys/em1500.gif',
+'http://example.com/smile/smileys/em2100.gif',
+'http://example.com/smile/smileys/em2200.gif',
+'http://example.com/smile/smileys/em2300.gif',
+'http://example.com/smile/smileys/em2400.gif',
+'http://example.com/smile/smileys/em2700.gif',
+'http://example.com/smile/smileys/em2700.gif',
+'http://example.com/smile/smileys/em2900.gif',
+'http://example.com/smile/smileys/em3000.gif',
+'http://example.com/smile/smileys/em3300.gif',
+'http://example.com/smile/smileys/em3400.gif');
 
 var ds_icons = new Array(
 
@@ -538,6 +853,74 @@ I8nIzMrOyc3LLygsKjYeIiWlZeUVlV/VNbV19YaIpKGxqbmlta29o7OrWxcRkPf29Q8MDg2PjI6Ncx0G
 vrpWIuNmbm7v7h8eGSA39/SsfnlFQNHC2/vHJ4KgsfD986tRXk/RAhXgD5aaN2cW9YgDAAAAAElFTkSuQmCC';
 
 
+
+// ############################################################## Basic functions
+
+// Opera & Firefox
+var $ = function(x,data) {
+  var y = this.alert?this.document:this;
+  var add = function(l) { for(var i = 0; i < l.length; i++){ l[i].$ = $;} return l;};
+  if(x[0] == '#') {
+    var r = y.getElementById(x.substring(1));
+    if(r)
+      r.$ = $;
+    return r;
+    }
+  else if(x[0] == '.') {
+    var r = y.getElementsByClassName(x.substring(1))
+    return add(r);
+    }
+  else if(x[0] == '-') {
+    var r = y.getElementsByName(x.substring(1))
+    return add(r);
+    }
+  else if(x.toString && x.toString() == '[object HTMLCollection]') {
+    return add(x); 
+    }
+  else if(typeof(x) == 'object') {
+    x.$ = $;
+    return x; 
+    }
+  else if(x == '$d:') {
+    var r = data;
+	r.parentNode.removeChild(r);
+	r.$ = $;
+    return r;
+    }	
+  else if(x[0] == '$' || x.substring(0,3) == '$n:') {
+    if(x.substring(0,3) == '$n:')
+	  x = x.substring(2);
+
+    var r = document.createElement(x.substring(1));
+	if(data && typeof(data) == 'object') {
+	  for (var attr in data) {
+	    if(attr == 'styles') {
+		  if(!r.style)
+		    r.setAttribute('style','');
+		  for (var key in data[attr]) {
+		    r.style[key] = data[attr][key];		    		  
+		    }	      
+		  }	
+	    else if(attr == 'html') {
+		  r.innerHTML = data[attr];	      
+		  }	
+	    else if(attr == 'append') {
+		  data[attr].appendChild(r);	      
+		  }			  
+		else {
+		  r.setAttribute(attr,data[attr]) 
+          }			 
+        }
+	  }
+    r.$ = $;
+    return r;
+    }
+  else {
+    var r = y.getElementsByTagName(x)
+    return add(r);
+    }
+  }
+
 Array.prototype.remove = function()
   {
   for(var i = 0,l = arguments.length; i < l; i++)
@@ -549,372 +932,685 @@ Array.prototype.remove = function()
   return this;
   }
 
+var rel_top = function(e)
+  {
+  var y = 0;
+  while(e)
+    y += e.offsetTop + e.clientTop,e = e.offsetParent;
+  return y;
+  }
 
-const forum = url.indexOf('forum.php') != -1 && (url.indexOf('answer=true') != -1 || url.indexOf('mode=new_thread') != -1 || url.indexOf('edit_post_id') != -1 || url.indexOf('mode=new_poll') != -1);
+var rel_left = function(e)
+  {
+  var x = 0;
+  while(e)
+    x += e.offsetLeft + e.clientLeft,e = e.offsetParent;
+  return x;
+  }
+  
+var fromJson = function(str,def) {
+  try
+    {
+    var re = JSON.parse( str );
+    }
+  catch(e)
+    {
+    return def;
+    }
+  return re;
+  }
+  
+var toJson = function(o) {
+  return JSON.stringify( o );
+  } 
+  
+// ############################################################## On which page are we?  
+  
+const forum = (url.indexOf('forum.php') != -1  || url.indexOf('screen=view_forum') != -1  || url.indexOf('screen=forum') != -1) && (url.indexOf('answer=true') != -1 || url.indexOf('mode=new_thread') != -1 || url.indexOf('edit_post_id') != -1 || url.indexOf('mode=new_poll') != -1);
 const memo = url.indexOf('screen=memo') != -1;
 const mail = url.indexOf('screen=mail') != -1 && (url.indexOf('mode=new') != -1 || url.indexOf('mode=view') != -1);
 const answer = url.indexOf('view=') != -1;    // Diff. of mail
 const ally = url.indexOf('screen=ally') != -1 && (url.indexOf('mode=overview') != -1 || url.indexOf('mode=properties') != -1);
 
-const gm = typeof(GM_setValue) != 'undefined';
 
-if(document.getElementById('message') || document.getElementById('intern') || document.getElementById('desc_text'))
-  {
-  // Host
-  var root = 'http://' + document.location.host;
+// ############################################################## User settings via GM functions
 
-  // Div
-  if(ally && document.getElementById('desc_text'))
-    var mainDiv = document.getElementById('bb_row').getElementsByTagName('div')[0];
-  else if(ally && document.getElementById('bb_row'))
-    var mainDiv = document.getElementById('bb_row').getElementsByTagName('div')[0];
-  else if(memo && document.getElementById('bbcodes'))
-    var mainDiv = document.getElementById('bbcodes').getElementsByTagName('div')[0];
-  else if(forum || memo || ally)
-    var mainDiv = document.getElementsByTagName('form')[0].getElementsByTagName('div')[0];
-  else if(answer)
-    var mainDiv = document.getElementById('message').parentNode.parentNode.getElementsByTagName('div')[0];
-  else if(mail)
-    var mainDiv = document.getElementById('message').parentNode.parentNode.previousElementSibling.getElementsByTagName('div')[0];
+var quick_preview = GM_getValue('quick_preview',false);
+var close_after_add_image = GM_getValue('close_after_add_image',true);
+var show_all_images_immediately = GM_getValue('show_all_images_immediately',false);
+
+var default_smilies = smilies;
+if(GM_getValue('personal_smilies',false)) {
+  var str = GM_getValue('personal_smilies','[]');
+  var smilies = fromJson(str,[]);
+  smilies = smilies?smilies:[];
+} else {
+  GM_setValue('personal_smilies',toJson(smilies));
+}
 
 
-  // Restore Scroll Position
-  if(document.getElementById('message')) {
-    var left,top;
-    var store = function() {
-      top = this.scrollTop;
-      left = this.scrollLeft;
-      };
-    var update = function() {
-      this.scrollTop = top;
-      this.scrollLeft = left;
-      };
-
-    document.getElementById('message').addEventListener('mouseover',update,false);
-    document.getElementById('message').addEventListener('mouseout',store,false);
-    }
+// ############################################################## Menus and Options (functions only)
 
 
-  // Additional Style
-  var css = '#bb_icons td a { display:none;  } #bb_icons img { max-width:40px; max-height:40px; } .tdbutton { color:DarkBlue; font-family:"Courier New"; text-decoration:underline; }';
 
-  if (typeof GM_addStyle == "undefined")
-    {
-    var head = document.getElementsByTagName("head")[0];
-    var style = document.createElement("style");
-    style.type = "text/css";
-    style.appendChild(document.createTextNode(css));
-    head.appendChild(style);
-    }
-  else
-    {
-    GM_addStyle(css);
-    }
-
-  // Add button method
-  mainDiv.addButton = function(title,img,fct,node)
-    {
-    var a = document.createElement('a');
-    a.setAttribute('title',title);
-    a.setAttribute('href','#');
-    a.addEventListener('click',fct,false);
-
-    var div = document.createElement('div');
-    div.setAttribute('style','float:left; background:url('+img+') no-repeat 0px 0px; padding-left:0px; padding-bottom:0px; margin-right:4px; width:20px; height:20px; ');
-
-    a.appendChild(div);
-
-    if(node)
-      this.insertBefore(a,node);
-    else
-      this.insertBefore(a,document.getElementById('bb_sizes'));
-    return this;
-    }
-
-  // Infotext
-  var a = document.createElement('a');
-  a.setAttribute('href','http://userscripts.org/scripts/show/39879');
-  a.setAttribute('title','Script Homepage: Updates, News, ... ');
-  a.setAttribute('style','font-weight:bold; font-size:7pt; color:#0082BE; font-family:Broadway,Verdana,Arial; ');
-  a.appendChild(document.createTextNode('DS Smilies-BB-Codes-List (ver'+ver+')'));
-  mainDiv.appendChild(a);
-
-  // Remove original report button
-  if(forum || memo || ally || mail)
-    {
-    mainDiv.removeChild(mainDiv.getElementsByTagName('a')[10]);
-    }
-
-
-  // Smilies' Box
-  if(forum || memo)
-    {
-    var table = document.createElement('table');
-    table.setAttribute('id','bb_smilies');
-    table.setAttribute('style','display:none; clear:both; position:absolute; z-index:100; border: 2px solid #804000; background:#efe6c9 no-repeat url(http://example.com/images/gm_logo.png) bottom right; top: 24px; left: 200px; ');
-
-    var tr = document.createElement('tr');
-
-    var td = document.createElement('td');
-    td.setAttribute('style','padding:2px;');
-
-    for(var i = 0; i < smilies.length; i++)
-      {
-      if(smilies[i] == '\n')
-        {
-        var br = document.createElement('br');
-        td.appendChild(br);
-        continue;
-        }
-
-
-      var img = new Image();
-      img.setAttribute('src',smilies[i]);
-      img.setAttribute('style','vertical-align:middle; ');
-      img.setAttribute('alt','[img]'+smilies[i]+'[/img]');
-
-      var a = document.createElement('a');
-      a.setAttribute('href','#');
-      a.setAttribute('style','vertical-align:middle; ');
-      a.addEventListener('click',function() {
-        insert(this.title,'');
-        toggle('bb_smilies');
-        return false;
-      },false);
-      a.setAttribute('title','[img]'+smilies[i]+'[/img]');
-      a.appendChild(img);
-
-      td.appendChild(a);
-      }
-
-    tr.appendChild(td);
-    table.appendChild(tr);
-    mainDiv.appendChild(table);
-    }
-
-  // Icons' Box
-  if(forum || memo)
-    {
-    var table = document.createElement('table');
-    table.setAttribute('id','bb_icons');
-    table.setAttribute('style','display:none; clear:both; position:absolute; z-index:101; border: 2px solid #804000; background:#efe6c9 no-repeat url(http://example.com/images/gm_logo.png) bottom right; top: 24px; left: 200px; ');
-
-    for(var i = 0; i < ds_icons.length; i++)
-      {
-      var tr = document.createElement('tr');
-
-      var td = document.createElement('td');
-      td.style.fontSize = '7pt';
-      td.style.cursor = 'pointer';
-      td.appendChild(document.createTextNode(ds_icons[i][0]+':'));
-      td.addEventListener('click',toggleLine,false);
-      tr.appendChild(td);
-
-
-      var td = document.createElement('td');
-      td.setAttribute('style','padding:2px;');
-
-      for(var x = 1; x < ds_icons[i].length; x++)
-        {
-        var img = new Image();
-        img.setAttribute('src',ds_icons[i][x]);
-        img.setAttribute('style','padding:1px; border:solid 1px black; -moz-border-radius:5px 0px;');
-        img.setAttribute('alt','[img]'+ds_icons[i][x]+'[/img]');
-
-        var a = document.createElement('a');
-        a.setAttribute('href','#');
-        a.setAttribute('style','padding:2px; margin-right:1px;  margin-bottom:2px; ');
-        a.style.fontSize = '';
-        a.addEventListener('click',function() {
-          insert(this.title,'');
-          toggle('bb_icons');
-          return false;
-        },false);
-        a.setAttribute('title','[img]'+root+'/'+ds_icons[i][x]+'[/img]');
-        a.appendChild(img);
-
-        td.appendChild(a);
-        }
-      tr.appendChild(td);
-      table.appendChild(tr);
-      }
-
-    mainDiv.appendChild(table);
-    }
-
-  // ##### Buttons #####
-
-  // Code      [code]  [/code]
-  if(forum || memo || mail || ally)
-    {
-    mainDiv.addButton('Code',icon_code,function() {
-      insert('[code]','[/code]');
-      return false;
-      }
-    ,mainDiv.getElementsByTagName('a')[4]);
-    }
-
-  // Icons
-  if(forum || memo)
-    {
-    mainDiv.addButton('Icons',icon_icons,function() {
-      toggle('bb_icons');
-      return false;
-      });
-    }
-
-
-  // Smilies
-  if(forum || memo)
-    {
-    mainDiv.addButton('Smilies',icon_smilies,function() {
-      toggle('bb_smilies');
-      return false;
-      });
-    }
-
-  // Report Direct     [report]  [/report]
-  if(forum || memo || ally || mail)
-    {
-    mainDiv.addButton(say.linkreport,icon_report_link,function() {
-      var url = prompt(say.report_url,'');
-      if(url != '')
-        {
-        if(url.indexOf('=') != -1)
-          {
-          url = url.split('=').pop();
-          insert('[report]'+url+'[/report]','');
-          }
-        else
-          {
-          url = url.split('/').pop();
-          insert('[report]'+url+'[/report]','');
-          }
-        }
-      else
-        insert('[report]','[/report]');
-      return false;
-      });
-    }
-
-  // Report link      [report_display]  [/report_display]
-  if(forum || memo || ally || mail)
-    {
-    mainDiv.addButton(say,icon_report_direct,function() {
-      var url = prompt(say.directreport,'');
-      if(url != '')
-        {
-        if(url.indexOf('=') != -1)
-          {
-          url = url.split('=').pop();
-          insert('[report_display]'+url+'[/report_display]','');
-          }
-        else
-          {
-          url = url.split('/').pop();
-          insert('[report_display]'+url+'[/report_display]','');
-          }
-        }
-      else
-        insert('[report_display]','[/report_display]');
-      return false;
-      });
-    }
-
-
-  // Convert Coords to BB-Codes -- Thanks to MST1
-  if(forum || memo || mail || ally)
-    {
-    mainDiv.addButton(say.convertcoords,icon_convertCoords,function() {
-      document.getElementById('message').value = document.getElementById('message').value.replace(/(\(\d{1,3}\|\d{1,3}\))(?!\[\/coord\])/g,'[coord]$1[/coord]');
-      document.getElementById('message').value = document.getElementById('message').value.replace(/(\d{1,3}\|\d{1,3})(?!.*\[\/coord\])/g,'[coord]($1)[/coord]');
-      return false;
-      });
-    }
-
-
-  // Search function
-  if(forum || memo || mail || ally)
-    {
-    mainDiv.addButton(say.search,icon_search,function() {
-      var key = prompt(say.searchterm,'');
-      var text = document.getElementById('message').value;
-      var ar = text.split('\n');
-      var foundInRenderedLine = -1;
-      var foundInRealLine = -1;
-      var cols = 80;
-      for (var i=x=0; i < ar.length; i++,x++)
-        {
-        if(foundInRenderedLine == -1 && ar[i] && ar[i].indexOf(key) != -1)
-          {
-          foundInRealLine = i;
-          if(ar[i].length > cols)
-            {
-            var a = 0;
-            var part = ar[a].substr((cols*a),cols);
-            while(part)
-              {
-              if(part.indexOf(key) != -1)
-                {
-                break;
-                }
-              a++;
-              part = ar[a].substr((cols*a),cols);
-              }
-            foundInRenderedLine = x + a;
-            }
-          else
-            {
-            foundInRenderedLine = x;
-            }
-
-          break;
-          }
-        else if(ar[i] && ar[i].length > cols)
-          {
-          x+=parseInt(ar[i].length / cols);
-          }
-        }
-
-      if(foundInRenderedLine != -1)
-        {
-        var  x = foundInRenderedLine*17;      // Pixel from top (1 line = 17 pixel)
-        top = x;
-        alert(foundInRenderedLine);
-        document.getElementById('message').scrollTop = x;
-        }
-      else
-        {
-        alert(say.noresults);
-        }
-
-      return false;
-      });
-    }
-
-
-  // User Texts
-  if(gm && (forum || memo || mail || ally))
-    {
-    mainDiv.addButton(say.personaltexts,icon_usertexts,function() {
-      // User Texts' Box
-      show_userTextsBox(mainDiv);
-      toggle('user_texts');
-      return false;
-      });
-    }
-
+var saveReload = function() { // Save text field content because of required reload	
+  if(messageTextField && messageTextField.value) {
+    GM_setValue('lastTextFieldEntry',messageTextField.value);
+  } else {
+    GM_setValue('lastTextFieldEntry',false);	
   }
+  document.location.reload();
+};
+
+var toogle_quick_preview = function () {
+  if(GM_getValue('quick_preview',false)) {
+    GM_setValue('quick_preview',false); 
+  } else {
+    GM_setValue('quick_preview',true);   
+  }
+
+  saveReload();
+};
+
+var toogle_close_after_add_image = function () {
+  if(GM_getValue('close_after_add_image',false)) {
+    GM_setValue('close_after_add_image',false); 
+  } else {
+    GM_setValue('close_after_add_image',true);   
+  }
+
+  saveReload();
+} ;  
+
+var toogle_show_all_images_immediately = function () {
+  if(GM_getValue('show_all_images_immediately',false)) {
+    GM_setValue('show_all_images_immediately',false); 
+  } else {
+    GM_setValue('show_all_images_immediately',true);   
+  }
+
+  saveReload();
+} ;  
+
+
+
+    
+var toogle_smiliesEditor = function (ev) {
+	ev.preventDefault();
+	if(document.getElementById('smilieseditor')) {
+		saveReload();
+		return;
+	}
+	
+	
+	// Create Smilies Editor 
+	var div = document.createElement('div');
+	div.setAttribute('style','overflow:auto; max-height:700px; width: 1050px; display:none; clear:both; position:absolute; z-index:101; border: 2px solid #804000; background:#efe6c9; top: 60px; left: 10px; padding:5px; border-top-left-radius:20px; ');
+	div.setAttribute('id','smilieseditor');
+	
+	document.body.appendChild(div);
+	toggle('smilieseditor');
+	toggle('mainmenu',false,true);	
+	
+	div.appendChild(document.createTextNode(say.scriptname+' ('+say.shortVersion+ver+')'));
+	
+	var h2 = document.createElement('h2');
+	h2.appendChild(document.createTextNode(say.smiliesEditor));	
+	div.appendChild(h2);
+	
+	
+	var close = document.createElement('a');
+	close.setAttribute('style','position:absolute; top: 0px; right: 0px; cursor:pointer; ');
+	close.setAttribute('href','#');	
+	close.appendChild(document.createTextNode(say.close));
+    close.addEventListener('click',function() {			
+	    saveReload();
+		return; },false);	
+    div.appendChild(close);
+	
+	
+	// Table 0	
+	var table = document.createElement('table');
+	table.setAttribute('style','width: 1000px;');
+	div.appendChild(table);
+	
+	
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);	
+
+	var td = document.createElement('td');	
+	td.setAttribute('colspan','3');
+	tr.appendChild(td);
+	
+	var img = document.createElement('img');
+	img.setAttribute('src','/graphic/plus.png');	  
+	img.setAttribute('alt',say.plus);	 
+	img.setAttribute('title',say.addSmiley);	 	    
+	td.appendChild(img);	
+	  
+	td.appendChild(document.createTextNode(say.addSmiley));		
+	
+	td.addEventListener('click',smiliesEditor_op_add,false);	
+
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);	
+
+	var td = document.createElement('td');	
+	td.setAttribute('colspan','3');
+	tr.appendChild(td);
+	
+	var img = document.createElement('img');
+	img.setAttribute('src','/graphic/plus.png');	  
+	img.setAttribute('alt',say.plus);	 
+	img.setAttribute('title',say.addLineBreak);	 	    
+	td.appendChild(img);	
+	  
+	td.appendChild(document.createTextNode(say.addLineBreak));		
+	
+	td.addEventListener('click',smiliesEditor_op_addLB,false);	
+		
+	
+	// Table 1
+	var table = document.createElement('table');
+	table.setAttribute('style','width: 1000px;');
+	table.setAttribute('class','smiliesEditor_table');	
+	div.appendChild(table);	
+		
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);
+	
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	th.appendChild(document.createTextNode(say.action));	
+		
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	th.appendChild(document.createTextNode(say.uri));	
+	
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	th.appendChild(document.createTextNode(say.result));	
+		
+	
+	for(var i = 0; i < smilies.length; i++) {	
+	  var tr = smiliesEditor_tr(i);
+	  table.appendChild(tr);
+	}
+	
+	
+	// Table 2
+	var table = document.createElement('table');
+	table.setAttribute('style','width: 1000px;');
+	div.appendChild(table);		
+	
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);	
+
+	var td = document.createElement('td');	
+    td.setAttribute('colspan','3');
+	tr.appendChild(td);
+	
+	var img = document.createElement('img');
+	img.setAttribute('src','/graphic/plus.png');	  
+	img.setAttribute('alt',say.plus);	 
+	img.setAttribute('title',say.addSmiley);	 	    
+	td.appendChild(img);	
+	  
+	td.appendChild(document.createTextNode(say.addSmiley));		
+	
+	td.addEventListener('click',smiliesEditor_op_add,false);
+	
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);	
+
+	var td = document.createElement('td');	
+	td.setAttribute('colspan','3');
+	tr.appendChild(td);
+	
+	var img = document.createElement('img');
+	img.setAttribute('src','/graphic/plus.png');	  
+	img.setAttribute('alt',say.plus);	 
+	img.setAttribute('title',say.addLineBreak);	 	    
+	td.appendChild(img);	
+	  
+	td.appendChild(document.createTextNode(say.addLineBreak));		
+	
+	td.addEventListener('click',smiliesEditor_op_addLB,false);	
+	
+	
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);	
+
+	var td = document.createElement('td');	
+	td.setAttribute('colspan','3');
+	tr.appendChild(td);
+				  
+	td.appendChild(document.createTextNode(say.resetSmilies));		
+	
+	td.addEventListener('click',function() { 
+	  if(confirm(say.confirmResetSmilies)) 
+	    smiliesEditor_op_reset();  
+      alert(say.doneResetSmilies);
+      saveReload();
+	},false);		
+	
+
+	
+	// Footer
+	var footer = document.createElement('div');
+	div.appendChild(footer);
+	footer.appendChild(document.createElement('br'));	
+	footer.appendChild(document.createTextNode(say.shortLicenseText));
+    footer.appendChild(document.createElement('br'));	
+	
+	return false;
+
+};
+var smiliesEditor_tr = function(index) {
+
+
+	  var tr = document.createElement('tr');		
+	  
+	  var td = document.createElement('td');	  
+	  tr.appendChild(td);
+	
+	  td.setAttribute('class','smiliesindex_'+index);	 	
+	  
+	  var img = document.createElement('img');
+	  img.setAttribute('src','graphic/forum/thread_delete.png');	  
+	  img.setAttribute('alt',say.del);	 
+	  img.setAttribute('title',say.del);	 
+      img.addEventListener('click',smiliesEditor_op_del,false);	   
+	  td.appendChild(img);	
+
+	  td.appendChild(document.createTextNode(' '));		  
+	  
+	  var img = document.createElement('img');
+	  img.setAttribute('src','graphic/forum/thread_unread.png');	  
+	  img.setAttribute('alt',say.editentry);	 
+	  img.setAttribute('title',say.editentry);
+      img.addEventListener('click',smiliesEditor_op_edit,false);	   	  
+	  td.appendChild(img);	
+
+	  td.appendChild(document.createTextNode(' - '));	
+	  
+	  var img = document.createElement('img');
+	  img.setAttribute('src','graphic/overview/up.png');	  
+	  img.setAttribute('alt',say.moveUp);	 
+	  img.setAttribute('title',say.moveToTop);
+      img.addEventListener('click',smiliesEditor_op_top,false);	   	  
+	  td.appendChild(img);		  
+	
+	  td.appendChild(document.createTextNode('  '));	
+	
+	  var img = document.createElement('img');
+	  img.setAttribute('src','graphic/oben.png');	  
+	  img.setAttribute('alt',say.moveUp);	 
+	  img.setAttribute('title',say.moveUpOneLine);	 
+      img.addEventListener('click',smiliesEditor_op_up,false);	 	  
+	  td.appendChild(img);	
+	  	
+	  td.appendChild(document.createTextNode(' - '));	
+		
+	  var img = document.createElement('img');
+	  img.setAttribute('src','graphic/unten.png');	  
+	  img.setAttribute('alt',say.moveDown);	 
+	  img.setAttribute('title',say.moveDownOneLine);	 	 
+      img.addEventListener('click',smiliesEditor_op_down,false);	 	  
+	  td.appendChild(img);	
+	  
+	  td.appendChild(document.createTextNode(' '));	
+	  
+	  var img = document.createElement('img');
+	  img.setAttribute('src','graphic/overview/down.png');	  
+	  img.setAttribute('alt',say.moveDown);	 
+	  img.setAttribute('title',say.moveToBottom);
+      img.addEventListener('click',smiliesEditor_op_bottom,false);	 	  
+	  td.appendChild(img);		  
+	  	  
+
+	  
+	  if(smilies[index] == '\n') {
+	  
+	    var td = document.createElement('td');	
+	    td.setAttribute('colspan','2');
+	    tr.appendChild(td);	    
+	
+		td.appendChild(document.createTextNode('#########################  Zeilenumbruch #########################'));
+		
+	  }	 else {	  
+	  
+	    var td = document.createElement('td');
+	    tr.appendChild(td);
+	    td.appendChild(document.createTextNode(smilies[index]));
+        td.setAttribute('class','smiliesEditor_url');				
+
+	    var td = document.createElement('td');	
+	    tr.appendChild(td);
+	    var img = document.createElement('img');
+	    img.setAttribute('src',smilies[index]);
+		img.setAttribute('class','smiliesEditor_img');
+	    td.appendChild(img);
+		
+	  }	  
+
+	  return tr;
+};
+
+var smiliesEditor_op_reset = function(ev) {
+  GM_setValue('personal_smilies',toJson(default_smilies));
+};
+
+var smiliesEditor_op_del = function (ev) {
+  var index = parseInt(this.parentNode.className.split('_').pop());
+  
+  var n_arr = [];
+  for(var i = 0; i < smilies.length; i++) {
+    if(i !== index) {
+	  n_arr.push(smilies[i]);
+	}
+  }
+  smilies = n_arr;
+  
+  GM_setValue('personal_smilies',toJson(smilies));
+    
+  this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+};
+
+var smiliesEditor_op_add = function (ev) {
+  var new_url = prompt(say.enterImageURL,'');
+
+  if(!new_url) {
+    return;   
+  }
+
+  smilies.push(new_url);
+
+  GM_setValue('personal_smilies',toJson(smilies));
+  
+  var tr = smiliesEditor_tr(smilies.length-1,new_url);
+  
+  this.parentNode.parentNode.parentNode.getElementsByClassName('smiliesEditor_table')[0].appendChild(tr); 
+} ; 
+
+var smiliesEditor_op_addLB = function (ev) {
+  var new_url = '\n';
+
+  smilies.push(new_url);
+
+  GM_setValue('personal_smilies',toJson(smilies));
+  
+  var tr = smiliesEditor_tr(smilies.length-1,new_url);
+  
+  this.parentNode.parentNode.parentNode.getElementsByClassName('smiliesEditor_table')[0].appendChild(tr); 
+};  
+  
+var smiliesEditor_op_edit = function (ev) {
+  var index = parseInt(this.parentNode.className.split('_').pop());
+  
+  var new_url = prompt(say.enterImageURL,smilies[index]);
+
+  if(!new_url || new_url == smilies[index]) {
+    return;   
+  }
+
+  smilies[index] = new_url;
+
+  GM_setValue('personal_smilies',toJson(smilies));
+	
+  (this.parentNode.tagName == 'TR'?this.parentNode:this.parentNode.parentNode).getElementsByClassName('smiliesEditor_url')[0].innerHTML = new_url;
+  (this.parentNode.tagName == 'TR'?this.parentNode:this.parentNode.parentNode).getElementsByClassName('smiliesEditor_img')[0].src = new_url;
+}; 
+
+var smiliesEditor_op_up = function (ev) {
+  var index = parseInt(this.parentNode.className.split('_').pop());
+   
+  var table = this.parentNode.parentNode.parentNode;
+  
+  smiliesEditor_op_switch(table,index,index-1);
+}; 
+ 
+var smiliesEditor_op_down = function (ev) {
+  var index = parseInt(this.parentNode.className.split('_').pop());
+   
+  var table = this.parentNode.parentNode.parentNode;
+  
+  smiliesEditor_op_switch(table,index,index+1);
+}; 
+ 
+var smiliesEditor_op_top  = function (ev) {
+  var index = parseInt(this.parentNode.className.split('_').pop());
+   
+  var table = this.parentNode.parentNode.parentNode;
+  
+  smiliesEditor_op_switch(table,index,0);
+}; 
+ 
+var smiliesEditor_op_bottom  = function (ev) {
+  var index = parseInt(this.parentNode.className.split('_').pop());
+   
+  var table = this.parentNode.parentNode.parentNode;
+  
+  smiliesEditor_op_switch(table,index,smilies.length-1);
+};   
+	  
+var smiliesEditor_op_switch = function(table,index0,index1) {
+  if(index0 < 0 || index0 > smilies.length-1 || index1 < 0 || index1 > smilies.length-1) {
+    return;
+	}
+
+
+  var tmp = smilies[index0];
+  smilies[index0] = smilies[index1];
+  smilies[index1] = tmp;
+  GM_setValue('personal_smilies',toJson(smilies));
+  
+  var tr0 = table.getElementsByTagName('tr')[index0+1];
+  var tr1 = table.getElementsByTagName('tr')[index1+1];  
+  
+  table.insertBefore(tr0,table.getElementsByTagName('tr')[index1+1]);
+  table.insertBefore(tr1,table.getElementsByTagName('tr')[index0+1]); 
+
+  tr0.getElementsByTagName('td')[0].setAttribute('class','smiliesindex_'+index1);	
+  tr1.getElementsByTagName('td')[0].setAttribute('class','smiliesindex_'+index0);	  
+  
+};	  
+	 
+	 
+  
+  
+  
+  
+// Main Menu
+var mainmenu = function (ev) {
+	ev.preventDefault();
+	if(document.getElementById('mainmenu')) {
+		toggle('mainmenu');
+		return;
+	}
+
+	var div = document.createElement('div');
+	div.setAttribute('style','overflow:auto; max-height:300px; display:none; clear:both; position:absolute; z-index:101; border: 2px solid #804000; background:#efe6c9; top: 100px; left: 200px; padding:5px; ');
+	div.setAttribute('id','mainmenu');
+	
+	document.body.appendChild(div);
+	toggle('mainmenu',this);
+	
+	
+	div.appendChild(document.createTextNode(say.scriptname+' ('+say.shortVersion+ver+')'));
+	
+	var h2 = document.createElement('h2');
+	h2.appendChild(document.createTextNode(say.mainMenu));	
+	div.appendChild(h2);
+	
+	var table = document.createElement('table');
+	div.appendChild(table);
+	
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);
+	
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	th.appendChild(document.createTextNode(say.homepage));
+	
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	var a = document.createElement('a');
+	a.setAttribute('href',say.scriptURL);
+	a.setAttribute('title',say.homepageInfos);
+	a.appendChild(document.createTextNode(say.scriptURL));
+	th.appendChild(a);
+	
+	
+	// Option: Close After Smilie
+	
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);
+
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	th.appendChild(document.createTextNode(say.setting_closeAfterAddImage));
+	
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	var spanON = document.createElement('span');
+	spanON.setAttribute('style','cursor:pointer; font-weight:'+(close_after_add_image?'bold':'normal'));
+	spanON.appendChild(document.createTextNode(say.setting_on));
+	if(!close_after_add_image) {
+	  spanON.addEventListener('click',toogle_close_after_add_image,false);
+	}
+	
+	var spanOFF = document.createElement('span');
+	spanOFF.setAttribute('style','cursor:pointer; font-weight:'+(close_after_add_image?'normal':'bold'));
+	spanOFF.appendChild(document.createTextNode(say.setting_off));	
+	if(close_after_add_image) {
+	  spanOFF.addEventListener('click',toogle_close_after_add_image,false);
+	}
+	
+	th.appendChild(spanON);
+	th.appendChild(document.createTextNode('/'));	
+	th.appendChild(spanOFF);	
+	
+	
+	// Option: Quick Preview
+	
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);
+
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	th.appendChild(document.createTextNode(say.setting_quickPreview));
+	
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	var spanON = document.createElement('span');
+	spanON.setAttribute('style','cursor:pointer; font-weight:'+(quick_preview?'bold':'normal'));
+	spanON.appendChild(document.createTextNode(say.setting_on));
+	if(!quick_preview) {
+	  spanON.addEventListener('click',toogle_quick_preview,false);
+	}
+	
+	var spanOFF = document.createElement('span');
+	spanOFF.setAttribute('style','cursor:pointer; font-weight:'+(quick_preview?'normal':'bold'));
+	spanOFF.appendChild(document.createTextNode(say.setting_off));	
+	if(quick_preview) {
+	  spanOFF.addEventListener('click',toogle_quick_preview,false);
+	}
+	
+	th.appendChild(spanON);
+	th.appendChild(document.createTextNode('/'));	
+	th.appendChild(spanOFF);
+
+
+	// Option: Show All Icons Immediately
+	
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);
+
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	th.appendChild(document.createTextNode(say.setting_showAllImagesImmediately));
+	
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	var spanON = document.createElement('span');
+	spanON.setAttribute('style','cursor:pointer; font-weight:'+(show_all_images_immediately?'bold':'normal'));
+	spanON.appendChild(document.createTextNode(say.setting_on));
+	if(!show_all_images_immediately) {
+	  spanON.addEventListener('click',toogle_show_all_images_immediately,false);
+	}
+	
+	var spanOFF = document.createElement('span');
+	spanOFF.setAttribute('style','cursor:pointer; font-weight:'+(show_all_images_immediately?'normal':'bold'));
+	spanOFF.appendChild(document.createTextNode(say.setting_off));	
+	if(show_all_images_immediately) {
+	  spanOFF.addEventListener('click',toogle_show_all_images_immediately,false);
+	}
+	
+	th.appendChild(spanON);
+	th.appendChild(document.createTextNode('/'));	
+	th.appendChild(spanOFF);	
+	
+	
+	
+	
+
+	// Open Smilies Editor
+	
+	var tr = document.createElement('tr');	
+	table.appendChild(tr);
+
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	th.appendChild(document.createTextNode(say.setting_smilies));
+	
+	var th = document.createElement('th');	
+	tr.appendChild(th);
+	var spanOpen = document.createElement('span');
+	spanOpen.setAttribute('style','cursor:pointer; ');
+	spanOpen.appendChild(document.createTextNode(say.setting_openSmiliesEditor));
+    spanOpen.addEventListener('click',toogle_smiliesEditor,false);
+	
+	th.appendChild(spanOpen);
+
+	
+	
+	// Footer
+	
+	
+	var footer = document.createElement('div');
+	div.appendChild(footer);
+	footer.appendChild(document.createElement('br'));	
+	footer.appendChild(document.createTextNode(say.shortLicenseText));
+    footer.appendChild(document.createElement('br'));	
+	var a = document.createElement('a');
+	a.setAttribute('href',say.licenseURL);
+	a.setAttribute('title',say.licenseName);
+	a.appendChild(document.createTextNode(say.licenseURL));
+	footer.appendChild(a);
+	footer.appendChild(document.createElement('br'));	
+	footer.appendChild(document.createElement('br'));			
+	footer.appendChild(document.createTextNode(say.authorHint));
+	
+	
+	return false;
+}
+
+
+
+
+
+// ##############################################################  User Texts (functions only)
 
 
   // User Texts' Box
-  function show_userTextsBox(mainDiv)
+  var show_userTextsBox = function (mainDiv)
     {
     if(document.getElementById('user_texts'))
       return;
 
     var div = document.createElement('div');
-    div.setAttribute('style','overflow:auto; max-height:300px; display:none; clear:both; position:absolute; z-index:101; border: 2px solid #804000; background:#efe6c9; top: 24px; left: 200px; ');
+    div.setAttribute('style','overflow:auto; max-height:300px; display:none; clear:both; position:absolute; z-index:101; border: 2px solid #804000; background:#efe6c9; top: 100px; left: 200px; ');
     div.setAttribute('id','user_texts');
 
     var table = document.createElement('table');
@@ -933,7 +1629,7 @@ if(document.getElementById('message') || document.getElementById('intern') || do
       td.appendChild(document.createTextNode(texts[i].name));
       td.addEventListener('click',function(i) { return function() {
         insert(texts[i].value,'');
-        toggle('user_texts');
+        toggle('user_texts',this);
        } }(i),false);
       td.setAttribute('class','tdbutton');
       tr.appendChild(td);
@@ -960,8 +1656,8 @@ if(document.getElementById('message') || document.getElementById('intern') || do
       // User Texts Edit Box
       show_userTextsEditBox(mainDiv);
 
-      toggle('user_texts');
-      toggle('user_texts_edit');
+      toggle('user_texts',mainDiv);
+      toggle('user_texts_edit',mainDiv);
       return false;
     },false);
     tr.appendChild(td);
@@ -973,13 +1669,13 @@ if(document.getElementById('message') || document.getElementById('intern') || do
     }
 
   // User Texts Edit Box
-  function show_userTextsEditBox(mainDiv)
+  var show_userTextsEditBox = function (mainDiv)
     {
     if(document.getElementById('user_texts_edit'))
       return;
 
     var div = document.createElement('div');
-    div.setAttribute('style','overflow:auto; max-height:300px; display:none; clear:both; position:absolute; z-index:101; border: 2px solid #804000; background:#efe6c9; top: 24px; left: 200px; ');
+    div.setAttribute('style','overflow:auto; max-height:300px; display:none; clear:both; position:absolute; z-index:101; border: 2px solid #804000; background:#efe6c9; top: 100px; left: 200px; ');
     div.setAttribute('id','user_texts_edit');
 
     var table = document.createElement('table');
@@ -1059,7 +1755,7 @@ if(document.getElementById('message') || document.getElementById('intern') || do
            }
          show_userTextsBox(mainDiv);
          show_userTextsEditBox(mainDiv);
-         toggle('user_texts_edit');
+         toggle('user_texts_edit',this);
          }
 
        } }(i),false);
@@ -1085,7 +1781,7 @@ if(document.getElementById('message') || document.getElementById('intern') || do
     td.setAttribute('class','tdbutton');
     td.appendChild(document.createTextNode(say.close));
     td.addEventListener('click',function() {
-      toggle('user_texts_edit');
+      toggle('user_texts_edit',this);
       return false;
     },false);
     tr.appendChild(td);
@@ -1098,7 +1794,7 @@ if(document.getElementById('message') || document.getElementById('intern') || do
     }
 
   // User Texts Edit Box - Work with Entry
-  function workWithEntry(texts,n)
+  var workWithEntry = function (texts,n)
     {
     var texts = texts;
     if(typeof(n) != 'undefined')
@@ -1117,7 +1813,7 @@ if(document.getElementById('message') || document.getElementById('intern') || do
 
     var table = document.createElement('table');
     table.setAttribute('id','user_texts_edit_entry');
-    table.setAttribute('style','clear:both; position:absolute; z-index:121; border: 2px solid #804000; background:#efe6c9; top: 24px; left: 200px; ');
+    table.setAttribute('style','clear:both; position:absolute; z-index:121; border: 2px solid #804000; background:#efe6c9; top: 100px; left: 200px; ');
 
     var tr = document.createElement('tr');
     var th = document.createElement('th');
@@ -1216,7 +1912,7 @@ if(document.getElementById('message') || document.getElementById('intern') || do
     }
 
 
-function getTexts()
+var getTexts = function ()
   {
   var gm = GM_getValue('usertexts');
 
@@ -1234,14 +1930,16 @@ function getTexts()
   return ar;
   }
 
-function setTexts(ar)
+var setTexts = function (ar)
   {
   var str = JSON.stringify(ar);
   GM_setValue('usertexts',str);
   }
 
 
-function toggleLine(e)
+// ############################################################## Other basic functions
+
+var toggleLine = function (e)
   {
   var elist = this.nextSibling.getElementsByTagName('a');
   var n = elist[0].style.display=='inline'?'none':'inline';
@@ -1251,21 +1949,30 @@ function toggleLine(e)
     }
   }
 
-function toggle(id)
+var toggle = function (id,parent,hide)
   {
   var e = document.getElementById(id);
-  if(e.style.display == 'block')
+  if(e.style.display == 'block' || hide) {
     e.style.display = 'none';
-  else
+	}
+  else {
     e.style.display = 'block';
+	if(parent)	{
+	  var top = rel_top(parent)+5;
+	  var left = rel_left(parent)+10;	  
+	  e.style.top = top +'px';
+	  e.style.left = left +'px';	  
+	  }
+	}
+		
   }
 
 
 // Stolen Code:
 // http://aktuell.de.selfhtml.org/artikel/javascript/bbcode/
-function insert(aTag, eTag)
+var insert = function (aTag, eTag)
   {
-  var input = document.getElementById('message');
+  var input = messageTextField;
   input.focus();
   if(typeof input.selectionStart != undefined)
     {
@@ -1281,40 +1988,848 @@ function insert(aTag, eTag)
     input.selectionStart = pos;
     input.selectionEnd = pos;
     }
+  textarea_keyup();
+  }
+  
+  
+  
+
+
+
+
+
+// ############################################################## Start and init things
+
+
+if(document.getElementById('message') || document.getElementById('intern') || document.getElementById('desc_text') || document.getElementById('bb_bar'))
+  {
+  // Host
+  var root = 'http://' + document.location.host;
+
+  // Div
+  if(document.getElementById('bb_bar')) 
+    var mainDiv = document.getElementById('bb_bar');
+  else if(ally && document.getElementById('desc_text'))
+    var mainDiv = document.getElementById('bb_row').getElementsByTagName('div')[0];
+  else if(ally && document.getElementById('bb_row'))
+    var mainDiv = document.getElementById('bb_row').getElementsByTagName('div')[0];
+  else if(forum || ally )
+    var mainDiv = document.getElementsByTagName('form')[0].getElementsByTagName('div')[0];
+  else if(answer)
+    var mainDiv = document.getElementById('message').parentNode.parentNode.getElementsByTagName('div')[0];
+  else if(mail)
+    var mainDiv = document.getElementById('message').parentNode.parentNode.previousElementSibling.getElementsByTagName('div')[0];
+  else if(memo)
+    var mainDiv = document.getElementById('bb_bar');
+	
+
+  var messageTextField = document.getElementById('message');
+  if(memo) {
+    messageTextField = document.getElementsByName('memo')[0];
+  }  else if(document.getElementById('desc_text')) {
+    messageTextField = document.getElementById('desc_text');
+  }
+  
+  
+ 	// Restore text field content because of required reload	   
+	if(GM_getValue('lastTextFieldEntry',false)) {
+	  messageTextField.value = GM_getValue('lastTextFieldEntry','');
+	  GM_setValue('lastTextFieldEntry',false);	
+	}
+
+  
+  // Restore Scroll Position
+  if(messageTextField) {
+    var left,top;
+    var store = function() {
+      top = this.scrollTop;
+      left = this.scrollLeft;
+      };
+    var update = function() {
+      this.scrollTop = top;
+      this.scrollLeft = left;
+      };
+
+    messageTextField.addEventListener('mouseover',update,false);
+    messageTextField.addEventListener('mouseout',store,false);
+    }
+
+
+  // Additional Style
+  if(show_all_images_immediately) {
+    var css = '#bb_icons img { max-width:40px; max-height:40px; } '; 
+  } else {
+    var css = '#bb_icons td a { display:none;  } #bb_icons img { max-width:40px; max-height:40px; } ';
+  }
+  
+  css += ' .tdbutton { color:DarkBlue; font-family:"Courier New"; text-decoration:underline; } ';
+
+  if (typeof GM_addStyle == "undefined")
+    {
+    var head = document.getElementsByTagName("head")[0];
+    var style = document.createElement("style");
+    style.type = "text/css";
+    style.appendChild(document.createTextNode(css));
+    head.appendChild(style);
+    }
+  else
+    {
+    GM_addStyle(css);
+    }
+
+  // Add button method
+  mainDiv.addButton = function(title,img,fct,node)
+    {
+    var a = document.createElement('a');
+    a.setAttribute('title',title);
+    a.setAttribute('href','#');
+    a.addEventListener('click',fct,false);
+	
+	var span = document.createElement('span');
+    span.setAttribute('style','display:inline-block; zoom:1; *display:inline; background:url('+img+') no-repeat 0px 0px; padding-left: 0px; padding-bottom:0px; margin-right: 2px; margin-bottom:3px; width: 20px; height: 20px');
+	span.innerHTML = '&nbsp;';	
+    a.appendChild(span);
+
+    //var div = document.createElement('div');
+    //div.setAttribute('style','float:left; background:url('+img+') no-repeat 0px 0px; padding-left:0px; padding-bottom:0px; margin-right:4px; width:20px; height:20px; ');
+    //a.appendChild(div);
+
+    if(node)
+      this.insertBefore(a,node);
+    else
+      this.insertBefore(a,document.getElementById('bb_sizes'));
+    return this;
+    }
+	
+  // Remove original report button
+  if(forum || memo || ally || mail)
+    {
+    mainDiv.removeChild(document.getElementById('bb_button_report_display'));
+    }
+
+
+  // Smilies' Box
+  if(forum || memo)
+    {	
+    var table = document.createElement('table');
+    table.setAttribute('id','bb_smilies');
+    table.setAttribute('style','display:none; clear:both; position:absolute; z-index:100; border: 2px solid #804000; background:#efe6c9 no-repeat url(http://example.com/images/gm_logo.png) bottom right; top: 100px; left: 200px; ');
+
+    var tr = document.createElement('tr');
+
+    var td = document.createElement('td');
+    td.setAttribute('style','padding:2px;');
+
+    for(var i = 0; i < smilies.length; i++)
+      {
+      if(smilies[i] == '\n')
+        {
+        var br = document.createElement('br');
+        td.appendChild(br);
+        continue;
+        }
+
+
+      var img = new Image();
+      img.setAttribute('src',smilies[i]);
+      img.setAttribute('style','vertical-align:middle; ');
+      img.setAttribute('alt','[img]'+smilies[i]+'[/img]');
+
+      var a = document.createElement('a');
+      a.setAttribute('href','#');
+      a.setAttribute('style','vertical-align:middle; ');
+      a.addEventListener('click',function() {
+        insert(this.title,'');
+		if(close_after_add_image) {
+          toggle('bb_smilies',this);
+		  }
+        return false;
+      },false);
+      a.setAttribute('title','[img]'+smilies[i]+'[/img]');
+      a.appendChild(img);
+
+      td.appendChild(a);
+      }
+
+    tr.appendChild(td);
+    table.appendChild(tr);
+    mainDiv.appendChild(table);
+    }
+
+  // Icons' Box
+  if(forum || memo)
+    {
+    var table = document.createElement('table');
+    table.setAttribute('id','bb_icons');
+    table.setAttribute('style','display:none; clear:both; position:absolute; z-index:101; border: 2px solid #804000; background:#efe6c9 no-repeat url(http://example.com/images/gm_logo.png) bottom right; top: 100px; left: 200px; ');
+
+    for(var i = 0; i < ds_icons.length; i++)
+      {
+      var tr = document.createElement('tr');
+
+      var td = document.createElement('td');
+      td.style.fontSize = '7pt';
+      td.style.cursor = 'pointer';
+      td.appendChild(document.createTextNode(ds_icons[i][0]+':'));
+      td.addEventListener('click',toggleLine,false);
+      tr.appendChild(td);
+
+
+      var td = document.createElement('td');
+      td.setAttribute('style','padding:2px;');
+
+      for(var x = 1; x < ds_icons[i].length; x++)
+        {
+        var img = new Image();
+        img.setAttribute('src',ds_icons[i][x]);
+        img.setAttribute('style','padding:1px; border:solid 1px black; -moz-border-radius:5px 0px;');
+        img.setAttribute('alt','[img]'+ds_icons[i][x]+'[/img]');
+
+        var a = document.createElement('a');
+        a.setAttribute('href','#');
+        a.setAttribute('style','padding:2px; margin-right:1px;  margin-bottom:2px; ');
+        a.style.fontSize = '';
+        a.addEventListener('click',function() {
+          insert(this.title,'');
+          toggle('bb_icons',this);
+          return false;
+        },false);
+        a.setAttribute('title','[img]'+root+'/'+ds_icons[i][x]+'[/img]');
+        a.appendChild(img);
+
+        td.appendChild(a);
+        }
+      tr.appendChild(td);
+      table.appendChild(tr);
+      }
+
+    mainDiv.appendChild(table);
+    }
+	
+  // Convert Coords to BB-Codes  Box
+  if(forum || memo || mail || ally)
+  {
+	table = tr = td = a = 0; // Dirty bug fix	
+
+    var table = document.createElement('table');
+	mainDiv.appendChild(table);	
+    table.setAttribute('id','bb_convertcoords');
+    table.setAttribute('style','display:none; clear:both; position:absolute; z-index:100; border: 2px solid #804000; background:#efe6c9; top: 100px; left: 200px; ');
+
+    var tr = document.createElement('tr');
+	table.appendChild(tr);	
+
+    var td = document.createElement('td');
+	tr.appendChild(td);
+	td.setAttribute('colspan',2);
+	td.appendChild(document.createTextNode(say.convertcoords));	
+
+    var tr = document.createElement('tr');
+	table.appendChild(tr);
+
+	tr.addEventListener('click',function() {
+	  messageTextField.value = messageTextField.value.replace(/(\(\d{1,3}\|\d{1,3}\))(?!\[\/c[a-z]{4,4}\])/g,'[coord]$1[/coord]');
+      messageTextField.value = messageTextField.value.replace(/(\d{1,3}\|\d{1,3})(?!.*\[\/c[a-z]{4,4}\])/g,'[coord]($1)[/coord]');
+	  toggle('bb_convertcoords',this);
+	  return false;
+	},false);
+
+
+    var td = document.createElement('td');
+	tr.appendChild(td);
+	td.setAttribute('style','padding:0;background:url(http://cdn.tribalwars.net/graphic//bbcodes/bbcodes.png?1) no-repeat -120px 0px; width: 20px; height: 20px');
+	td.setAttribute('title','[coord]');
+	td.appendChild(document.createTextNode(' '));	
+
+    var td = document.createElement('td');
+	tr.appendChild(td);
+	td.appendChild(document.createTextNode('[coord]'));		
+
+    var tr = document.createElement('tr');
+	table.appendChild(tr);
+
+	tr.addEventListener('click',function() {
+	  messageTextField.value = messageTextField.value.replace(/(\(\d{1,3}\|\d{1,3}\))(?!\[\/c[a-z]{4,4}\])/g,'[claim]$1[/claim]');
+      messageTextField.value = messageTextField.value.replace(/(\d{1,3}\|\d{1,3})(?!.*\[\/c[a-z]{4,4}\])/g,'[claim]($1)[/claim]');
+	  toggle('bb_convertcoords',this);
+	  return false;
+	},false);
+
+	var td = document.createElement('td');
+	tr.appendChild(td);
+	td.setAttribute('style','padding:0;background:url(http://cdn.tribalwars.net/graphic//bbcodes/bbcodes.png?1) no-repeat -340px 0px; width: 20px; height: 20px');
+	td.setAttribute('title','[claim]');
+	td.appendChild(document.createTextNode(' '));	
+
+    var td = document.createElement('td');
+	tr.appendChild(td);
+	td.appendChild(document.createTextNode('[claim]'));	
+
+	table = tr = td = a = 0; // Dirty bug fix		
+  }	
+	
+	
+  // ##### Buttons #####
+
+  // Code      [code]  [/code]
+  if(forum || memo || mail || ally)
+    {
+    mainDiv.addButton('Code',icon_code,function() {
+      insert('[code]','[/code]');
+      return false;
+      }
+    ,mainDiv.getElementsByTagName('a')[4]);
+    }
+
+  // Icons
+  if(forum || memo)
+    {
+    mainDiv.addButton('Icons',icon_icons,function() {
+      toggle('bb_icons',this);
+      return false;
+      },
+	  document.getElementById('bb_button_units')
+	  );
+    }
+	
+
+  // Smilies
+  if(forum || memo)
+    {
+    mainDiv.addButton('Smilies',icon_smilies,function() {
+      toggle('bb_smilies',this);
+      return false;
+      },
+	  document.getElementById('bb_button_units')
+	  );
+    }
+
+  // Report Direct     [report]  [/report]
+  if(forum || memo || ally || mail)
+    {
+    mainDiv.addButton(say.linkreport,icon_report_link,function() {
+      var url = prompt(say.report_url,'');
+      if(url != '')
+        {
+        if(url.indexOf('=') != -1)
+          {
+          url = url.split('=').pop();
+          insert('[report]'+url+'[/report]','');
+          }
+        else
+          {
+          url = url.split('/').pop();
+          insert('[report]'+url+'[/report]','');
+          }
+        }
+      else
+        insert('[report]','[/report]');
+      return false;
+      },
+	  document.getElementById('bb_button_size')
+	  );
+    }
+
+  // Report link      [report_display]  [/report_display]
+  if(forum || memo || ally || mail)
+    {
+    mainDiv.addButton(say.directreport,icon_report_direct,function() {
+      var url = prompt(say.directreport,'');
+      if(url != '')
+        {
+        if(url.indexOf('=') != -1)
+          {
+          url = url.split('=').pop();
+          insert('[report_display]'+url+'[/report_display]','');
+          }
+        else
+          {
+          url = url.split('/').pop();
+          insert('[report_display]'+url+'[/report_display]','');
+          }
+        }
+      else
+        insert('[report_display]','[/report_display]');
+      return false;
+      },
+	  document.getElementById('bb_button_size')
+	  );
+    }
+
+
+  // Convert Coords to BB-Codes -- Thanks to MST1
+  if(forum || memo || mail || ally)
+    {
+    mainDiv.addButton(say.convertcoords,icon_convertCoords,function() {
+      toggle('bb_convertcoords',this);
+      return false;
+      });		
+		
+	/*	
+    mainDiv.addButton(say.convertcoords,icon_convertCoords,function() {
+      messageTextField.value = messageTextField.value.replace(/(\(\d{1,3}\|\d{1,3}\))(?!\[\/coord\])/g,'[coord]$1[/coord]');
+      messageTextField.value = messageTextField.value.replace(/(\d{1,3}\|\d{1,3})(?!.*\[\/coord\])/g,'[coord]($1)[/coord]');
+      return false;
+      }); */
+    }
+
+
+  // Search function
+  if(forum || memo || mail || ally)
+    {
+    mainDiv.addButton(say.search,icon_search,function() {
+      var key = prompt(say.searchterm,'');
+      var text = messageTextField.value;
+      var ar = text.split('\n');
+      var foundInRenderedLine = -1;
+      var foundInRealLine = -1;
+      var cols = 80;
+      for (var i=x=0; i < ar.length; i++,x++)
+        {
+        if(foundInRenderedLine == -1 && ar[i] && ar[i].indexOf(key) != -1)
+          {
+          foundInRealLine = i;
+          if(ar[i].length > cols)
+            {
+            var a = 0;
+            var part = ar[a].substr((cols*a),cols);
+            while(part)
+              {
+              if(part.indexOf(key) != -1)
+                {
+                break;
+                }
+              a++;
+              part = ar[a].substr((cols*a),cols);
+              }
+            foundInRenderedLine = x + a;
+            }
+          else
+            {
+            foundInRenderedLine = x;
+            }
+
+          break;
+          }
+        else if(ar[i] && ar[i].length > cols)
+          {
+          x+=parseInt(ar[i].length / cols);
+          }
+        }
+
+      if(foundInRenderedLine != -1)
+        {
+        var  x = foundInRenderedLine*17;      // Pixel from top (1 line = 17 pixel)
+        top = x;
+        alert(say.line+' '+foundInRenderedLine);
+        messageTextField.scrollTop = x;
+        }
+      else
+        {
+        alert(say.noresults);
+        }
+
+      return false;
+      });
+    }
+
+
+  // User Texts
+  if(forum || memo || mail || ally)
+    {
+    mainDiv.addButton(say.personaltexts,icon_usertexts,function() {
+      // User Texts' Box
+      show_userTextsBox(mainDiv);
+      toggle('user_texts',this);
+      return false;
+      });
+    }
+
+	
+  // Infotext
+  /*
+  var a = document.createElement('a');
+  a.setAttribute('href','http://userscripts.org/scripts/show/39879');
+  a.setAttribute('title','Script Homepage: Updates, News, ... ');
+  a.setAttribute('style','font-weight:bold; font-size:7pt; color:#0082BE; font-family:Broadway,Verdana,Arial; ');
+  a.appendChild(document.createTextNode());
+  a.addEventListener('click',mainmenu,false);
+  mainDiv.appendChild(a);
+  */
+  
+  // Button for Main Menu
+  var mainmenuButton = mainDiv.addButton('(ver'+ver+') '+say.mainMenu,'http://cdn.tribalwars.net/graphic/buildings/garage.png',mainmenu);
+  mainmenuButton.setAttribute('href',say.scriptURL);
+  	
+	
+	
+	
   }
 
 
-/*
-
-var iframe;
-function createIframe()
+  
+  
+ // ############################################################## Quick BBCode Preview 
+  
+  
+ 
+ // "Global Vars":
+var frame,body,message,postINframe;
+  
+  
+// "Global Functions": 
+var insertFrame = function (type,style)
   {
-  iframe = document.createElement('iframe');
-  iframe.setAttribute('src','http://de49.die-staemme.de/ad_sky.php');
-  document.getElementById('message').parentNode.appendChild(iframe);
-  }
+  var el = document.createElement(type);
+  if(style)
+    el.setAttribute('style',style);
 
-function modIframe()
-  {
-  iframe.contentDocument.body.parentNode.removeChild(iframe.contentDocument.body);
-  var body = document.createElement('body');
-  iframe.contentDocument.getElementsByTagName('html')[0].appendChild(body);
-  body.setAttribute('contentEditable',true);
-  body.addEventListener('click',clickedIframe,false);
-  }
-
-function clickedIframe(event)
-  {
-  var span = document.createElement('span');
-  span.setAttribute('style','font-weight:bold; ');
-
-  var sel = iframe.contentWindow.getSelection();
+  var sel = window.getSelection();
   var range = sel.getRangeAt(0);
-  alert(range.surroundContents(span));
-  }
+  range.surroundContents(el);
+  frame_keyup();
+  } 
 
-createIframe();
-window.setTimeout(modIframe,2000);
+var htmlspecialchars = function (str) 
+  {
+  return str.replace('&','&amp;').replace('<','&lt;').replace('<','&lt;').replace('"','&quot;');
+  }  
+  
+
+var textarea_keyup = function () {
+   if(!quick_preview)
+     return;
+
+   var html = message.value;
+      
+   html = html.replace(/\n/gi,'<br />');   // Important cause String.replace can't match enjambments
+   
+   // [b]
+   html = html.replace(/\[b\](.*?)\[\/b\]/gi,'<b>$1</b>');
+   
+    // [i]
+   html = html.replace(/\[i\](.*?)\[\/i\]/gi,'<i>$1</i>');    
+     
+    // [u]
+   html = html.replace(/\[u\](.*?)\[\/u\]/gi,'<span style="text-decoration:underline; ">$1</span>');
+      
+    // [s]
+   html = html.replace(/\[s\](.*?)\[\/s\]/gi,'<span style="text-decoration:line-through; ">$1</span>');
+         
+   // [url]
+   html = html.replace(/\[url\](.*?)\[\/url\]/gi,'<a href="http://www.die-staemme.de/redir.php?url=$1" style="color:rgb(64,64,208)">$1</a>');  
+    
+   // [url=some.google.de]
+   html = html.replace(/\[url=(.*?)\](.*?)\[\/url\]/gi,'<a href="http://www.die-staemme.de/redir.php?url=$1" style="color:rgb(64,64,208)">$2</a>');    
+   
+   // [color=blue]
+   html = html.replace(/\[color=(.*?)\](.*?)\[\/color\]/gi,'<span style="color:$1">$2</span>');    
+     
+   // [code]
+   html = html.replace(/\[code\](.*?)\[\/code\]/gi,function(str, p1,offset, s) {  return '<pre>'+htmlspecialchars(p1.replace(/\<br \/\>/gi,'\n'))+'</pre>'; } );    
+     	 
+   postINframe.innerHTML = html;
+} 
+  
+ var frame_keyup = function () {      
+   /*	
+   var html = postINframe.innerHTML;
+   
+   // [b]
+   html = html.replace(/\<b\>(.*?)\<\/b\>/gi,'[b]$1[/b]');
+   
+    // [i]
+   html = html.replace(/\<i\>(.*?)\<\/i\>/gi,'[i]$1[/i]');    
+    
+	
+    // [u]
+   html = html.replace(/\<span\>(.*?)\<\/u\>/gi,'<span style="text-decoration: underline;">$1</span>');
+      
+    // [s]
+   html = html.replace(/\[s\](.*?)\[\/s\]/gi,'<span style="font-stlye: italic;">$1</span>');
+    
+
+   // [url]
+   html = html.replace(/\[url\](.*?)\[\/url\]/gi,'<a href="http://www.die-staemme.de/redir.php?url=$1" style="color:rgb(64,64,208)">$1</a>');  
+    
+   // [url=some.google.de]
+   html = html.replace(/\[url=(.*?)\](.*?)\[\/url\]/gi,'<a href="http://www.die-staemme.de/redir.php?url=$1" style="color:rgb(64,64,208)">$2</a>');    
+   
+   // [color=blue]
+   html = html.replace(/\[color=(.*?)\](.*?)\[\/color\]/gi,'<span style="color:$1">$2</span>');    
+     
+   // [code]
+   html = html.replace(/\[code\](.*?)\[\/code\]/gi,function(str, p1,offset, s) {  return '<pre>'+htmlspecialchars(p1.replace(/\<br \/\>/gi,'\n'))+'</pre>'; } );    
+   
+   html = html.replace(/\<br \/\>/gi,'\n');	 
+		 
+   html = html.replace(/\<br\>/gi,'\n');	
+  
+   html = html.replace(/\&nbsp;/gi,' ');	   
+  
+   */   
+   
+   
+   
+   var clone = postINframe.cloneNode(true);
+   var html = '';
+    
+   // reduce and simplify the subtree
+   var tags = clone.getElementsByTagName('*');
+   for(var i = 0; i < tags.length; i++) {
+     //GM_log(tags[i].tagName+':'+tags[i].rel);	 
+	 var cn = tags[i];
+	 var pn = tags[i].parentNode;
+	 
+	 switch(tags[i].tagName) {
+	   case 'STRONG':
+	   case 'B':
+	     createSpanFromStyle(cn,pn,'fontWeight','bold'); 
+		 i = 0;
+	   break;
+	   case 'I':
+	     createSpanFromStyle(cn,pn,'fontStyle','italic');  
+		 i = 0;
+	   break;
+	   case 'U':
+	     createSpanFromStyle(cn,pn,'textDecoration','underline'); 
+		 i = 0;		 
+	   break;
+	   case 'S':
+	     createSpanFromStyle(cn,pn,'textDecoration','line-through');  
+		 i = 0;
+	   break;	 
+	   case 'SPAN':
+	   case 'P':	   
+	   case 'DIV':	
+ 	     createSpanFromStyle(cn,pn);     	 
+	   break;
+	   
+	   case 'A':
+	   	 if(cn.rel != 'finished') {
+    	   createAFromA(cn,pn);	   
+         } else {	
+           i += 1;	
+         }	   
+	   break;
+
+	   
+	 }
+
+   }
+       
+   var tags = clone.getElementsByTagName('*');
+      
+
+   for(var i = 0; i < tags.length; i++) {
+	 var cn = tags[i];
+	 var pn = tags[i].parentNode;
+	 
+	 switch(tags[i].tagName) {
+	   case 'SPAN':
+         var bbtags = getBBTagsFromSpan(cn); 
+		 var prefix = '';
+		 var suffix = '';
+		 for(var a = 0; a < bbtags.length; a++) {
+		   prefix += '['+bbtags[a]+']';
+		   suffix += '[/'+bbtags[a]+']';
+		 }
+		 //pn.replaceChild(document.createTextNode(prefix+tags[i].textContent+suffix),cn);	
+		 //pn.replaceChild(document.createTextNode(prefix+'#-4#534-5654#'+suffix),cn);	
+		 //pn.innerHTML = pn.innerHTML.replace('#-4#534-5654#',cn.innerHTML);
+
+		 pn.innerHTML = pn.innerHTML.replace(new RegExp('\<span(.*?)\>'+cn.innerHTML+'\<\/span\>'),prefix+cn.innerHTML+suffix);		 
+		 pn.innerHTML = pn.innerHTML.replace(new RegExp('\<span(.*?)\>'+cn.innerHTML+'\<\/span\>'),prefix+cn.innerHTML+suffix);		 		 
+		 
+		 
+         tags = clone.getElementsByTagName('*');		 		 
+         i = 0;		 
+	   break;	
+	   case 'A':
+         var bbtag = 'URL'; 
+		 var prefix = '';
+		 var suffix = '';
+		 var href = tags[i].href;
+		 prefix += '['+bbtag+'='+href+']';
+		 suffix += '[/'+bbtag+']';
+		 pn.replaceChild(document.createTextNode(prefix+tags[i].textContent+suffix),cn);		 
+	   break;	
+	   
+	 }
+
+   }
+   
+
+   var code = clone.innerHTML;
+   
+   code = code.replace(/\<br\>/gi,'\n');  
+   code = code.replace(/\<br \/\>/gi,'\n');  
+   code = code.replace(/&nbsp;/gi,'');
+   code = code.replace(/&amp;/gi,'&');   
+      alert(code);
+   message.value = code;
+
+}  
+  
+ var getBBTagsFromSpan = function (span) {
+   var tags = [];
+   if(span.style['fontWeight'] == 'bold') {
+     tags.push('b');
+   }
+   if(span.style['fontStyle'] == 'italic') {
+     tags.push('i');
+   } 
+   if(span.style['textDecoration'] == 'underline') {
+     tags.push('u');
+   }    
+   else if(span.style['textDecoration'] == 'line-through') {
+     tags.push('s');
+   }
+  return tags;
+
+}  
+ 
+var createSpanFromStyle = function (cn,pn,styleattr,stylevalue) {
+	   if(pn.textContent == cn.textContent) {
+	     if(styleattr && !pn.style[styleattr]) {   
+	       pn.style[styleattr] = stylevalue; 
+		   }
+		 else if(!styleattr) {
+		   pn.setAttribute('style',pn.getAttribute('style') + ';' + cn.getAttribute('style')); 
+		 }  
+		 pn.removeChild(cn);
+		 pn.innerHTML = cn.innerHTML;
+	   }  
+	   else {
+	     var span = $('$span');
+	     pn.insertBefore(span,cn);
+		 span.setAttribute('style',cn.getAttribute('style'));
+		 if(styleattr && !span.style[styleattr]) {
+		   span.style[styleattr] = stylevalue;
+		   }
+		 span.innerHTML = cn.innerHTML;
+		 pn.removeChild(cn);
+	   }
+}  
+  
+var createAFromA = function (cn,pn) {
+       // Create an A that has only a href -> make it easily parseable
+	   // Add existent style to parent node or create parent node <span>
+	   
+	   if(!cn.getAttribute('href')) {
+	     pn.replaceChild(document.createTextNode(cn.textContent),cn); 
+         return;		 
+	   }
+	   
+	   if(cn.rel == 'finished') {
+	     return;
+	   }
+	   
+	   if(pn.textContent == cn.textContent) {  
+	     // Do not create a new node, but use the parent node
+		 pn.setAttribute('style',pn.getAttribute('style') + ';' + cn.getAttribute('style')); 
+		 var a = $('$a',{href:cn.href,rel:'finished'});
+		 a.innerHTML = cn.innerHTML;
+		 pn.replaceChild(a,cn);		 
+	   }  
+	   else {
+	     // Create new parent span for the styles
+	     var span = $('$span');	  
+		 span.setAttribute('style',cn.getAttribute('style'));
+		 var a = $('$a',{href:cn.href,rel:'finished'});
+		 a.innerHTML = cn.innerHTML;
+		 span.appendChild(a);
+		 pn.replaceChild(span,cn);
+	   }
+	   
+	   
+}   
+  
+  
+var easySurroundButton = function (css,surround_bb,surround_html,style) {
+  $(css).removeAttribute('onclick');
+  $(css).addEventListener('click',function(ev) {
+    if(message.hasFocus) {
+	  insert('['+surround_bb+']','[/'+surround_bb+']');
+	  }
+	else {
+	  insertFrame(surround_html,style);
+	  }
+    },false);
+
+}
+  
+  
+var modBBButtons = function modBBButtons() 
+  {
+  easySurroundButton('#bb_button_bold','b','b');
+  easySurroundButton('#bb_button_italic','i','i');
+  easySurroundButton('#bb_button_underline','u','span','text-decoration:underline');
+  easySurroundButton('#bb_button_strikethrough','s','span','font-stlye:italic');
+  
+  /*
+  $('#bb_button_bold').removeAttribute('onclick');
+  $('#bb_button_bold').addEventListener('click',function(ev) {
+    if(message.hasFocus) {
+	  insert('[b]','[/b]');
+	  }
+	else {
+	  insertFrame('b');
+	  }
+    },false);
 
 
+  $('#bb_button_italic').removeAttribute('onclick');
+  $('#bb_button_italic').addEventListener('click',function(ev) {
+    if(message.hasFocus) {
+	  insert('[i]','[/i]');
+	  }
+	else {
+	  insertFrame('i');
+	  }
+    },false);
 */
+
+  }  
+  
+var createContentEditable = function ()
+  {
+  message = messageTextField;
+  frame = document.createElement('div');
+  messageTextField.parentNode.appendChild(frame);
+   
+  frame.style.background = '#F7EED3';
+  frame.width = message.clientWidth;
+  frame.height = message.clientHeight;
+  frame.setAttribute('style','border: black dotted 3px;');  
+    
+  frame.innerHTML = '<div class="post" style="color:Black; "><div class="igmline"><span class="author">Author</span><span class="right date">am 00.00. um 0:0 Uhr</span></div><div id="postINframe" contenteditable="true" class="text">Test</div></div>';
+
+  postINframe = document.getElementById('postINframe');
+  
+  postINframe.addEventListener('keyup',frame_keyup,false);
+  postINframe.addEventListener('focus',function() { frame.hasFocus = true; message.hasFocus = false; },false); 
+  
+  message.addEventListener('keyup',textarea_keyup,false);
+  message.addEventListener('focus',function() { frame.hasFocus = false; message.hasFocus = true; },false);  
+  
+  message.focus();
+  message.hasFocus = true;
+  frame.hasFocus = false;
+  
+  textarea_keyup();
+  modBBButtons();    
+  }
+  
+   
+   
+// ############################################################## Start and Init  Quick BBCode Preview    
+if(quick_preview && messageTextField) {
+  createContentEditable();
+  }
+  
+
+
+};
+
+dsSmiliesBBCodesList();

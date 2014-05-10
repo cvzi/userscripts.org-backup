@@ -2,12 +2,13 @@
 // @name          Facebook - Rotate Images
 // @version       1.0
 // @author        cuzi (http://example.com)
-// @description   -
+// @description   Rotate any photo in a profile or album (in 90 degrees steps). Adds a "Rotate" link above the photo. A click on "Rot" will rotate anti-clockwise - "ate" clockwise
 // @namespace     example.com
 // @homepage      http://example.com
 // @copyright     2011, cuzi (http://example.com)
 // @license       GNU General Public License (GPL)
 // @include       *facebook.com*
+// @icon          http://66mb.de/files/facebook_rotate_48px.png
 // ==/UserScript==
 
 function $(x) {
